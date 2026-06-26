@@ -1,74 +1,46 @@
 #!/usr/bin/env node
 /**
- * cron-push-v2.js — 实时数据闭环推送
+ * cron-push-v2.js — 自包含版：昆仑实时数据 → 未出勤筛选 → 钉钉推送
+ * 
+ * 完全本地运行，不依赖 Render 后端。
+ * 数据源：fetch_store_items.py 输出的 JSON + 监控清单
+ * 
+ * 两种模式：
+ *   A) 独立推送（自包含，从本地 JSON 筛选推送）：
+ *      node cron-push-v2.js --items <items.json> --monitor <monitor.json>
+ *   
+ *   B) 完整闭环（kunlun fetch → 筛选 → sync Render → 推送）：
+ *      node cron-push-v2.js --items <items.json> --monitor <monitor.json> --sync-render
  *
- * 新流程（v2）：
- *   1. 调用 kunlun API 拉取门店实时商品数据 (fetch_store_items.py)
- *   2. 对比监控清单筛选未出勤商品 (sync-kunlun.js 逻辑内联)
- *   3. POST /v1/internal/sync-tasks 创建 PENDING 任务
- *   4. 签发 token → 推送钉钉卡片
- *
- * 降级：
- *   若 kunlun fetch 失败（cookie 过期等），回退到查询现有 PENDING 推送
- *
+ * 默认文件：
+ *   --items   scripts/items_csnclt.json
+ *   --monitor scripts/monitor-barcodes-csnclt.json
+ * 
  * 环境变量：
- *   MVP_API            - Render 后端 (default: https://xtt-pilot.onrender.com)
- *   MVP_INTERNAL_KEY   - 内部密钥
  *   DING_WEBHOOK       - 钉钉群 webhook
- *   KUNLUN_DATA_DIR    - kunlun fetch 输出目录 (default: ../outputs)
- *   MONITOR_BARCODES   - 监控清单 JSON 路径
- *
- * 两种执行模式：
- *   A) 带 kunlun 数据（完整闭环）：
- *      node cron-push-v2.js --kunlun-json <items_data.json>
- *
- *   B) 仅推送已有 PENDING（降级模式，兼容 v1）：
- *      node cron-push-v2.js
+ *   MVP_API            - Render 后端（仅 --sync-render 时使用）
+ *   MVP_INTERNAL_KEY   - 内部密钥（仅 --sync-render 时使用）
  */
+const fs = require('fs');
 const https = require('https');
 const http = require('http');
-const fs = require('fs');
 const path = require('path');
 
+const WEBHOOK = process.env.DING_WEBHOOK
+  || 'https://oapi.dingtalk.com/robot/send?access_token=b92c7d5f0c3a4447294f310afbaa99ce09ae3ce1b15a470e029dd8f38a60fa86';
 const API = process.env.MVP_API || 'https://xtt-pilot.onrender.com';
 const INTERNAL_KEY = process.env.MVP_INTERNAL_KEY || 'worker-key-2026-prod';
-const WEBHOOK = process.env.DING_WEBHOOK || 'https://oapi.dingtalk.com/robot/send?access_token=b92c7d5f0c3a4447294f310afbaa99ce09ae3ce1b15a470e029dd8f38a60fa86';
-const MONITOR_FILE = process.env.MONITOR_BARCODES || path.join(__dirname, 'monitor-barcodes-pilot.json');
 
-// 试点配置
-const PILOT_STORE = '1284510785';
-const PILOT_STORE_NAME = '淘小胖·龙湖天街';
-const PILOT_DING_ID = 'd12yidm';
-
-// ============ HTTP helper ============
-function request(method, urlStr, body, headers = {}) {
-  return new Promise((resolve, reject) => {
-    const url = new URL(urlStr);
-    const mod = url.protocol === 'https:' ? https : http;
-    const data = body ? JSON.stringify(body) : '';
-    const req = mod.request({
-      method,
-      hostname: url.hostname,
-      port: url.port || (url.protocol === 'https:' ? 443 : 80),
-      path: url.pathname + url.search,
-      headers: {
-        'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(data),
-        ...headers,
-      },
-    }, res => {
-      let buf = '';
-      res.on('data', c => buf += c);
-      res.on('end', () => {
-        try { resolve({ status: res.statusCode, data: JSON.parse(buf) }); }
-        catch { resolve({ status: res.statusCode, data: buf }); }
-      });
-    });
-    req.on('error', reject);
-    req.write(data);
-    req.end();
-  });
+// 解析命令行参数
+const argv = process.argv.slice(2);
+function getArg(flag, def) {
+  const idx = argv.indexOf(flag);
+  return idx >= 0 && argv[idx + 1] ? argv[idx + 1] : def;
 }
+const itemsPath = getArg('--items', path.join(__dirname, 'items_csnclt.json'));
+const monitorPath = getArg('--monitor', path.join(__dirname, 'monitor-barcodes-csnclt.json'));
+const dryRun = argv.includes('--dry-run');
+const syncRender = argv.includes('--sync-render');
 
 // ============ 条形码标准化 ============
 function normalizeBarcode(bc) {
@@ -76,7 +48,7 @@ function normalizeBarcode(bc) {
   return String(bc).replace(/^0+/, '').trim();
 }
 
-// ============ 判断未出勤 ============
+// ============ 判断商品是否不可售 ============
 function isUnattended(item) {
   if (item.itemCanSell === false) return true;
   if (item.status !== 0 && item.status !== '0') return true;
@@ -84,175 +56,190 @@ function isUnattended(item) {
   return false;
 }
 
-// ============ kunlun 同步逻辑 ============
-async function syncFromKunlun(itemsJson) {
-  console.log('[cron-push-v2] 模式: kunlun 实时同步');
+// ============ HTTP POST ============
+function post(urlStr, body, headers = {}) {
+  return new Promise((resolve, reject) => {
+    const url = new URL(urlStr);
+    const mod = url.protocol === 'https:' ? https : http;
+    const data = JSON.stringify(body);
+    const req = mod.request({
+      method: 'POST',
+      hostname: url.hostname,
+      path: url.pathname + url.search,
+      headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(data), ...headers },
+    }, res => {
+      let buf = '';
+      res.on('data', c => buf += c);
+      res.on('end', () => { try { resolve(JSON.parse(buf)); } catch { resolve(buf); } });
+    });
+    req.on('error', reject);
+    req.write(data);
+    req.end();
+  });
+}
 
-  // 读取监控清单
-  if (!fs.existsSync(MONITOR_FILE)) {
-    console.warn(`[cron-push-v2] 监控清单不存在: ${MONITOR_FILE}, 跳过同步`);
-    return false;
+// ============ 主流程 ============
+async function main() {
+  const now = new Date(Date.now() + 8 * 3600 * 1000);
+  const timeStr = now.toISOString().slice(0, 16).replace('T', ' ');
+  console.log(`[cron-push-v2] ${timeStr} CST 开始执行`);
+
+  // 1. 读取数据
+  if (!fs.existsSync(itemsPath)) {
+    console.error(`[cron-push-v2] 商品数据文件不存在: ${itemsPath}`);
+    console.error('[cron-push-v2] 请先运行 fetch_store_items.py 获取最新数据');
+    process.exit(1);
   }
-  const monitorList = JSON.parse(fs.readFileSync(MONITOR_FILE, 'utf8'));
+  console.log(`[cron-push-v2] 读取: ${itemsPath}`);
+  const rawData = JSON.parse(fs.readFileSync(itemsPath, 'utf8'));
+  const monitorList = JSON.parse(fs.readFileSync(monitorPath, 'utf8'));
+
+  // 2. 构建监控索引
   const monitorMap = new Map();
   for (const m of monitorList) {
     const bc = normalizeBarcode(m.barcode);
     if (bc) monitorMap.set(bc, m);
   }
+  console.log(`[cron-push-v2] 监控清单: ${monitorMap.size} 个条形码`);
 
-  // 读取 kunlun 数据
-  const rawData = JSON.parse(fs.readFileSync(itemsJson, 'utf8'));
-  const stores = rawData.stores || (Array.isArray(rawData) ? rawData : [rawData]);
+  // 3. 遍历门店（兼容 dict 和 array）
+  let stores;
+  if (rawData.stores && typeof rawData.stores === 'object' && !Array.isArray(rawData.stores)) {
+    stores = Object.entries(rawData.stores).map(([wid, d]) => ({ wid, ...d }));
+  } else {
+    stores = rawData.stores || [rawData];
+  }
 
   for (const store of stores) {
-    const storeId = store.wid || store.store_id || PILOT_STORE;
-    const storeName = store.name || store.store_name || PILOT_STORE_NAME;
+    const storeId = store.wid || store.store_id;
+    const storeName = (store.storeConfig && store.storeConfig.name) || store.name || storeId;
     const items = store.items || [];
+    console.log(`[cron-push-v2] 门店: ${storeName} (${storeId}), 商品: ${items.length}`);
 
-    // 完整性校验
+    // 完整性检查
     if (store.fetchedCount && store.apiTotal) {
       const rate = store.fetchedCount / store.apiTotal;
       if (rate < 0.9) {
-        console.warn(`[cron-push-v2] ⚠️ ${storeName} 数据不完整 (${(rate * 100).toFixed(1)}%), 跳过`);
+        console.warn(`[cron-push-v2] 数据不完整 (${(rate * 100).toFixed(1)}%), 跳过`);
         continue;
       }
     }
 
-    // 筛选未出勤监控品
+    // 4. 筛选未出勤
     const unattended = [];
     for (const item of items) {
       const bc = normalizeBarcode(item.barCode || item.barcode);
       if (!monitorMap.has(bc)) continue;
       if (!isUnattended(item)) continue;
-
       const info = monitorMap.get(bc);
       unattended.push({
         barcode: bc,
-        itemId: String(item.itemId || ''),
-        itemName: item.title || info.item_name || '',
-        category: item.cateName1 || info.category || '',
-        price: parseFloat(item.price) || info.price || 0,
-        yesterdaySales: parseInt(item.monthlySaledQuantity) || info.monthly_sales || 0,
+        itemName: item.title || info.item_name,
+        price: parseFloat(item.price) || 0,
         quantity: parseInt(item.quantity) || 0,
-        priority: info.priority || 'P1',
+        reason: item.itemCanSell === false ? '不可售' :
+          (item.quantity == 0) ? '库存为0' : '下架',
       });
     }
 
+    // 不在 API 中的监控品
+    const apiBarcodes = new Set(items.map(i => normalizeBarcode(i.barCode || i.barcode)));
+    for (const [bc, info] of monitorMap.entries()) {
+      if (apiBarcodes.has(bc)) continue;
+      if (info.store_id && info.store_id !== storeId) continue;
+      unattended.push({
+        barcode: bc,
+        itemName: info.item_name || '',
+        price: 0,
+        quantity: 0,
+        reason: '商品不存在',
+      });
+    }
+
+    console.log(`[cron-push-v2] 未出勤: ${unattended.length} 件`);
+
     if (unattended.length === 0) {
-      console.log(`[cron-push-v2] ✅ ${storeName} 监控品全部在架，无需同步`);
+      console.log(`[cron-push-v2] ✅ ${storeName} 全部在架，跳过推送`);
       continue;
     }
 
-    // 生成 batchId
-    const now = new Date(Date.now() + 8 * 3600 * 1000);
-    const batchId = now.toISOString().slice(0, 16).replace(/[-T:]/g, '').slice(0, 12);
-
-    // 同步到后端
-    console.log(`[cron-push-v2] 同步 ${unattended.length} 件未出勤商品到后端 (batch=${batchId})`);
-    const syncRes = await request('POST', `${API}/v1/internal/sync-tasks`, {
-      batchId, storeId, storeName, items: unattended,
-    }, { 'X-Internal-Key': INTERNAL_KEY });
-
-    if (syncRes.status === 200 && syncRes.data.ok) {
-      console.log(`[cron-push-v2] ✅ 同步成功: created=${syncRes.data.created}`);
-    } else {
-      console.error(`[cron-push-v2] ❌ 同步失败:`, syncRes.data);
-      return false;
-    }
-  }
-
-  return true;
-}
-
-// ============ 推送逻辑 (复用 v1) ============
-async function pushPending() {
-  // 1. 签发 token
-  const tokenRes = await request('POST', `${API}/v1/auth/issue`, {
-    storeId: PILOT_STORE,
-    dingId: PILOT_DING_ID,
-  });
-  if (!tokenRes.data.ok) {
-    console.error('[cron-push-v2] token签发失败:', tokenRes.data);
-    return;
-  }
-  const token = tokenRes.data.token;
-
-  // 2. 查询待处理
-  const tasksRes = await request('GET', `${API}/v1/tasks?token=${token}`, null);
-  if (!tasksRes.data.ok) {
-    console.error('[cron-push-v2] 查询失败:', tasksRes.data);
-    return;
-  }
-  const tasks = tasksRes.data.tasks || [];
-  const pendingTasks = tasks.filter(t => t.status === 'PENDING');
-  console.log(`[cron-push-v2] 总任务: ${tasks.length}, 待处理: ${pendingTasks.length}`);
-
-  if (pendingTasks.length === 0) {
-    console.log('[cron-push-v2] 无待处理任务，跳过推送');
-    return;
-  }
-
-  // 3. 构建卡片
-  const h5Url = `${API}/h5/preview.html?token=${token}`;
-  const topItems = pendingTasks.slice(0, 5);
-  const count = pendingTasks.length;
-  const lines = [
-    `### 缺货补品推送 · ${PILOT_STORE_NAME}`,
-    `**${count} 件商品待处理**`,
-    '',
-    ...topItems.map((t, i) =>
-      `${i + 1}. ${t.item_name} · 昨日${t.yesterday_sales}单 · 库存${t.stock}`
-    ),
-  ];
-  if (count > 5) lines.push('', `… 还有 ${count - 5} 件`);
-  lines.push('', '> 点击下方按钮一键处理');
-
-  const cardBody = {
-    msgtype: 'actionCard',
-    actionCard: {
-      title: `推送: 缺货补品 · ${PILOT_STORE_NAME} · ${count}件`,
-      text: lines.join('\n'),
-      singleTitle: '📱 打开补品清单',
-      singleURL: h5Url,
-    },
-    at: { atUserIds: [PILOT_DING_ID], isAtAll: false },
-  };
-
-  const pushRes = await request('POST', WEBHOOK, cardBody);
-  if (pushRes.data.errcode === 0) {
-    console.log(`[cron-push-v2] ✅ 成功推送 ${count} 件缺货商品到钉钉群`);
-  } else {
-    console.error(`[cron-push-v2] ❌ 推送失败:`, pushRes.data.errmsg);
-  }
-}
-
-// ============ main ============
-async function main() {
-  console.log(`[cron-push-v2] ${new Date().toISOString()} 开始执行`);
-  console.log(`[cron-push-v2] API: ${API}`);
-
-  // 解析参数
-  const args = process.argv.slice(2);
-  const kunlunJsonIdx = args.indexOf('--kunlun-json');
-  const kunlunJson = kunlunJsonIdx >= 0 ? args[kunlunJsonIdx + 1] : null;
-
-  if (kunlunJson) {
-    // 完整闭环：kunlun 实时数据 → 同步 → 推送
-    if (!fs.existsSync(kunlunJson)) {
-      console.error(`[cron-push-v2] kunlun 数据文件不存在: ${kunlunJson}`);
-      console.log('[cron-push-v2] 降级: 推送现有 PENDING 任务');
-    } else {
-      const ok = await syncFromKunlun(kunlunJson);
-      if (!ok) {
-        console.log('[cron-push-v2] kunlun 同步失败，降级推送现有 PENDING');
+    // 5. 可选：同步到 Render
+    if (syncRender) {
+      const batchId = now.toISOString().slice(0, 16).replace(/[-T:]/g, '').slice(0, 12);
+      console.log(`[cron-push-v2] → sync-render (batch=${batchId})`);
+      try {
+        const syncRes = await post(`${API}/v1/internal/sync-tasks`, {
+          batchId, storeId, storeName, items: unattended,
+        }, { 'X-Internal-Key': INTERNAL_KEY });
+        console.log(`[cron-push-v2] sync result:`, syncRes.ok ? 'OK' : syncRes);
+      } catch (e) {
+        console.warn(`[cron-push-v2] sync-render 失败 (非致命): ${e.message}`);
       }
     }
-  } else {
-    console.log('[cron-push-v2] 模式: 推送已有 PENDING (无 --kunlun-json 参数)');
+
+    // 6. 构建钉钉卡片
+    const offline = unattended.filter(u => u.reason === '不可售' || u.reason === '下架');
+    const zeroStock = unattended.filter(u => u.reason === '库存为0');
+    const notExist = unattended.filter(u => u.reason === '商品不存在');
+
+    const lines = [
+      `### 缺货补品 · ${storeName}`,
+      `**${unattended.length} 件监控品未出勤**`,
+      '',
+    ];
+
+    if (offline.length > 0) {
+      lines.push(`#### 🔴 不可售/下架 (${offline.length}件)`);
+      offline.slice(0, 8).forEach((u, i) => lines.push(`${i + 1}. ${u.itemName}`));
+      if (offline.length > 8) lines.push(`   … 还有 ${offline.length - 8} 件`);
+      lines.push('');
+    }
+    if (zeroStock.length > 0) {
+      lines.push(`#### 🟡 库存为0 (${zeroStock.length}件)`);
+      zeroStock.slice(0, 5).forEach((u, i) => lines.push(`${i + 1}. ${u.itemName}`));
+      if (zeroStock.length > 5) lines.push(`   … 还有 ${zeroStock.length - 5} 件`);
+      lines.push('');
+    }
+    if (notExist.length > 0) {
+      lines.push(`#### ⚪ 商品不存在 (${notExist.length}件)`);
+      notExist.slice(0, 5).forEach((u, i) => lines.push(`${i + 1}. ${u.itemName}`));
+      if (notExist.length > 5) lines.push(`   … 还有 ${notExist.length - 5} 件`);
+      lines.push('');
+    }
+
+    lines.push('---');
+    lines.push(`> 昆仑实时监控 · ${timeStr}`);
+
+    if (dryRun) {
+      console.log('[cron-push-v2] [DRY-RUN] 卡片内容:\n' + lines.join('\n'));
+      continue;
+    }
+
+    // 7. 推送钉钉
+    const cardBody = {
+      msgtype: 'actionCard',
+      actionCard: {
+        title: `推送: 缺货补品 · ${storeName} · ${unattended.length}件`,
+        text: lines.join('\n'),
+        singleTitle: '📱 查看补品清单',
+        singleURL: 'https://xtt-pilot.onrender.com/h5/preview.html',
+      },
+    };
+
+    const resp = await post(WEBHOOK, cardBody);
+    if (resp.errcode === 0) {
+      console.log(`[cron-push-v2] ✅ 推送成功: ${unattended.length} 件`);
+    } else {
+      console.error(`[cron-push-v2] ❌ 推送失败:`, resp);
+    }
+
+    // 8. 保存结果
+    const outFile = path.join(__dirname, `unattended-${storeId}.json`);
+    fs.writeFileSync(outFile, JSON.stringify(unattended, null, 2), 'utf8');
+    console.log(`[cron-push-v2] 结果已保存: ${outFile}`);
   }
 
-  // 无论是否同步成功，都尝试推送
-  await pushPending();
+  console.log(`[cron-push-v2] 🏁 完成`);
 }
 
 main().catch(e => {
