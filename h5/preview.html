@@ -97,12 +97,19 @@
   .metric-item svg { width: 13px; height: 13px; opacity: 0.6; }
   .metric-value { font-weight: 600; color: var(--text); }
   .card-price-row {
-    display: flex; align-items: center; gap: 8px; margin-top: 6px;
+    display: flex; align-items: baseline; gap: 8px; margin-top: 6px;
   }
   .price-current { font-size: 14px; font-weight: 700; color: var(--text); }
+  .price-current.has-activity {
+    font-size: 12px; font-weight: 400; color: var(--text-muted);
+    text-decoration: line-through;
+  }
   .price-activity {
-    font-size: 11px; font-weight: 600; color: var(--danger);
-    background: var(--danger-light); padding: 1px 6px; border-radius: 4px;
+    font-size: 15px; font-weight: 700; color: var(--danger);
+  }
+  .price-activity-label {
+    font-size: 10px; font-weight: 600; color: #fff; background: var(--danger);
+    padding: 1px 4px; border-radius: 3px; margin-right: 2px;
   }
   .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
   .status-badge {
@@ -337,41 +344,49 @@ async function loadList() {
 
   e.classList.toggle('hidden', tasks.length > 0);
   c.innerHTML = tasks.map(t => {
-    const imgHtml = t.image_url
-      ? `<img class="card-img" src="${t.image_url}" onerror="this.outerHTML='<div class=\\'card-img-placeholder\\'>${placeholderSvg}</div>'">`
-      : `<div class="card-img-placeholder">${placeholderSvg}</div>`;
+    // Safe image rendering - no inline onerror quote issues
+    let imgHtml;
+    if (t.image_url) {
+      imgHtml = '<img class="card-img" src="' + t.image_url + '">';
+    } else {
+      imgHtml = '<div class="card-img-placeholder">' + placeholderSvg + '</div>';
+    }
 
     const monthlySales = t.monthly_sales || t.yesterday_sales || 0;
     const currentPrice = t.current_price || t.suggest_price || 0;
     const activityPrice = t.activity_price;
 
-    return `
-    <div class="card" data-id="${t.id}">
-      ${imgHtml}
-      <div class="card-body">
-        <div>
-          <div class="card-name">${t.item_name}</div>
-          <div class="card-barcode">条码 ${t.barcode}</div>
-        </div>
-        <div class="card-metrics">
-          <div class="metric-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-            <span>月售 <span class="metric-value">${monthlySales}</span></span>
-          </div>
-          <div class="metric-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
-            <span>库存 <span class="metric-value">${t.stock}</span></span>
-          </div>
-        </div>
-        <div class="card-price-row">
-          <span class="price-current">${fmtPrice(currentPrice)}</span>
-          ${activityPrice ? `<span class="price-activity">活动 ${fmtPrice(activityPrice)}</span>` : ''}
-        </div>
-        <div class="card-footer">
-          <span class="status-badge s-${t.status}">${labelOf(t.status)}</span>
-        </div>
-      </div>
-    </div>`;
+    // Price row: strikethrough original when activity price exists
+    let priceHtml;
+    if (activityPrice) {
+      priceHtml = '<span class="price-current has-activity">' + fmtPrice(currentPrice) + '</span>'
+        + '<span class="price-activity"><span class="price-activity-label">活动</span>' + fmtPrice(activityPrice) + '</span>';
+    } else {
+      priceHtml = '<span class="price-current">' + fmtPrice(currentPrice) + '</span>';
+    }
+
+    return '<div class="card" data-id="' + t.id + '">'
+      + imgHtml
+      + '<div class="card-body">'
+      +   '<div>'
+      +     '<div class="card-name">' + t.item_name + '</div>'
+      +   '</div>'
+      +   '<div class="card-metrics">'
+      +     '<div class="metric-item">'
+      +       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>'
+      +       '<span>月售 <span class="metric-value">' + monthlySales + '</span></span>'
+      +     '</div>'
+      +     '<div class="metric-item">'
+      +       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>'
+      +       '<span>库存 <span class="metric-value">' + t.stock + '</span></span>'
+      +     '</div>'
+      +   '</div>'
+      +   '<div class="card-price-row">' + priceHtml + '</div>'
+      +   '<div class="card-footer">'
+      +     '<span class="status-badge s-' + t.status + '">' + labelOf(t.status) + '</span>'
+      +   '</div>'
+      + '</div>'
+      + '</div>';
   }).join('');
 
   c.querySelectorAll('.card').forEach(el => {
