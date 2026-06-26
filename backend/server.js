@@ -179,6 +179,20 @@ app.post('/v1/internal/worker/report', internalOnly, (req, res) => {
   }
 });
 
+// ============ Admin: force status (for testing/worker trigger) ============
+app.post('/v1/internal/force-status', internalOnly, (req, res) => {
+  const { taskId, status, actualPrice } = req.body || {};
+  if (!taskId || !status) return res.status(400).json({ ok: false, err: 'taskId, status required' });
+  const allowed = ['PENDING', 'EXECUTING', 'DONE', 'FAILED', 'SHORTAGE'];
+  if (!allowed.includes(status)) return res.status(400).json({ ok: false, err: `status must be one of: ${allowed}` });
+  const task = db.prepare('SELECT id FROM tasks WHERE id=?').get([taskId]);
+  if (!task) return res.status(404).json({ ok: false, err: 'NOT_FOUND' });
+  const updates = [`status='${status}'`, `updated_at=datetime('now','+8 hours')`];
+  if (actualPrice) updates.push(`actual_price=${Number(actualPrice)}`);
+  db.prepare(`UPDATE tasks SET ${updates.join(',')} WHERE id=?`).run([taskId]);
+  res.json({ ok: true, taskId, status });
+});
+
 // ============ Kunlun 实时同步 API ============
 app.post('/v1/internal/sync-tasks', internalOnly, (req, res) => {
   const { batchId, storeId, storeName, items } = req.body || {};
