@@ -137,13 +137,7 @@ async function processTask(task, token) {
     return { ok: true, skipped: true, reason: 'already_on_sale' };
   }
 
-  // 改价
-  if (actual_price && actual_price > 0) {
-    await setPrice(token, sku.storeSkuId, actual_price);
-    console.log(`[worker] task#${id} price → ¥${actual_price}`);
-  }
-
-  // 上架
+  // 直接上架（不改价）
   await onSale(token, sku.storeSkuId);
   console.log(`[worker] task#${id} on-sale ✓`);
 
