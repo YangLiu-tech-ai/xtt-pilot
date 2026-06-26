@@ -3,7 +3,7 @@ services:
     name: xtt-pilot
     runtime: node
     plan: free
-    buildCommand: cd backend && npm install --production
+    buildCommand: echo "BUILD $(date) $(git rev-parse --short HEAD)" && cd backend && npm install --production
     startCommand: node render-start.js
     envVars:
       - key: NODE_ENV

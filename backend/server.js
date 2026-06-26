@@ -49,7 +49,7 @@ app.get('/v1/health', (req, res) => {
   const stats = db.prepare(`
     SELECT status, COUNT(*) as n FROM tasks GROUP BY status
   `).all();
-  res.json({ ok: true, ts: Date.now(), stats });
+  res.json({ ok: true, ts: Date.now(), version: 'v2-sync', stats });
 });
 
 // 仅本机调试用：签发 token
