@@ -1,16 +1,14 @@
 /**
  * 新通途·生鲜出勤补品闭环 MVP - 数据库 schema
  * SQLite 单文件零运维 · WAL 模式
- * 
- * 使用 better-sqlite3（原生 C addon，Render Linux 兼容性好）
  */
-const Database = require('better-sqlite3');
+const { Database } = require('node-sqlite3-wasm');
 const path = require('path');
 
 const DB_PATH = path.join(__dirname, 'mvp.db');
 const db = new Database(DB_PATH);
-db.pragma('journal_mode = WAL');
-db.pragma('foreign_keys = ON');
+db.exec('PRAGMA journal_mode = WAL');
+db.exec('PRAGMA foreign_keys = ON');
 
 db.exec(`
   /* === 门店表：一对一触达的关键，绑课长钉钉 ID === */
