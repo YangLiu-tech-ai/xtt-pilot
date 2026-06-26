@@ -69,9 +69,14 @@ async function tick() {
       }
     }
     if (r.ok) {
-      const tag = r.mode === 'dry' && r.batchFile
-        ? `✅ DONE [dry → ${r.batchFile.replace(/^.*[\\/]whale-batches/, 'whale-batches')}]`
-        : `✅ DONE [${r.mode || 'ok'}]`;
+      let tag;
+      if (r.mode === 'preview' && r.planFile) {
+        tag = `✅ DONE [preview → ${r.planFile.replace(/^.*[\\/]whale-preview/, 'whale-preview')}]`;
+      } else if (r.mode === 'dry' && r.batchFile) {
+        tag = `✅ DONE [dry → ${r.batchFile.replace(/^.*[\\/]whale-batches/, 'whale-batches')}]`;
+      } else {
+        tag = `✅ DONE [${r.mode || 'ok'}]`;
+      }
       console.log(`    ${tag} → ${report.next}`);
     } else {
       console.log(`    ❌ ${r.error} → ${report.next}`);

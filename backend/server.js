@@ -179,6 +179,51 @@ app.post('/v1/internal/worker/report', internalOnly, (req, res) => {
   }
 });
 
+// ============ Kunlun 实时同步 API ============
+app.post('/v1/internal/sync-tasks', internalOnly, (req, res) => {
+  const { batchId, storeId, storeName, items } = req.body || {};
+  if (!batchId || !storeId || !Array.isArray(items)) {
+    return res.status(400).json({ ok: false, err: 'batchId, storeId, items[] required' });
+  }
+
+  // 幂等：清除同一 batch 的旧 PENDING（不动 EXECUTING/DONE 等已推进状态）
+  const deleted = db.prepare(
+    `DELETE FROM tasks WHERE batch_id=? AND store_id=? AND status='PENDING'`
+  ).run([batchId, storeId]);
+
+  // 确保门店存在
+  const storeExists = db.prepare('SELECT 1 FROM stores WHERE store_id=?').get([storeId]);
+  if (!storeExists) {
+    db.prepare(`INSERT INTO stores (store_id, store_name, brand, is_pilot)
+      VALUES (?, ?, ?, 1)`).run([storeId, storeName || storeId, storeName || storeId]);
+  }
+
+  // 批量插入
+  const ins = db.prepare(`INSERT INTO tasks
+    (batch_id, store_id, store_name, sku, barcode, item_name, category,
+     priority, suggest_price, yesterday_sales, stock, status)
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,'PENDING')`);
+
+  let created = 0;
+  for (const it of items) {
+    ins.run([
+      batchId, storeId, storeName || storeId,
+      it.sku || it.itemId || `SKU-${it.barcode}`,
+      it.barcode || '',
+      it.itemName || it.item_name || '未知商品',
+      it.category || it.cateName1 || '',
+      it.priority || 'P1',
+      it.price || it.suggest_price || 0,
+      it.yesterdaySales || it.yesterday_sales || 0,
+      it.stock || it.quantity || 0,
+    ]);
+    created++;
+  }
+
+  console.log(`[sync-tasks] batch=${batchId} store=${storeId} deleted=${deleted.changes} created=${created}`);
+  res.json({ ok: true, batchId, storeId, deleted: deleted.changes, created });
+});
+
 // ============ 静态文件: H5 前端 ============
 const path = require('path');
 app.use('/h5', express.static(path.join(__dirname, '..', 'h5')));

@@ -1,0 +1,12 @@
+[
+  {"barcode": "6901234567001", "item_name": "红富士苹果 500g", "category": "水果", "priority": "P0", "price": 9.9, "monthly_sales": 18, "store_id": "1284510785"},
+  {"barcode": "6901234567002", "item_name": "爱媛果冻橙 1.5kg", "category": "水果", "priority": "P1", "price": 29.9, "monthly_sales": 12, "store_id": "1284510785"},
+  {"barcode": "6901234567003", "item_name": "本地小白菜 400g", "category": "蔬菜", "priority": "P1", "price": 4.9, "monthly_sales": 8, "store_id": "1284510785"},
+  {"barcode": "6901234567004", "item_name": "海南金煌芒 2个装", "category": "水果", "priority": "P2", "price": 19.9, "monthly_sales": 6, "store_id": "1284510785"},
+  {"barcode": "6901234567005", "item_name": "广东菜心 350g", "category": "蔬菜", "priority": "P2", "price": 6.9, "monthly_sales": 5, "store_id": "1284510785"},
+  {"barcode": "6901234567006", "item_name": "云南蓝莓 125g", "category": "水果", "priority": "P0", "price": 19.9, "monthly_sales": 25, "store_id": "1284510785"},
+  {"barcode": "6901234567007", "item_name": "三元鲜牛奶 950ml", "category": "乳品", "priority": "P1", "price": 16.9, "monthly_sales": 35, "store_id": "1284510785"},
+  {"barcode": "6901234567008", "item_name": "散装鸡蛋 10枚", "category": "肉禽蛋", "priority": "P0", "price": 12.9, "monthly_sales": 40, "store_id": "1284510785"},
+  {"barcode": "6901234567009", "item_name": "东北五常大米 5kg", "category": "粮油", "priority": "P1", "price": 39.9, "monthly_sales": 15, "store_id": "1284510785"},
+  {"barcode": "6901234567010", "item_name": "海天生抽酱油 500ml", "category": "调味", "priority": "P2", "price": 9.9, "monthly_sales": 10, "store_id": "1284510785"}
+]
