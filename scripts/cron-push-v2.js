@@ -215,14 +215,24 @@ async function main() {
       continue;
     }
 
-    // 7. 推送钉钉
+    // 7. 签发 token + 推送钉钉
+    let h5Url = `${API}/h5/preview.html`;
+    try {
+      const tokenRes = await post(`${API}/v1/auth/issue`, { storeId, dingId: 'push' });
+      if (tokenRes.ok && tokenRes.token) {
+        h5Url = `${API}/h5/preview.html?token=${tokenRes.token}`;
+      }
+    } catch (e) {
+      console.warn(`[cron-push-v2] token签发失败(非致命): ${e.message}`);
+    }
+
     const cardBody = {
       msgtype: 'actionCard',
       actionCard: {
         title: `推送: 缺货补品 · ${storeName} · ${unattended.length}件`,
         text: lines.join('\n'),
         singleTitle: '📱 查看补品清单',
-        singleURL: 'https://xtt-pilot.onrender.com/h5/preview.html',
+        singleURL: h5Url,
       },
     };
 
