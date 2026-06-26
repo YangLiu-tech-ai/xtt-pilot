@@ -136,6 +136,10 @@ async function main() {
         barcode: bc,
         itemName: item.title || info.item_name,
         price: parseFloat(item.price) || 0,
+        currentPrice: parseFloat(item.price) || 0,
+        activityPrice: item.minActivePrice ? parseFloat(item.minActivePrice) : null,
+        monthlySales: parseInt(item.monthlySaledQuantity) || 0,
+        imageUrl: item.picUrl || null,
         quantity: parseInt(item.quantity) || 0,
         reason: item.itemCanSell === false ? '不可售' :
           (item.quantity == 0) ? '库存为0' : '下架',
@@ -151,6 +155,10 @@ async function main() {
         barcode: bc,
         itemName: info.item_name || '',
         price: 0,
+        currentPrice: 0,
+        activityPrice: null,
+        monthlySales: 0,
+        imageUrl: null,
         quantity: 0,
         reason: '商品不存在',
       });

@@ -98,6 +98,18 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_sub_lookup ON substitutes(original_sku, store_id);
 `);
 
+// === Migrations: 添加新字段 (兼容已有数据库) ===
+const migrations = [
+  'ALTER TABLE tasks ADD COLUMN monthly_sales INTEGER DEFAULT 0',
+  'ALTER TABLE tasks ADD COLUMN current_price REAL',
+  'ALTER TABLE tasks ADD COLUMN activity_price REAL',
+];
+for (const sql of migrations) {
+  try { db.exec(sql); } catch (e) {
+    if (!e.message.includes('duplicate column')) console.warn('[db] migration skip:', e.message);
+  }
+}
+
 console.log('[db] schema initialized at', DB_PATH);
 
 module.exports = db;

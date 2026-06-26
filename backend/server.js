@@ -66,11 +66,13 @@ app.get('/v1/tasks', authMiddleware, (req, res) => {
   const tasks = db.prepare(`
     SELECT id, sku, barcode, item_name, category, priority,
            suggest_price, image_url, yesterday_sales, stock,
+           monthly_sales, current_price, activity_price,
            status, action, store_name, created_at
     FROM tasks
     WHERE store_id = ? AND status NOT IN ('VERIFIED')
     ORDER BY
       CASE priority WHEN 'P0' THEN 0 WHEN 'P1' THEN 1 ELSE 2 END,
+      monthly_sales DESC,
       created_at
   `).all([storeId]);
   res.json({ ok: true, store: storeId, tasks });
@@ -215,8 +217,9 @@ app.post('/v1/internal/sync-tasks', internalOnly, (req, res) => {
   // 批量插入
   const ins = db.prepare(`INSERT INTO tasks
     (batch_id, store_id, store_name, sku, barcode, item_name, category,
-     priority, suggest_price, yesterday_sales, stock, status)
-    VALUES (?,?,?,?,?,?,?,?,?,?,?,'PENDING')`);
+     priority, suggest_price, image_url, yesterday_sales, stock,
+     monthly_sales, current_price, activity_price, status)
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'PENDING')`);
 
   let created = 0;
   for (const it of items) {
@@ -228,8 +231,12 @@ app.post('/v1/internal/sync-tasks', internalOnly, (req, res) => {
       it.category || it.cateName1 || '',
       it.priority || 'P1',
       it.price || it.suggest_price || 0,
+      it.imageUrl || it.image_url || it.picUrl || null,
       it.yesterdaySales || it.yesterday_sales || 0,
       it.stock || it.quantity || 0,
+      it.monthlySales || it.monthly_sales || 0,
+      it.currentPrice || it.current_price || it.price || 0,
+      it.activityPrice || it.activity_price || null,
     ]);
     created++;
   }
