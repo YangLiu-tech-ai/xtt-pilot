@@ -7,20 +7,22 @@
  * 失败累计 3 次 → 调 notifier.escalateToManager() @ 课长
  */
 const http = require('http');
+const https = require('https');
 // 不直接连 DB：node-sqlite3-wasm 不支持多进程，store 信息由 server 的 report 接口随 escalateInfo 返回
 const { escalateToManager } = require('../backend/notifier');
 const { executeOnWhale, MODE: WHALE_MODE, BATCH_DIR } = require('../backend/whaleAdapter');
 
-const API = process.env.MVP_API || 'http://localhost:7788';
-const INTERNAL_KEY = process.env.MVP_INTERNAL_KEY || 'worker-key-2026';
+const API = process.env.MVP_API || 'https://xtt-pilot.onrender.com';
+const INTERNAL_KEY = process.env.MVP_INTERNAL_KEY || 'worker-key-2026-prod';
 const INTERVAL_MS = parseInt(process.env.WORKER_INTERVAL || '15000', 10);
 
 function call(path, body) {
   return new Promise((resolve, reject) => {
     const url = new URL(API + path);
+    const mod = url.protocol === 'https:' ? https : http;
     const data = body ? JSON.stringify(body) : '';
-    const req = http.request({
-      method: 'POST', hostname: url.hostname, port: url.port, path: url.pathname,
+    const req = mod.request({
+      method: 'POST', hostname: url.hostname, port: url.port || (url.protocol === 'https:' ? 443 : 80), path: url.pathname,
       headers: {
         'Content-Type': 'application/json',
         'Content-Length': Buffer.byteLength(data),
