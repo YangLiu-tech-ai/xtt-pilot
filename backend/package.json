@@ -13,6 +13,6 @@
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
-    "node-sqlite3-wasm": "^0.8.20"
+    "better-sqlite3": "^11.0.0"
   }
 }
