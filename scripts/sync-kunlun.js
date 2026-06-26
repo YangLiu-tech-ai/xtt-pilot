@@ -110,8 +110,18 @@ async function main() {
   }
   console.log(`[sync-kunlun] 监控清单: ${monitorMap.size} 个条形码`);
 
-  // 遍历门店
-  const stores = rawData.stores || (Array.isArray(rawData) ? rawData : [rawData]);
+  // 遍历门店 — 兼容 dict (wid→store) 和 array 两种格式
+  let stores;
+  if (rawData.stores && typeof rawData.stores === 'object' && !Array.isArray(rawData.stores)) {
+    // dict format: { "1262004557": { storeConfig, apiTotal, fetchedCount, items } }
+    stores = Object.entries(rawData.stores).map(([wid, storeData]) => ({
+      wid,
+      ...(storeData.storeConfig || {}),
+      ...storeData,
+    }));
+  } else {
+    stores = rawData.stores || (Array.isArray(rawData) ? rawData : [rawData]);
+  }
   let totalSynced = 0;
 
   for (const store of stores) {
@@ -122,8 +132,8 @@ async function main() {
     console.log(`\n[sync-kunlun] 门店: ${storeName} (${storeId}), 商品总数: ${items.length}`);
 
     // 检查数据完整性
-    if (store.completeness) {
-      const rate = store.completeness.rate || (store.fetchedCount / store.apiTotal);
+    if (store.fetchedCount && store.apiTotal) {
+      const rate = store.fetchedCount / store.apiTotal;
       if (rate < 0.9) {
         console.warn(`[sync-kunlun] ⚠️ 门店 ${storeName} 数据不完整 (rate=${(rate * 100).toFixed(1)}%), 跳过`);
         continue;
