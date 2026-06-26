@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>跳转中...</title></head>
+<body>
+<p style="text-align:center;margin-top:40vh;font-size:16px;color:#666;">正在打开补品清单...</p>
+<script>
+// localtunnel bypass: 自动提交公网IP作为密码，设置cookie后跳转到真实H5
+(function() {
+  var target = location.href.replace('/go', '/h5/preview.html');
+  // 检查是否已经bypass过(有cookie)
+  if (document.cookie.indexOf('loca_lt_bypass') !== -1) {
+    location.replace(target);
+    return;
+  }
+  // 自动提交 bypass
+  var form = document.createElement('form');
+  form.method = 'POST';
+  form.action = location.origin;
+  form.style.display = 'none';
+  var input = document.createElement('input');
+  input.name = 'password';
+  input.value = new URLSearchParams(location.search).get('ip') || '';
+  form.appendChild(input);
+  document.body.appendChild(form);
+  form.submit();
+})();
+</script>
+</body>
+</html>

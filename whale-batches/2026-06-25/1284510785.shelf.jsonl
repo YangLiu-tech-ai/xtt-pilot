@@ -1,0 +1,7 @@
+{"ts":"2026-06-25T09:34:44.076Z","task_id":11,"store_id":"1284510785","sku":"XTT001","barcode":"6901234567001","item_name":"红富士苹果 500g","action":"shelf","substitute_sku":null,"actual_price":9.9,"retry_count":0,"mode":"dry"}
+{"ts":"2026-06-25T09:34:44.110Z","task_id":12,"store_id":"1284510785","sku":"XTT002","barcode":"6901234567002","item_name":"爱媛果冻橙 1.5kg","action":"shelf","substitute_sku":null,"actual_price":29.9,"retry_count":0,"mode":"dry"}
+{"ts":"2026-06-25T09:34:44.138Z","task_id":13,"store_id":"1284510785","sku":"XTT003","barcode":"6901234567003","item_name":"本地小白菜 400g","action":"shelf","substitute_sku":null,"actual_price":4.9,"retry_count":0,"mode":"dry"}
+{"ts":"2026-06-25T09:34:44.169Z","task_id":14,"store_id":"1284510785","sku":"XTT004","barcode":"6901234567004","item_name":"海南金煌芒 2 个装","action":"shelf","substitute_sku":null,"actual_price":19.9,"retry_count":0,"mode":"dry"}
+{"ts":"2026-06-25T09:34:44.198Z","task_id":15,"store_id":"1284510785","sku":"XTT005","barcode":"6901234567005","item_name":"广东菜心 350g","action":"shelf","substitute_sku":null,"actual_price":6.9,"retry_count":0,"mode":"dry"}
+{"ts":"2026-06-25T10:10:19.737Z","task_id":21,"store_id":"1284510785","sku":"XTT001","barcode":"6901234567001","item_name":"红富士苹果 500g","action":"shelf","substitute_sku":null,"actual_price":9.9,"retry_count":0,"mode":"dry"}
+{"ts":"2026-06-25T14:15:22.391Z","task_id":25,"store_id":"1284510785","sku":"XTT005","barcode":"6901234567005","item_name":"广东菜心 350g","action":"shelf","substitute_sku":null,"actual_price":6.9,"retry_count":0,"mode":"dry"}

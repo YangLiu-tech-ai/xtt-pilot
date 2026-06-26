@@ -1,0 +1,7 @@
+﻿node_modules/
+*.db
+*.db.lock
+*.log
+daemon-err.log
+.env
+cloudflared.exe

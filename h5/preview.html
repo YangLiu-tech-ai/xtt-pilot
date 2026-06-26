@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=375, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>新通途·补品 H5 预览</title>
+<style>
+  :root {
+    --primary: #0073FF;
+    --success: #00C271;
+    --warning: #FF8800;
+    --danger: #F5483B;
+    --text: #212121;
+    --sub: #888;
+    --line: #EEE;
+    --bg: #F5F6F8;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    margin: 0; font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+    background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5;
+    max-width: 414px; margin: 0 auto; min-height: 100vh;
+  }
+  .topbar {
+    background: #fff; padding: 12px 16px; display: flex; align-items: center;
+    border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 10;
+  }
+  .topbar h1 { flex: 1; margin: 0; font-size: 16px; font-weight: 600; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: #ccc; margin-right: 8px; }
+  .dot.ok { background: var(--success); }
+  .dot.err { background: var(--danger); }
+  .topbar small { color: var(--sub); font-size: 12px; }
+  .refresh { background: none; border: 0; color: var(--primary); font-size: 14px; }
+  .list { padding: 12px; }
+  .card {
+    background: #fff; border-radius: 8px; padding: 12px; margin-bottom: 12px;
+    display: flex; gap: 12px; cursor: pointer;
+  }
+  .card img {
+    width: 80px; height: 80px; border-radius: 8px; object-fit: cover;
+    background: var(--bg) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><rect width="80" height="80" fill="%23EEE"/><text x="40" y="44" text-anchor="middle" fill="%23999" font-size="12">商品</text></svg>') center/cover;
+  }
+  .card .info { flex: 1; min-width: 0; }
+  .name { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .barcode { font-size: 12px; color: var(--sub); margin-bottom: 6px; }
+  .metric { font-size: 12px; color: var(--sub); }
+  .metric b { color: var(--text); margin-right: 8px; }
+  .status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px;
+    margin-top: 6px;
+  }
+  .s-PENDING { background: #FFF8E6; color: #B98000; }
+  .s-EXECUTING { background: #E6F0FF; color: var(--primary); }
+  .s-DONE { background: #E0F7EE; color: var(--success); }
+  .s-SHORTAGE { background: #FCE7E5; color: var(--danger); }
+  .s-FAILED { background: #FCE7E5; color: var(--danger); }
+  .s-MANUAL { background: #ECECEC; color: var(--sub); }
+  .empty { text-align: center; padding: 80px 20px; color: var(--sub); }
+
+  /* detail */
+  .detail-img { width: 100%; aspect-ratio: 4/3; object-fit: cover; background: #eee; }
+  .detail-body { padding: 16px; }
+  .detail-name { font-size: 18px; font-weight: 600; }
+  .meta-table { background: #fff; border-radius: 8px; padding: 12px 16px; margin: 12px 0; }
+  .meta-row { display: flex; padding: 8px 0; border-bottom: 1px solid var(--line); }
+  .meta-row:last-child { border: 0; }
+  .meta-row label { color: var(--sub); width: 80px; }
+  .meta-row span { flex: 1; }
+  .substitutes { background: #fff; border-radius: 8px; padding: 12px 16px; margin-bottom: 80px; }
+  .substitutes h3 { font-size: 14px; margin: 0 0 8px; color: var(--sub); }
+  .sub-card {
+    display: flex; align-items: center; gap: 12px; padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .sub-card:last-child { border: 0; }
+  .sub-card .price { color: var(--primary); font-weight: 600; }
+  .sub-card button {
+    background: var(--warning); color: #fff; border: 0; padding: 6px 12px;
+    border-radius: 4px; font-size: 12px;
+  }
+
+  .action-bar {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 414px; background: #fff; padding: 12px 16px;
+    display: flex; gap: 8px; border-top: 1px solid var(--line);
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.04);
+  }
+  .action-bar button {
+    flex: 1; padding: 12px 0; border: 0; border-radius: 6px;
+    font-size: 14px; font-weight: 600; color: #fff;
+  }
+  .btn-shelf { background: var(--success); }
+  .btn-sub { background: var(--warning); }
+  .btn-out { background: var(--danger); }
+  .back-btn {
+    background: none; border: 0; color: var(--primary); font-size: 14px;
+  }
+  .toast {
+    position: fixed; top: 30%; left: 50%; transform: translateX(-50%);
+    background: rgba(0,0,0,0.8); color: #fff; padding: 12px 24px; border-radius: 6px;
+    z-index: 200; max-width: 80%; text-align: center;
+  }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- Top bar -->
+<div class="topbar">
+  <button class="back-btn hidden" id="backBtn">← 返回</button>
+  <h1 id="pageTitle">缺货补品</h1>
+  <div class="dot" id="healthDot"></div>
+  <small id="healthLabel">…</small>
+  <button class="refresh" id="refreshBtn">↻</button>
+</div>
+
+<!-- LIST view -->
+<div id="listView" class="list">
+  <div id="listContainer"></div>
+  <div class="empty hidden" id="emptyState">🎉 暂无缺货，做得不错！</div>
+</div>
+
+<!-- DETAIL view -->
+<div id="detailView" class="hidden">
+  <img class="detail-img" id="detailImg" src="" alt="">
+  <div class="detail-body">
+    <div class="detail-name" id="detailName"></div>
+    <div class="metric" id="detailTags"></div>
+
+    <div class="meta-table">
+      <div class="meta-row"><label>条码</label><span id="d-barcode"></span></div>
+      <div class="meta-row"><label>类目</label><span id="d-category"></span></div>
+      <div class="meta-row"><label>昨日销</label><span id="d-sales"></span></div>
+      <div class="meta-row"><label>当前库存</label><span id="d-stock"></span></div>
+      <div class="meta-row"><label>建议售价</label><span id="d-price"></span></div>
+    </div>
+
+    <div class="substitutes">
+      <h3>📦 推荐替代品</h3>
+      <div id="subList"></div>
+    </div>
+  </div>
+
+  <div class="action-bar">
+    <button class="btn-shelf" id="btnShelf">🛒 一键上架</button>
+    <button class="btn-sub" id="btnSub">🔁 换替代品</button>
+    <button class="btn-out" id="btnOut">❌ 标缺货</button>
+  </div>
+</div>
+
+
+<div class="toast hidden" id="toast"></div>
+
+<script>
+// ============ 配置 ============
+// 自动检测: 如果页面从 http(s) 域名加载 → 同域 API; 否则支持 ?api= 参数或回退到 localhost
+const _params = new URLSearchParams(location.search);
+const API_BASE = _params.get('api')
+  ? _params.get('api') + '/v1'
+  : (location.protocol.startsWith('http') ? location.origin + '/v1' : 'http://localhost:7788/v1');
+const TOKEN = new URLSearchParams(location.search).get('token')
+  || 'eyJzdG9yZUlkIjoiMTI4NDUxMDc4NSIsImRpbmdJZCI6InRlc3QtbWFuYWdlciIsImV4cCI6MTc4MjYzOTcxMzI2Nn0.D1QjqAvX8XGvXZXuKLlyILNKZSqHiFbI2BkopqTWGD4';
+
+// ============ 工具 ============
+async function api(path, opts = {}) {
+  const sep = path.includes('?') ? '&' : '?';
+  const url = `${API_BASE}${path}${sep}token=${encodeURIComponent(TOKEN)}`;
+  const r = await fetch(url, { headers: {'Content-Type': 'application/json'}, ...opts });
+  return await r.json();
+}
+function toast(msg, ms = 1800) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.remove('hidden');
+  setTimeout(() => t.classList.add('hidden'), ms);
+}
+function fmt(n) { return Number(n || 0).toFixed(1); }
+
+// ============ 状态 ============
+let currentView = 'list';
+let currentTask = null;
+
+// ============ 健康检查 ============
+async function tickHealth() {
+  try {
+    const h = await api('/health');
+    const dot = document.getElementById('healthDot');
+    const lab = document.getElementById('healthLabel');
+    dot.className = 'dot ok';
+    const pending = (h.stats || []).find(s => s.status === 'PENDING')?.n || 0;
+    lab.textContent = `${pending}单待办`;
+  } catch (e) {
+    document.getElementById('healthDot').className = 'dot err';
+    document.getElementById('healthLabel').textContent = '离线';
+  }
+}
+setInterval(tickHealth, 10000);
+
+// ============ 列表 ============
+async function loadList() {
+  const data = await api('/tasks');
+  const c = document.getElementById('listContainer');
+  const e = document.getElementById('emptyState');
+  if (!data.ok) { c.innerHTML = `<p style="color:red;padding:20px;">❌ ${data.err}</p>`; return; }
+  const tasks = data.tasks || [];
+  e.classList.toggle('hidden', tasks.length > 0);
+  c.innerHTML = tasks.map(t => `
+    <div class="card" data-id="${t.id}">
+      <img src="${t.image_url || ''}" onerror="this.src=''">
+      <div class="info">
+        <div class="name">${t.item_name}</div>
+        <div class="barcode">条码 ${t.barcode}</div>
+        <div class="metric">
+          <b>昨日 ${t.yesterday_sales}单</b>
+          <b>库存 ${t.stock}</b>
+          <b>建议 ¥${fmt(t.suggest_price)}</b>
+        </div>
+        <span class="status s-${t.status}">${labelOf(t.status)}</span>
+      </div>
+    </div>
+  `).join('');
+  c.querySelectorAll('.card').forEach(el => {
+    el.onclick = () => showDetail(el.dataset.id);
+  });
+}
+
+function labelOf(s) {
+  return { PENDING: '⏳ 待处理', EXECUTING: '🤖 上架中', DONE: '✅ 已上架',
+    SHORTAGE: '🚫 已标缺货', FAILED: '⚠️ 上架失败', MANUAL: '🔧 转人工', VERIFIED: '✓ 已复核'
+  }[s] || s;
+}
+
+// ============ 详情 ============
+async function showDetail(id) {
+  document.getElementById('listView').classList.add('hidden');
+  document.getElementById('detailView').classList.remove('hidden');
+  document.getElementById('backBtn').classList.remove('hidden');
+  document.getElementById('pageTitle').textContent = '任务详情';
+  currentView = 'detail';
+
+  const data = await api(`/tasks/${id}`);
+  if (!data.ok) { toast(`❌ ${data.err}`); return; }
+  const t = data.task; currentTask = t;
+  document.getElementById('detailImg').src = t.image_url || '';
+  document.getElementById('detailName').textContent = t.item_name;
+  document.getElementById('detailTags').innerHTML =
+    `<span class="status s-${t.status}">${labelOf(t.status)}</span>`;
+  document.getElementById('d-barcode').textContent = t.barcode;
+  document.getElementById('d-category').textContent = t.category || '-';
+  document.getElementById('d-sales').textContent = t.yesterday_sales + ' 单';
+  document.getElementById('d-stock').textContent = t.stock;
+  document.getElementById('d-price').textContent = '¥' + fmt(t.suggest_price);
+
+  const subs = data.substitutes || [];
+  document.getElementById('subList').innerHTML = subs.length === 0
+    ? '<small style="color:#888;">暂无可推荐替代品</small>'
+    : subs.map(s => `
+        <div class="sub-card">
+          <div style="flex:1">
+            <div>${s.sub_name}</div>
+            <small style="color:#888">库存 ${s.sub_stock} · 匹配度 ${(s.score*100).toFixed(0)}%</small>
+          </div>
+          <span class="price">¥${fmt(s.sub_price)}</span>
+          <button data-sku="${s.sub_sku}" data-price="${s.sub_price}">选这个</button>
+        </div>
+      `).join('');
+  document.querySelectorAll('#subList button').forEach(b => {
+    b.onclick = () => actSubstitute(b.dataset.sku, b.dataset.price);
+  });
+
+}
+
+// ============ 操作 ============
+async function act(action, body = {}) {
+  if (!currentTask) return;
+  const r = await api(`/tasks/${currentTask.id}/act`, {
+    method: 'POST', body: JSON.stringify({ action, ...body })
+  });
+  if (!r.ok) {
+    if (r.err === 'STATE_CONFLICT') toast(`已被处理（${labelOf(r.current)}），返回刷新`);
+    else toast(`❌ ${r.err}`);
+    return;
+  }
+  if (action === 'shortage') { toast('已标缺货'); setTimeout(backToList, 800); return; }
+  toast('✅ 操作已提交');
+  setTimeout(backToList, 1000);
+}
+
+function actSubstitute(sku, price) {
+  act('substitute', { substituteSku: sku });
+}
+
+document.getElementById('btnShelf').onclick = () => act('shelf');
+document.getElementById('btnSub').onclick = () => toast('请在「推荐替代品」中点「选这个」');
+document.getElementById('btnOut').onclick = () => { if (confirm('确认标缺货？')) act('shortage'); };
+
+// ============ 路由 ============
+function backToList() {
+  document.getElementById('detailView').classList.add('hidden');
+  document.getElementById('listView').classList.remove('hidden');
+  document.getElementById('backBtn').classList.add('hidden');
+  document.getElementById('pageTitle').textContent = '缺货补品';
+  currentView = 'list'; currentTask = null;
+  loadList(); tickHealth();
+}
+document.getElementById('backBtn').onclick = backToList;
+document.getElementById('refreshBtn').onclick = () => {
+  if (currentView === 'list') loadList();
+  else if (currentTask) showDetail(currentTask.id);
+  tickHealth();
+};
+
+// ============ Boot ============
+tickHealth();
+loadList();
+</script>
+</body>
+</html>

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=375, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>新通途·补品监控 商家运营</title>
+<style>
+  :root {
+    --primary: #0073FF;
+    --success: #00C271;
+    --warning: #FF8800;
+    --danger: #F5483B;
+    --text: #1a1a1a;
+    --sub: #666;
+    --muted: #999;
+    --line: #EEEEEE;
+    --bg: #F5F6F8;
+    --card: #fff;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    margin: 0; font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+    background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5;
+    max-width: 414px; margin: 0 auto; min-height: 100vh; padding-bottom: 70px;
+  }
+
+  /* ===== 顶栏 ===== */
+  .topbar {
+    background: #fff; padding: 14px 16px; display: flex; align-items: center;
+    border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 10;
+  }
+  .topbar h1 { flex: 1; margin: 0; font-size: 16px; font-weight: 600; }
+  .topbar .store-name { font-size: 12px; color: var(--sub); margin-top: 2px; }
+  .topbar .date { font-size: 12px; color: var(--muted); }
+
+  /* ===== 大盘摘要 ===== */
+  .summary {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    background: #fff; margin: 12px; border-radius: 10px; overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .summary-item {
+    text-align: center; padding: 14px 4px;
+    border-right: 1px solid var(--line);
+  }
+  .summary-item:last-child { border-right: 0; }
+  .summary-item .num { font-size: 22px; font-weight: 700; }
+  .summary-item .label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .num.green { color: var(--success); }
+  .num.red { color: var(--danger); }
+  .num.orange { color: var(--warning); }
+
+  /* ===== 进度环 ===== */
+  .progress-ring-wrap {
+    background: #fff; margin: 0 12px 12px; border-radius: 10px; padding: 16px;
+    display: flex; align-items: center; gap: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .ring-svg { width: 64px; height: 64px; }
+  .ring-bg { fill: none; stroke: var(--line); stroke-width: 6; }
+  .ring-fill { fill: none; stroke: var(--success); stroke-width: 6; stroke-linecap: round;
+    transform: rotate(-90deg); transform-origin: center;
+    transition: stroke-dashoffset .5s;
+  }
+  .ring-text { font-size: 14px; font-weight: 700; fill: var(--text); }
+  .progress-info { flex: 1; }
+  .progress-info .title { font-size: 13px; color: var(--sub); }
+  .progress-info .detail { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  /* ===== Tab 切换 ===== */
+  .tab-bar {
+    display: flex; margin: 0 12px; background: #fff; border-radius: 8px;
+    overflow: hidden; margin-bottom: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .tab-item {
+    flex: 1; text-align: center; padding: 10px 0; font-size: 13px;
+    color: var(--sub); position: relative; cursor: pointer;
+  }
+  .tab-item.active { color: var(--primary); font-weight: 600; }
+  .tab-item.active::after {
+    content: ''; position: absolute; bottom: 0; left: 20%; right: 20%;
+    height: 2px; background: var(--primary); border-radius: 1px;
+  }
+  .tab-item .badge {
+    display: inline-block; background: #FFEDED; color: var(--danger);
+    font-size: 10px; padding: 1px 5px; border-radius: 8px; margin-left: 4px;
+    font-weight: 600;
+  }
+
+  /* ===== 任务卡片 ===== */
+  .section-title {
+    padding: 0 16px; font-size: 12px; color: var(--muted); margin-bottom: 8px;
+  }
+  .task-card {
+    background: #fff; margin: 0 12px 10px; border-radius: 10px; padding: 14px 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .task-card .top-row { display: flex; align-items: center; margin-bottom: 8px; }
+  .task-card .item-name { font-size: 15px; font-weight: 600; flex: 1; }
+  .task-card .priority-tag {
+    font-size: 11px; padding: 2px 8px; border-radius: 4px;
+  }
+  .priority-tag.core { background: #FFEDED; color: var(--danger); }
+  .priority-tag.hot { background: #FFF4E0; color: var(--warning); }
+  .priority-tag.normal { background: #ECECEC; color: var(--sub); }
+
+  .task-card .meta-line {
+    font-size: 12px; color: var(--muted); margin-bottom: 6px;
+  }
+  .task-card .meta-line b { color: var(--text); }
+  .task-card .status-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line);
+  }
+  .status-tag {
+    display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 12px;
+  }
+  .status-tag.failed { background: #FFEDED; color: var(--danger); }
+  .status-tag.done { background: #E0F7EE; color: var(--success); }
+  .status-tag.executing { background: #E6F0FF; color: var(--primary); }
+  .status-tag.shortage { background: #FFF8E6; color: #B98000; }
+  .status-tag.pending { background: #F5F5F5; color: var(--muted); }
+
+  .task-card .fail-reason {
+    font-size: 12px; color: var(--danger); margin-top: 6px;
+    background: #FFF8F8; padding: 6px 10px; border-radius: 4px;
+  }
+  .task-card .actions {
+    display: flex; gap: 8px; margin-top: 10px;
+  }
+  .task-card .actions button {
+    flex: 1; padding: 8px 0; border: 0; border-radius: 6px;
+    font-size: 13px; font-weight: 500; cursor: pointer;
+  }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-outline { background: #fff; color: var(--primary); border: 1px solid var(--primary) !important; }
+  .btn-warn { background: var(--warning); color: #fff; }
+
+  .task-card .time-info { font-size: 11px; color: var(--muted); }
+
+  /* ===== 门店切换 ===== */
+  .store-selector {
+    margin: 0 12px 12px; background: #fff; border-radius: 8px;
+    padding: 12px 16px; display: flex; align-items: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04); cursor: pointer;
+  }
+  .store-selector .current { flex: 1; font-weight: 500; }
+  .store-selector .arrow { color: var(--muted); font-size: 12px; }
+
+  /* ===== 底部导航 ===== */
+  .bottom-nav {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 414px; background: #fff;
+    border-top: 1px solid var(--line); display: flex;
+    padding: 8px 0 env(safe-area-inset-bottom, 8px); z-index: 10;
+  }
+  .nav-item {
+    flex: 1; text-align: center; font-size: 11px; color: var(--muted);
+    padding: 4px 0;
+  }
+  .nav-item.active { color: var(--primary); }
+  .nav-item .icon { font-size: 20px; display: block; margin-bottom: 2px; }
+
+  .hidden { display: none !important; }
+
+  /* ===== 空态 ===== */
+  .empty-state {
+    text-align: center; padding: 60px 20px; color: var(--muted);
+  }
+  .empty-state .emoji { font-size: 40px; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+
+<!-- 顶栏 -->
+<div class="topbar">
+  <div>
+    <h1>补品执行监控</h1>
+    <div class="store-name">淘小胖 · 3 家门店</div>
+  </div>
+  <div class="date" id="dateLabel"></div>
+</div>
+
+<!-- 门店选择 -->
+<div class="store-selector">
+  <span class="current">全部门店</span>
+  <span class="arrow">切换 ›</span>
+</div>
+
+<!-- 大盘数字 -->
+<div class="summary">
+  <div class="summary-item">
+    <div class="num">47</div>
+    <div class="label">今日任务</div>
+  </div>
+  <div class="summary-item">
+    <div class="num green">38</div>
+    <div class="label">已上架</div>
+  </div>
+  <div class="summary-item">
+    <div class="num red">3</div>
+    <div class="label">失败</div>
+  </div>
+  <div class="summary-item">
+    <div class="num orange">6</div>
+    <div class="label">缺货</div>
+  </div>
+</div>
+
+<!-- 出勤率进度环 -->
+<div class="progress-ring-wrap">
+  <svg class="ring-svg" viewBox="0 0 36 36">
+    <circle class="ring-bg" cx="18" cy="18" r="15.5"/>
+    <circle class="ring-fill" cx="18" cy="18" r="15.5"
+      stroke-dasharray="97.4" stroke-dashoffset="18.6"/>
+    <text class="ring-text" x="18" y="20" text-anchor="middle">81%</text>
+  </svg>
+  <div class="progress-info">
+    <div class="title">今日出勤恢复率</div>
+    <div class="detail">38/47 完成 · 目标 ≥85%<br>核心引流品 90% · 爆好价品 78% · 常规品 75%</div>
+  </div>
+</div>
+
+<!-- Tab -->
+<div class="tab-bar">
+  <div class="tab-item active" data-tab="failed">待处理<span class="badge">3</span></div>
+  <div class="tab-item" data-tab="done">已完成</div>
+  <div class="tab-item" data-tab="all">全部</div>
+</div>
+
+<!-- Tab: 待处理（失败升级） -->
+<div class="tab-content" id="tab-failed">
+  <div class="section-title">Agent 执行失败，需你介入处理</div>
+
+  <div class="task-card">
+    <div class="top-row">
+      <span class="item-name">红富士苹果 500g</span>
+      <span class="priority-tag core">核心引流品</span>
+    </div>
+    <div class="meta-line">龙湖天街 · 条码 6901234560019 · 课长已操作</div>
+    <div class="fail-reason">❌ 失败原因：鲸品云超时无响应（已重试 3 次）</div>
+    <div class="status-row">
+      <span class="time-info">升级时间 10:32</span>
+      <span class="status-tag failed">待处理</span>
+    </div>
+    <div class="actions">
+      <button class="btn-primary">手动上架</button>
+      <button class="btn-outline">标缺货</button>
+    </div>
+  </div>
+
+  <div class="task-card">
+    <div class="top-row">
+      <span class="item-name">三元鲜牛奶 950ml</span>
+      <span class="priority-tag core">核心引流品</span>
+    </div>
+    <div class="meta-line">滨江宝龙 · 条码 6921168500101 · 课长已操作</div>
+    <div class="fail-reason">❌ 失败原因：SKU 映射失败（条码不匹配鲸品云）</div>
+    <div class="status-row">
+      <span class="time-info">升级时间 11:05</span>
+      <span class="status-tag failed">待处理</span>
+    </div>
+    <div class="actions">
+      <button class="btn-primary">修正映射</button>
+      <button class="btn-outline">手动上架</button>
+    </div>
+  </div>
+
+  <div class="task-card">
+    <div class="top-row">
+      <span class="item-name">金龙鱼菜籽油 1.8L</span>
+      <span class="priority-tag hot">爆好价品</span>
+    </div>
+    <div class="meta-line">城西银泰 · 条码 6922266440012 · 课长已操作</div>
+    <div class="fail-reason">❌ 失败原因：库存为 0，无法上架</div>
+    <div class="status-row">
+      <span class="time-info">升级时间 09:48</span>
+      <span class="status-tag failed">待处理</span>
+    </div>
+    <div class="actions">
+      <button class="btn-warn">联系供应商</button>
+      <button class="btn-outline">标缺货</button>
+    </div>
+  </div>
+</div>
+
+<!-- Tab: 已完成 -->
+<div class="tab-content hidden" id="tab-done">
+  <div class="section-title">今日已完成的补品任务</div>
+
+  <div class="task-card">
+    <div class="top-row">
+      <span class="item-name">广东菜心 350g</span>
+      <span class="priority-tag core">核心引流品</span>
+    </div>
+    <div class="meta-line">龙湖天街 · 课长 08:15 操作 · Agent 32s 完成</div>
+    <div class="status-row">
+      <span class="time-info">完成 08:15</span>
+      <span class="status-tag done">已上架</span>
+    </div>
+  </div>
+
+  <div class="task-card">
+    <div class="top-row">
+      <span class="item-name">东北大米 5kg</span>
+      <span class="priority-tag hot">爆好价品</span>
+    </div>
+    <div class="meta-line">龙湖天街 · 课长 08:18 操作 · Agent 28s 完成</div>
+    <div class="status-row">
+      <span class="time-info">完成 08:18</span>
+      <span class="status-tag done">已上架</span>
+    </div>
+  </div>
+
+  <div class="task-card">
+    <div class="top-row">
+      <span class="item-name">蒙牛纯甄酸奶 200g×12</span>
+      <span class="priority-tag hot">爆好价品</span>
+    </div>
+    <div class="meta-line">滨江宝龙 · 课长 09:03 标缺货</div>
+    <div class="status-row">
+      <span class="time-info">09:03</span>
+      <span class="status-tag shortage">已标缺货</span>
+    </div>
+  </div>
+
+  <div class="task-card">
+    <div class="top-row">
+      <span class="item-name">伊利金典纯牛奶 250ml×12</span>
+      <span class="priority-tag core">核心引流品</span>
+    </div>
+    <div class="meta-line">城西银泰 · 课长 08:45 操作 · Agent 45s 完成</div>
+    <div class="status-row">
+      <span class="time-info">完成 08:46</span>
+      <span class="status-tag done">已上架</span>
+    </div>
+  </div>
+</div>
+
+<!-- Tab: 全部 -->
+<div class="tab-content hidden" id="tab-all">
+  <div class="section-title">今日全部任务 · 按优先级排序</div>
+
+  <div class="task-card">
+    <div class="top-row">
+      <span class="item-name">红富士苹果 500g</span>
+      <span class="priority-tag core">核心引流品</span>
+    </div>
+    <div class="meta-line">龙湖天街 · <b style="color:var(--danger)">失败(已升级)</b></div>
+    <div class="status-row">
+      <span class="time-info">08:21 → 10:32</span>
+      <span class="status-tag failed">失败</span>
+    </div>
+  </div>
+
+  <div class="task-card">
+    <div class="top-row">
+      <span class="item-name">广东菜心 350g</span>
+      <span class="priority-tag core">核心引流品</span>
+    </div>
+    <div class="meta-line">龙湖天街 · Agent 32s 完成</div>
+    <div class="status-row">
+      <span class="time-info">08:15</span>
+      <span class="status-tag done">已上架</span>
+    </div>
+  </div>
+
+  <div class="task-card">
+    <div class="top-row">
+      <span class="item-name">云南小粒咖啡豆 250g</span>
+      <span class="priority-tag normal">常规品</span>
+    </div>
+    <div class="meta-line">城西银泰 · Agent 执行中…</div>
+    <div class="status-row">
+      <span class="time-info">11:32 操作</span>
+      <span class="status-tag executing">上架中</span>
+    </div>
+  </div>
+
+  <div class="task-card">
+    <div class="top-row">
+      <span class="item-name">海天酱油 500ml</span>
+      <span class="priority-tag normal">常规品</span>
+    </div>
+    <div class="meta-line">城西银泰 · 课长未操作</div>
+    <div class="status-row">
+      <span class="time-info">推送 07:30</span>
+      <span class="status-tag pending">待处理</span>
+    </div>
+  </div>
+</div>
+
+<!-- 底部导航 -->
+<div class="bottom-nav">
+  <div class="nav-item active">
+    <span class="icon">📊</span>
+    监控
+  </div>
+  <div class="nav-item">
+    <span class="icon">🏪</span>
+    门店
+  </div>
+  <div class="nav-item">
+    <span class="icon">📋</span>
+    历史
+  </div>
+  <div class="nav-item">
+    <span class="icon">👤</span>
+    我的
+  </div>
+</div>
+
+<script>
+// 日期
+const now = new Date();
+document.getElementById('dateLabel').textContent =
+  `${now.getMonth()+1}月${now.getDate()}日`;
+
+// Tab 切换
+document.querySelectorAll('.tab-item').forEach(tab => {
+  tab.onclick = () => {
+    document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+    document.getElementById('tab-' + tab.dataset.tab).classList.remove('hidden');
+  };
+});
+</script>
+</body>
+</html>

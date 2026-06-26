@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1280">
+<title>新通途·缺货补品 运营监控台</title>
+<style>
+  :root {
+    --primary: #0073FF;
+    --success: #00C271;
+    --warning: #FF8800;
+    --danger: #F5483B;
+    --text: #1a1a1a;
+    --sub: #666;
+    --muted: #999;
+    --line: #E8E8E8;
+    --bg: #F5F6F8;
+    --card: #fff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+    background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.6;
+  }
+  /* ===== 顶栏 ===== */
+  .header {
+    background: #fff; border-bottom: 1px solid var(--line);
+    padding: 0 32px; display: flex; align-items: center; height: 56px;
+  }
+  .header h1 { font-size: 16px; font-weight: 600; margin: 0; }
+  .header .env-tag {
+    margin-left: 12px; font-size: 11px; padding: 2px 8px;
+    background: #FFF4E0; color: var(--warning); border-radius: 4px;
+  }
+  .header .right { margin-left: auto; display: flex; align-items: center; gap: 16px; }
+  .header .user { color: var(--sub); font-size: 13px; }
+  .header .time { color: var(--muted); font-size: 12px; }
+
+  /* ===== 主容器 ===== */
+  .container { max-width: 1280px; margin: 0 auto; padding: 24px 32px; }
+
+  /* ===== 大盘卡片 ===== */
+  .dashboard { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  .stat-card {
+    background: var(--card); border-radius: 8px; padding: 20px;
+    border: 1px solid var(--line);
+  }
+  .stat-card .label { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+  .stat-card .value { font-size: 28px; font-weight: 700; }
+  .stat-card .delta { font-size: 12px; margin-top: 4px; }
+  .delta.up { color: var(--success); }
+  .delta.down { color: var(--danger); }
+
+  /* ===== Tabs ===== */
+  .tabs { display: flex; gap: 0; border-bottom: 2px solid var(--line); margin-bottom: 20px; }
+  .tab {
+    padding: 10px 20px; cursor: pointer; font-size: 14px; color: var(--sub);
+    border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all .15s;
+  }
+  .tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+  .tab .count {
+    display: inline-block; background: var(--bg); padding: 1px 6px; border-radius: 10px;
+    font-size: 11px; margin-left: 6px; color: var(--muted);
+  }
+  .tab.active .count { background: #E6F0FF; color: var(--primary); }
+  .tab.alert .count { background: #FFEDED; color: var(--danger); }
+
+  /* ===== 表格 ===== */
+  .table-wrap {
+    background: var(--card); border-radius: 8px; border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .table-toolbar {
+    padding: 12px 16px; display: flex; align-items: center; gap: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .filter-btn {
+    background: var(--bg); border: 1px solid var(--line); padding: 6px 12px;
+    border-radius: 4px; font-size: 12px; cursor: pointer; color: var(--sub);
+  }
+  .filter-btn.active { background: #E6F0FF; border-color: var(--primary); color: var(--primary); }
+  .search-box {
+    margin-left: auto; background: var(--bg); border: 1px solid var(--line);
+    padding: 6px 12px; border-radius: 4px; font-size: 12px; width: 200px;
+  }
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    text-align: left; padding: 10px 16px; font-size: 12px; color: var(--muted);
+    font-weight: 500; border-bottom: 1px solid var(--line); background: #FAFAFA;
+  }
+  td {
+    padding: 12px 16px; border-bottom: 1px solid var(--line); font-size: 13px;
+    vertical-align: middle;
+  }
+  tr:last-child td { border-bottom: 0; }
+  tr:hover td { background: #FAFBFC; }
+
+  /* ===== 状态/优先级标签 ===== */
+  .priority-tag {
+    display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px;
+  }
+  .priority-tag.core { background: #FFEDED; color: var(--danger); }
+  .priority-tag.hot { background: #FFF4E0; color: var(--warning); }
+  .priority-tag.normal { background: #ECECEC; color: var(--sub); }
+
+  .status-tag {
+    display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px;
+  }
+  .status-tag.pending { background: #FFF8E6; color: #B98000; }
+  .status-tag.executing { background: #E6F0FF; color: var(--primary); }
+  .status-tag.done { background: #E0F7EE; color: var(--success); }
+  .status-tag.failed { background: #FFEDED; color: var(--danger); }
+  .status-tag.shortage { background: #FCE7E5; color: var(--danger); }
+  .status-tag.manual { background: #ECECEC; color: var(--sub); }
+
+  /* ===== 操作按钮 ===== */
+  .action-link {
+    color: var(--primary); font-size: 12px; cursor: pointer; text-decoration: none;
+  }
+  .action-link:hover { text-decoration: underline; }
+  .action-link.danger { color: var(--danger); }
+
+  /* ===== 门店卡片行 ===== */
+  .store-row { display: flex; align-items: center; gap: 8px; }
+  .store-row .name { font-weight: 500; }
+  .store-row .id { font-size: 11px; color: var(--muted); }
+
+  /* ===== 进度条 ===== */
+  .progress-bar {
+    width: 80px; height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden;
+    display: inline-block; vertical-align: middle; margin-right: 6px;
+  }
+  .progress-bar .fill { height: 100%; border-radius: 3px; transition: width .3s; }
+  .fill.green { background: var(--success); }
+  .fill.yellow { background: var(--warning); }
+  .fill.red { background: var(--danger); }
+
+  /* ===== 门店出勤汇总 ===== */
+  .store-summary {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px;
+  }
+  .store-card {
+    background: var(--card); border-radius: 8px; padding: 16px;
+    border: 1px solid var(--line);
+  }
+  .store-card .store-name { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+  .store-card .metrics { display: flex; gap: 16px; font-size: 12px; color: var(--sub); }
+  .store-card .metrics b { color: var(--text); }
+
+  /* ===== 空态 ===== */
+  .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
+
+  /* 底部 */
+  .footer { text-align: center; padding: 40px; color: var(--muted); font-size: 12px; }
+</style>
+</head>
+<body>
+
+<!-- 顶栏 -->
+<div class="header">
+  <h1>新通途 · 缺货补品监控台</h1>
+  <span class="env-tag">MVP 演示</span>
+  <div class="right">
+    <span class="time" id="clock"></span>
+    <span class="user">平台运营 · 张三</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 大盘 -->
+  <div class="dashboard">
+    <div class="stat-card">
+      <div class="label">今日推送任务</div>
+      <div class="value">47</div>
+      <div class="delta up">↑ 12% vs 昨日</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">已完成上架</div>
+      <div class="value" style="color: var(--success);">38</div>
+      <div class="delta">完成率 80.9%</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">上架失败（待处理）</div>
+      <div class="value" style="color: var(--danger);">3</div>
+      <div class="delta down">需人工介入</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">标缺货</div>
+      <div class="value" style="color: var(--warning);">6</div>
+      <div class="delta">占比 12.8%</div>
+    </div>
+  </div>
+
+  <!-- 门店出勤概览 -->
+  <div class="store-summary">
+    <div class="store-card">
+      <div class="store-name">淘小胖·龙湖天街店</div>
+      <div class="metrics">
+        <span>任务 <b>15</b></span>
+        <span>完成 <b>12</b></span>
+        <span>失败 <b>1</b></span>
+        <span>
+          <span class="progress-bar"><span class="fill green" style="width: 80%"></span></span>80%
+        </span>
+      </div>
+    </div>
+    <div class="store-card">
+      <div class="store-name">淘小胖·滨江宝龙店</div>
+      <div class="metrics">
+        <span>任务 <b>18</b></span>
+        <span>完成 <b>15</b></span>
+        <span>失败 <b>1</b></span>
+        <span>
+          <span class="progress-bar"><span class="fill green" style="width: 83%"></span></span>83%
+        </span>
+      </div>
+    </div>
+    <div class="store-card">
+      <div class="store-name">淘小胖·城西银泰店</div>
+      <div class="metrics">
+        <span>任务 <b>14</b></span>
+        <span>完成 <b>11</b></span>
+        <span>失败 <b>1</b></span>
+        <span>
+          <span class="progress-bar"><span class="fill yellow" style="width: 78%"></span></span>78%
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 切换 -->
+  <div class="tabs">
+    <div class="tab active" data-tab="failed">升级处理<span class="count">3</span></div>
+    <div class="tab" data-tab="all">全部任务<span class="count">47</span></div>
+    <div class="tab" data-tab="store">门店视图<span class="count">3</span></div>
+  </div>
+
+  <!-- Tab: 升级处理（FAILED 任务） -->
+  <div class="tab-content" id="tab-failed">
+    <div class="table-wrap">
+      <div class="table-toolbar">
+        <span style="font-size: 13px; font-weight: 500;">待处理失败任务</span>
+        <span style="font-size: 12px; color: var(--muted); margin-left: 8px;">Agent 重试 3 次失败后升级到此</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>商品</th>
+            <th>门店</th>
+            <th>优先级</th>
+            <th>失败原因</th>
+            <th>重试次数</th>
+            <th>升级时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div style="font-weight:500;">红富士苹果 500g</div>
+              <div style="font-size:11px;color:var(--muted);">XTT001 · 6901234560019</div>
+            </td>
+            <td>
+              <div class="store-row">
+                <span class="name">淘小胖·龙湖天街</span>
+              </div>
+            </td>
+            <td><span class="priority-tag core">核心引流品</span></td>
+            <td style="color: var(--danger); font-size: 12px;">鲸品云超时无响应</td>
+            <td>3 / 3</td>
+            <td style="font-size:12px;color:var(--muted);">10:32</td>
+            <td>
+              <a class="action-link">手动上架</a>
+              <a class="action-link" style="margin-left:8px;">标缺货</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div style="font-weight:500;">三元鲜牛奶 950ml</div>
+              <div style="font-size:11px;color:var(--muted);">XTT008 · 6921168500101</div>
+            </td>
+            <td>
+              <div class="store-row">
+                <span class="name">淘小胖·滨江宝龙</span>
+              </div>
+            </td>
+            <td><span class="priority-tag core">核心引流品</span></td>
+            <td style="color: var(--danger); font-size: 12px;">SKU 映射失败(条码不匹配)</td>
+            <td>3 / 3</td>
+            <td style="font-size:12px;color:var(--muted);">11:05</td>
+            <td>
+              <a class="action-link">手动上架</a>
+              <a class="action-link" style="margin-left:8px;">修正映射</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div style="font-weight:500;">金龙鱼菜籽油 1.8L</div>
+              <div style="font-size:11px;color:var(--muted);">XTT015 · 6922266440012</div>
+            </td>
+            <td>
+              <div class="store-row">
+                <span class="name">淘小胖·城西银泰</span>
+              </div>
+            </td>
+            <td><span class="priority-tag hot">爆好价品</span></td>
+            <td style="color: var(--danger); font-size: 12px;">库存为 0，无法上架</td>
+            <td>3 / 3</td>
+            <td style="font-size:12px;color:var(--muted);">09:48</td>
+            <td>
+              <a class="action-link">标缺货</a>
+              <a class="action-link" style="margin-left:8px;">联系供应商</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Tab: 全部任务 -->
+  <div class="tab-content hidden" id="tab-all">
+    <div class="table-wrap">
+      <div class="table-toolbar">
+        <button class="filter-btn active">全部</button>
+        <button class="filter-btn">核心引流品</button>
+        <button class="filter-btn">爆好价品</button>
+        <button class="filter-btn">常规品</button>
+        <input class="search-box" placeholder="搜索商品名/条码...">
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>商品</th>
+            <th>门店</th>
+            <th>优先级</th>
+            <th>状态</th>
+            <th>课长操作</th>
+            <th>Agent 结果</th>
+            <th>耗时</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div style="font-weight:500;">红富士苹果 500g</div>
+              <div style="font-size:11px;color:var(--muted);">6901234560019</div>
+            </td>
+            <td>龙湖天街</td>
+            <td><span class="priority-tag core">核心引流品</span></td>
+            <td><span class="status-tag failed">上架失败</span></td>
+            <td style="font-size:12px;">一键上架 · 08:21</td>
+            <td style="font-size:12px;color:var(--danger);">超时 (3次)</td>
+            <td style="font-size:12px;color:var(--muted);">2h12m</td>
+          </tr>
+          <tr>
+            <td>
+              <div style="font-weight:500;">广东菜心 350g</div>
+              <div style="font-size:11px;color:var(--muted);">6901234560040</div>
+            </td>
+            <td>龙湖天街</td>
+            <td><span class="priority-tag core">核心引流品</span></td>
+            <td><span class="status-tag done">已上架</span></td>
+            <td style="font-size:12px;">一键上架 · 08:15</td>
+            <td style="font-size:12px;color:var(--success);">成功</td>
+            <td style="font-size:12px;color:var(--muted);">32s</td>
+          </tr>
+          <tr>
+            <td>
+              <div style="font-weight:500;">东北大米 5kg</div>
+              <div style="font-size:11px;color:var(--muted);">6901234560026</div>
+            </td>
+            <td>龙湖天街</td>
+            <td><span class="priority-tag hot">爆好价品</span></td>
+            <td><span class="status-tag done">已上架</span></td>
+            <td style="font-size:12px;">一键上架 · 08:18</td>
+            <td style="font-size:12px;color:var(--success);">成功</td>
+            <td style="font-size:12px;color:var(--muted);">28s</td>
+          </tr>
+          <tr>
+            <td>
+              <div style="font-weight:500;">蒙牛纯甄酸奶 200g×12</div>
+              <div style="font-size:11px;color:var(--muted);">6902199090018</div>
+            </td>
+            <td>滨江宝龙</td>
+            <td><span class="priority-tag hot">爆好价品</span></td>
+            <td><span class="status-tag shortage">已标缺货</span></td>
+            <td style="font-size:12px;">标缺货 · 09:03</td>
+            <td style="font-size:12px;color:var(--muted);">—</td>
+            <td style="font-size:12px;color:var(--muted);">—</td>
+          </tr>
+          <tr>
+            <td>
+              <div style="font-weight:500;">云南小粒咖啡豆 250g</div>
+              <div style="font-size:11px;color:var(--muted);">6935687900012</div>
+            </td>
+            <td>城西银泰</td>
+            <td><span class="priority-tag normal">常规品</span></td>
+            <td><span class="status-tag executing">上架中</span></td>
+            <td style="font-size:12px;">一键上架 · 11:32</td>
+            <td style="font-size:12px;color:var(--primary);">执行中…</td>
+            <td style="font-size:12px;color:var(--muted);">—</td>
+          </tr>
+          <tr>
+            <td>
+              <div style="font-weight:500;">海天酱油 500ml</div>
+              <div style="font-size:11px;color:var(--muted);">6902899880012</div>
+            </td>
+            <td>城西银泰</td>
+            <td><span class="priority-tag normal">常规品</span></td>
+            <td><span class="status-tag pending">待处理</span></td>
+            <td style="font-size:12px;color:var(--muted);">—</td>
+            <td style="font-size:12px;color:var(--muted);">—</td>
+            <td style="font-size:12px;color:var(--muted);">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Tab: 门店视图 -->
+  <div class="tab-content hidden" id="tab-store">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>门店</th>
+            <th>总任务</th>
+            <th>已完成</th>
+            <th>执行中</th>
+            <th>失败</th>
+            <th>缺货</th>
+            <th>待处理</th>
+            <th>完成率</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div style="font-weight:500;">淘小胖·龙湖天街</div>
+              <div style="font-size:11px;color:var(--muted);">1284510785</div>
+            </td>
+            <td>15</td>
+            <td style="color:var(--success);">12</td>
+            <td style="color:var(--primary);">1</td>
+            <td style="color:var(--danger);">1</td>
+            <td>0</td>
+            <td>1</td>
+            <td>
+              <span class="progress-bar"><span class="fill green" style="width: 80%"></span></span>
+              <span style="font-weight:600;">80%</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div style="font-weight:500;">淘小胖·滨江宝龙</div>
+              <div style="font-size:11px;color:var(--muted);">1284510801</div>
+            </td>
+            <td>18</td>
+            <td style="color:var(--success);">15</td>
+            <td style="color:var(--primary);">0</td>
+            <td style="color:var(--danger);">1</td>
+            <td>2</td>
+            <td>0</td>
+            <td>
+              <span class="progress-bar"><span class="fill green" style="width: 83%"></span></span>
+              <span style="font-weight:600;">83%</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div style="font-weight:500;">淘小胖·城西银泰</div>
+              <div style="font-size:11px;color:var(--muted);">1284510922</div>
+            </td>
+            <td>14</td>
+            <td style="color:var(--success);">11</td>
+            <td style="color:var(--primary);">1</td>
+            <td style="color:var(--danger);">1</td>
+            <td>0</td>
+            <td>1</td>
+            <td>
+              <span class="progress-bar"><span class="fill yellow" style="width: 78%"></span></span>
+              <span style="font-weight:600;">78%</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer">
+    新通途·缺货补品 MVP · 运营监控台预览 · 数据为模拟展示
+  </div>
+</div>
+
+<script>
+// Tab 切换
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.onclick = () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+    document.getElementById('tab-' + tab.dataset.tab).classList.remove('hidden');
+  };
+});
+
+// 时钟
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clock').textContent =
+    now.toLocaleDateString('zh-CN') + ' ' + now.toLocaleTimeString('zh-CN', {hour:'2-digit', minute:'2-digit'});
+}
+updateClock();
+setInterval(updateClock, 30000);
+</script>
+</body>
+</html>

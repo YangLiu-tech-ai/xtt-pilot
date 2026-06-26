@@ -1,0 +1,13 @@
+{
+  "name": "xintongtu-mvp",
+  "version": "0.1.0",
+  "description": "新通途 MVP - 缺货补品闭环 (Render 部署)",
+  "private": true,
+  "scripts": {
+    "start": "node render-start.js",
+    "seed": "node scripts/seed.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
