@@ -444,7 +444,7 @@
 <!-- Batch action bar (multi-mode floating) -->
 <div class="batch-bar" id="batchBar">
   <div class="selected-count">已选 <em id="batchCount">0</em> 件</div>
-  <button class="btn-batch-out" id="batchOutBtn">线下无货</button>
+  <button class="btn-batch-out" id="batchOutBtn">线下缺货</button>
   <button class="btn-batch-shelf" id="batchShelfBtn">一键上架</button>
 </div>
 
@@ -477,7 +477,7 @@
 
   <div class="action-bar">
     <button class="btn-shelf" id="btnShelf">一键上架</button>
-    <button class="btn-out" id="btnOut">标缺货</button>
+    <button class="btn-out" id="btnOut">线下缺货</button>
   </div>
 </div>
 
@@ -626,6 +626,7 @@ function renderList() {
   const e = document.getElementById('emptyState');
 
   const tasks = allTasksCache.filter(t => {
+    if (t.status !== 'PENDING') return false;
     if (activeCategory === '__ALL__') return true;
     return t._bucket === activeCategory;
   });
@@ -656,7 +657,7 @@ function renderList() {
     if (t.status === 'PENDING') {
       actionsHtml = '<div class="card-actions">'
         + '<button class="btn-act-shelf" data-act="shelf" data-id="' + t.id + '">一键上架</button>'
-        + '<button class="btn-act-out" data-act="shortage" data-id="' + t.id + '">标缺货</button>'
+        + '<button class="btn-act-out" data-act="shortage" data-id="' + t.id + '">线下缺货</button>'
         + '</div>';
     }
 
@@ -789,14 +790,14 @@ function updateBatchBar() {
 async function batchAct(action) {
   if (selectedIds.size === 0) return;
   const ids = Array.from(selectedIds);
-  const verb = action === 'shelf' ? '上架' : '标记线下无货';
+  const verb = action === 'shelf' ? '上架' : '线下缺货';
   if (!confirm('确认批量' + verb + ' ' + ids.length + ' 件商品？')) return;
 
   // 禁用按钮
   document.getElementById('batchShelfBtn').disabled = true;
   document.getElementById('batchOutBtn').disabled = true;
 
-  let ok = 0, fail = 0;
+  let ok = 0, conflict = 0, fail = 0;
   for (const id of ids) {
     try {
       const r = await api('/tasks/' + id + '/act', {
@@ -811,6 +812,14 @@ async function batchAct(action) {
           allTasksCache[idx].status = (action === 'shortage') ? 'SHORTAGE' : 'EXECUTING';
         }
         selectedIds.delete(id);
+      } else if (r.err === 'STATE_CONFLICT') {
+        conflict++;
+        // 已被处理，按当前状态同步本地缓存
+        const idx = allTasksCache.findIndex(t => t.id === id);
+        if (idx !== -1 && r.current) {
+          allTasksCache[idx].status = r.current;
+        }
+        selectedIds.delete(id);
       } else {
         fail++;
       }
@@ -822,7 +831,10 @@ async function batchAct(action) {
   document.getElementById('batchShelfBtn').disabled = false;
   document.getElementById('batchOutBtn').disabled = false;
 
-  toast('✓ 成功 ' + ok + ' 件' + (fail > 0 ? '，失败 ' + fail + ' 件' : ''));
+  let msg = '✓ 成功 ' + ok + ' 件';
+  if (conflict > 0) msg += '，已处理过 ' + conflict + ' 件';
+  if (fail > 0) msg += '，异常 ' + fail + ' 件';
+  toast(msg);
   // 重新刷一次拿真实状态
   await loadList();
 }
@@ -851,11 +863,11 @@ async function cardAct(btn) {
       if (r.err === 'STATE_CONFLICT') toast('已被处理（' + labelOf(r.current) + '）');
       else toast('操作失败: ' + r.err);
       card.querySelectorAll('.card-actions button').forEach(b => b.disabled = false);
-      btn.textContent = action === 'shelf' ? '一键上架' : '标缺货';
+      btn.textContent = action === 'shelf' ? '一键上架' : '线下缺货';
       return;
     }
     // Success: slide out
-    toast(action === 'shortage' ? '已标缺货' : '已提交上架');
+    toast(action === 'shortage' ? '已标线下缺货' : '已提交上架');
     card.classList.add('card-slide-out');
     card.addEventListener('animationend', () => {
       card.remove();
@@ -872,13 +884,13 @@ async function cardAct(btn) {
   } catch (e) {
     toast('网络异常');
     card.querySelectorAll('.card-actions button').forEach(b => b.disabled = false);
-    btn.textContent = action === 'shelf' ? '一键上架' : '标缺货';
+    btn.textContent = action === 'shelf' ? '一键上架' : '线下缺货';
   }
 }
 
 function labelOf(s) {
   return { PENDING: '待处理', EXECUTING: '上架中', DONE: '已上架',
-    SHORTAGE: '已标缺货', FAILED: '上架失败', MANUAL: '转人工', VERIFIED: '已复核'
+    SHORTAGE: '已标线下缺货', FAILED: '上架失败', MANUAL: '转人工', VERIFIED: '已复核'
   }[s] || s;
 }
 
@@ -940,7 +952,7 @@ async function act(action, body = {}) {
     else toast(`操作失败: ${r.err}`);
     return;
   }
-  if (action === 'shortage') { toast('已标缺货'); setTimeout(backToList, 800); return; }
+  if (action === 'shortage') { toast('已标线下缺货'); setTimeout(backToList, 800); return; }
   toast('✓ 操作已提交，自动上架中');
   setTimeout(backToList, 1000);
 }
