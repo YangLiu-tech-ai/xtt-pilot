@@ -70,6 +70,7 @@ app.get('/v1/tasks', authMiddleware, (req, res) => {
            status, action, store_name, created_at
     FROM tasks
     WHERE store_id = ? AND status NOT IN ('VERIFIED')
+      AND (status = 'PENDING' OR action IS NOT NULL)
     ORDER BY
       CASE priority WHEN 'P0' THEN 0 WHEN 'P1' THEN 1 ELSE 2 END,
       monthly_sales DESC,
