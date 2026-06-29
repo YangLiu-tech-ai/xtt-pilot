@@ -1,0 +1,3 @@
+{"ts":"2026-06-26T05:44:59.894Z","task_id":1,"store_id":"1284510785","sku":"XTT001","barcode":"6901234567001","item_name":"红富士苹果 500g","action":"shelf","substitute_sku":null,"actual_price":9.9,"retry_count":0,"mode":"dry"}
+{"ts":"2026-06-26T05:45:00.164Z","task_id":4,"store_id":"1284510785","sku":"XTT004","barcode":"6901234567004","item_name":"海南金煌芒 2 个装","action":"shelf","substitute_sku":null,"actual_price":19.9,"retry_count":0,"mode":"dry"}
+{"ts":"2026-06-26T05:59:21.187Z","task_id":99,"store_id":"1284510785","sku":"XTT006","barcode":"6901234567006","item_name":"云南蓝莓 125g","action":"shelf","substitute_sku":null,"actual_price":19.9,"retry_count":0,"mode":"dry"}

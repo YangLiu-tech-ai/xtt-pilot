@@ -135,6 +135,7 @@ async function main() {
       unattended.push({
         barcode: bc,
         itemName: item.title || info.item_name,
+        category: item.cateName1 || '',
         price: parseFloat(item.price) || 0,
         currentPrice: parseFloat(item.price) || 0,
         activityPrice: item.minActivePrice ? parseFloat(item.minActivePrice) : null,

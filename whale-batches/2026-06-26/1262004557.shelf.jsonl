@@ -1,0 +1,4 @@
+{"ts":"2026-06-26T07:42:30.901Z","task_id":9,"store_id":"1262004557","sku":"1050889164697","barcode":"2082961","item_name":"活鱼现杀 鲈鱼(条)约500-550g","action":"shelf","substitute_sku":null,"actual_price":28.9,"retry_count":0,"mode":"dry"}
+{"ts":"2026-06-26T07:42:30.907Z","task_id":13,"store_id":"1262004557","sku":"1054698867863","barcode":"110600037B","item_name":"荔枝王约1000g","action":"shelf","substitute_sku":null,"actual_price":59.9,"retry_count":0,"mode":"dry"}
+{"ts":"2026-06-26T08:22:47.387Z","task_id":9,"store_id":"1262004557","sku":"1050889164697","barcode":"2082961","item_name":"活鱼现杀 鲈鱼(条)约500-550g","action":"shelf","substitute_sku":null,"actual_price":28.9,"retry_count":0,"mode":"api"}
+{"ts":"2026-06-26T08:22:47.618Z","task_id":13,"store_id":"1262004557","sku":"1054698867863","barcode":"110600037B","item_name":"荔枝王约1000g","action":"shelf","substitute_sku":null,"actual_price":59.9,"retry_count":0,"mode":"api"}

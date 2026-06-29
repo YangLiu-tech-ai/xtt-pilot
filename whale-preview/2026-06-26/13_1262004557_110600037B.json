@@ -1,0 +1,64 @@
+{
+  "mode": "preview",
+  "generated_at": "2026-06-26T07:42:30.908Z",
+  "task_id": 13,
+  "store_id": "1262004557",
+  "sku": "1054698867863",
+  "barcode": "110600037B",
+  "item_name": "荔枝王约1000g",
+  "action": "shelf",
+  "target_price": 59.9,
+  "substitute_sku": null,
+  "steps": [
+    {
+      "step": 1,
+      "action": "navigate",
+      "url": "https://whale.tmall.com/",
+      "description": "打开鲸品云首页",
+      "status": "simulated"
+    },
+    {
+      "step": 2,
+      "action": "select_store",
+      "store_id": "1262004557",
+      "description": "切换到门店: 1262004557",
+      "status": "simulated"
+    },
+    {
+      "step": 3,
+      "action": "search_item",
+      "query": "110600037B",
+      "description": "搜索商品: 110600037B (荔枝王约1000g)",
+      "status": "simulated"
+    },
+    {
+      "step": 4,
+      "action": "set_shelf",
+      "detail": {
+        "price": 59.9,
+        "quantity": 999
+      },
+      "description": "设置上架: 定价 ¥59.9, 库存 999",
+      "status": "simulated"
+    },
+    {
+      "step": 5,
+      "action": "review_confirm_page",
+      "description": "进入确认页面，核对商品信息、价格、库存",
+      "status": "simulated"
+    },
+    {
+      "step": 6,
+      "action": "⛔ STOP_BEFORE_SUBMIT",
+      "description": "★ 停止：不点击\"确认提交\"按钮。等待人工审核后再执行 real 模式。",
+      "status": "BLOCKED"
+    }
+  ],
+  "review_checklist": [
+    "确认商品: 荔枝王约1000g (110600037B)",
+    "确认门店: 1262004557",
+    "确认价格: ¥59.9",
+    "确认操作: 上架",
+    "确认后将 WHALE_MODE 切换为 real 并重新执行"
+  ]
+}
