@@ -123,6 +123,28 @@
   .s-FAILED { background: var(--danger-light); color: var(--danger); }
   .s-MANUAL { background: #F3F4F6; color: var(--text-muted); }
 
+  /* === 任务来源标识：HQ 总部派单 === */
+  .source-hq {
+    display: inline-flex; align-items: center; gap: 3px;
+    padding: 3px 8px; border-radius: 20px;
+    font-size: 10px; font-weight: 700;
+    background: linear-gradient(135deg, #7C3AED 0%, #A855F7 100%);
+    color: #fff;
+    margin-left: 6px;
+    letter-spacing: 0.5px;
+  }
+  .source-hq::before {
+    content: '🏢';
+    font-size: 11px;
+  }
+  /* 详情页源信息条 */
+  .detail-source-banner {
+    margin: 8px 0; padding: 10px 12px; border-radius: 8px;
+    background: #F5F3FF; border-left: 3px solid #7C3AED;
+    font-size: 12px; color: #5B21B6; line-height: 1.5;
+  }
+  .detail-source-banner strong { color: #4C1D95; }
+
   /* === Card Actions (inline操作按钮) === */
   .card-actions {
     display: flex; gap: 8px; margin-top: 10px; padding-top: 10px;
@@ -689,6 +711,7 @@ function renderList() {
       +   '<div class="card-price-row">' + priceHtml + '</div>'
       +   '<div class="card-footer">'
       +     '<span class="status-badge s-' + t.status + '">' + labelOf(t.status) + '</span>'
+      +     (t.source === 'hq_assigned' ? '<span class="source-hq">总部派</span>' : '')
       +   '</div>'
       +   actionsHtml
       + '</div>'
@@ -866,6 +889,12 @@ async function cardAct(btn) {
       btn.textContent = action === 'shelf' ? '一键上架' : '线下缺货';
       return;
     }
+    // Success: 同步更新本地缓存（避免切 tab 后该品又出现）
+    const idx = allTasksCache.findIndex(t => t.id === taskId);
+    if (idx !== -1) {
+      allTasksCache[idx].status = (action === 'shortage') ? 'SHORTAGE' : 'EXECUTING';
+    }
+    selectedIds.delete(taskId);
     // Success: slide out
     toast(action === 'shortage' ? '已标线下缺货' : '已提交上架');
     card.classList.add('card-slide-out');
@@ -911,7 +940,29 @@ async function showDetail(id) {
   document.getElementById('detailImg').style.display = t.image_url ? 'block' : 'none';
   document.getElementById('detailName').textContent = t.item_name;
   document.getElementById('detailTags').innerHTML =
-    `<span class="status-badge s-${t.status}">${labelOf(t.status)}</span>`;
+    `<span class="status-badge s-${t.status}">${labelOf(t.status)}</span>` +
+    (t.source === 'hq_assigned' ? '<span class="source-hq">总部派</span>' : '');
+
+  // 来源横幅（仅 HQ 派单显示）
+  const detailBody = document.querySelector('.detail-body');
+  let banner = document.getElementById('detailSourceBanner');
+  if (t.source === 'hq_assigned') {
+    if (!banner) {
+      banner = document.createElement('div');
+      banner.id = 'detailSourceBanner';
+      banner.className = 'detail-source-banner';
+      const tagsEl = document.getElementById('detailTags');
+      tagsEl.parentNode.insertBefore(banner, tagsEl.nextSibling);
+    }
+    const assigner = t.assigned_by || '总部运营';
+    const at = t.assigned_at ? new Date(t.assigned_at).toLocaleString('zh-CN', { hour12: false }) : '';
+    banner.innerHTML = '<strong>🏢 总部派单</strong>　派单人：' + assigner +
+      (at ? '　|　' + at : '') +
+      '<br>来自 HQ 总部运营，请优先处理。';
+    banner.style.display = '';
+  } else if (banner) {
+    banner.style.display = 'none';
+  }
   document.getElementById('d-barcode').textContent = t.barcode;
   document.getElementById('d-category').textContent = t.category || '-';
   document.getElementById('d-sales').textContent = (t.monthly_sales || t.yesterday_sales || 0) + ' 件/月';
@@ -952,6 +1003,12 @@ async function act(action, body = {}) {
     else toast(`操作失败: ${r.err}`);
     return;
   }
+  // 同步本地缓存，避免返回列表后该品又出现
+  const idx = allTasksCache.findIndex(t => t.id === currentTask.id);
+  if (idx !== -1) {
+    allTasksCache[idx].status = (action === 'shortage') ? 'SHORTAGE' : 'EXECUTING';
+  }
+  selectedIds.delete(currentTask.id);
   if (action === 'shortage') { toast('已标线下缺货'); setTimeout(backToList, 800); return; }
   toast('✓ 操作已提交，自动上架中');
   setTimeout(backToList, 1000);
@@ -960,7 +1017,7 @@ async function act(action, body = {}) {
 function actSubstitute(sku, price) { act('substitute', { substituteSku: sku }); }
 
 document.getElementById('btnShelf').onclick = () => act('shelf');
-document.getElementById('btnOut').onclick = () => { if (confirm('确认标记为缺货？')) act('shortage'); };
+document.getElementById('btnOut').onclick = () => { if (confirm('确认标记为线下缺货？')) act('shortage'); };
 
 // ============ Navigation ============
 function backToList() {
