@@ -68,7 +68,8 @@ app.get('/v1/tasks', authMiddleware, (req, res) => {
            suggest_price, image_url, yesterday_sales, stock,
            monthly_sales, current_price, activity_price,
            status, action, store_name, created_at,
-           source, assigned_by, assigned_at
+           source, assigned_by, assigned_at,
+           shortage_reason, shortage_reason_detail
     FROM tasks
     WHERE store_id = ? AND status NOT IN ('VERIFIED')
       AND (status = 'PENDING' OR action IS NOT NULL)
@@ -96,9 +97,20 @@ app.get('/v1/tasks/:id', authMiddleware, (req, res) => {
 
 // 一键操作
 app.post('/v1/tasks/:id/act', authMiddleware, (req, res) => {
-  const { action, substituteSku, actualPrice } = req.body || {};
+  const { action, substituteSku, actualPrice, shortageReason, shortageReasonDetail } = req.body || {};
   if (!['shelf', 'shortage', 'substitute'].includes(action)) {
     return res.status(400).json({ ok: false, err: 'bad action' });
+  }
+  // shortage 必须带 reason (1-5)
+  let reasonCode = null, reasonDetail = null;
+  if (action === 'shortage') {
+    reasonCode = Number(shortageReason);
+    if (!Number.isInteger(reasonCode) || reasonCode < 1 || reasonCode > 5) {
+      return res.status(400).json({ ok: false, err: 'SHORTAGE_REASON_REQUIRED' });
+    }
+    if (shortageReasonDetail) {
+      reasonDetail = String(shortageReasonDetail).slice(0, 200);
+    }
   }
   const task = db.prepare(`SELECT * FROM tasks WHERE id=? AND store_id=?`)
     .get([req.params.id, req.user.storeId]);
@@ -112,14 +124,16 @@ app.post('/v1/tasks/:id/act', authMiddleware, (req, res) => {
   db.prepare(`
     UPDATE tasks
     SET action=?, status=?, operator=?, actual_price=?, substitute_sku=?,
+        shortage_reason=?, shortage_reason_detail=?,
         acted_at=datetime('now','+8 hours'), updated_at=datetime('now','+8 hours')
     WHERE id=?
   `).run([action, nextStatus, req.user.dingId || 'unknown',
          actualPrice || task.suggest_price,
          substituteSku || null,
+         reasonCode, reasonDetail,
          task.id]);
 
-  logEvent(task.id, 'clicked', { action, operator: req.user.dingId, substituteSku, actualPrice });
+  logEvent(task.id, 'clicked', { action, operator: req.user.dingId, substituteSku, actualPrice, shortageReason: reasonCode, shortageReasonDetail: reasonDetail });
   res.json({ ok: true, taskId: task.id, status: nextStatus });
 });
 

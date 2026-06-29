@@ -107,6 +107,10 @@ const migrations = [
   "ALTER TABLE tasks ADD COLUMN source TEXT DEFAULT 'system'",
   'ALTER TABLE tasks ADD COLUMN assigned_by TEXT',
   'ALTER TABLE tasks ADD COLUMN assigned_at TEXT',
+  // === 线下无货原因（v2026.06） ===
+  // shortage_reason: 1=品质不好 2=价格错误 3=暂未到货 4=已停售 5=其他
+  'ALTER TABLE tasks ADD COLUMN shortage_reason INTEGER',
+  'ALTER TABLE tasks ADD COLUMN shortage_reason_detail TEXT',
 ];
 for (const sql of migrations) {
   try { db.exec(sql); } catch (e) {

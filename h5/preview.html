@@ -404,6 +404,102 @@
     text-align: center; font-size: 14px; font-weight: 500;
     backdrop-filter: blur(8px);
   }
+
+  /* === 库存0角标 === */
+  .stock-zero-badge {
+    display: inline-flex; align-items: center; gap: 3px;
+    padding: 2px 8px; border-radius: 10px;
+    font-size: 10px; font-weight: 700;
+    background: var(--warning-light); color: var(--warning);
+    margin-left: 6px; letter-spacing: 0.3px;
+  }
+  .stock-zero-badge::before { content: '⚠'; font-size: 11px; }
+
+  /* === Bottom Drawer (线下无货原因) === */
+  .drawer-mask {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+    z-index: 300; display: none;
+    animation: maskIn 0.2s ease;
+  }
+  .drawer-mask.show { display: block; }
+  @keyframes maskIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .drawer {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(100%);
+    width: 100%; max-width: 414px;
+    background: #fff; border-radius: 16px 16px 0 0;
+    z-index: 310;
+    transition: transform 0.25s ease;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .drawer.show { transform: translateX(-50%) translateY(0); }
+  .drawer-header {
+    padding: 16px 20px 8px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+  .drawer-title { font-size: 16px; font-weight: 700; color: var(--text); }
+  .drawer-subtitle { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .drawer-close {
+    background: transparent; border: 0; font-size: 22px; color: var(--text-muted);
+    line-height: 1; padding: 0 4px; cursor: pointer;
+  }
+  .drawer-body { padding: 8px 0 12px; max-height: 60vh; overflow-y: auto; }
+  .reason-option {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 20px; cursor: pointer;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.1s;
+  }
+  .reason-option:last-of-type { border-bottom: 0; }
+  .reason-option:active { background: var(--bg); }
+  .reason-radio {
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 2px solid #D1D5DB; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .reason-option.selected .reason-radio {
+    border-color: var(--primary);
+  }
+  .reason-option.selected .reason-radio::after {
+    content: ''; width: 10px; height: 10px; border-radius: 50%;
+    background: var(--primary);
+  }
+  .reason-label { font-size: 14px; color: var(--text); }
+  .reason-detail-wrap {
+    padding: 0 20px 4px; display: none;
+  }
+  .reason-detail-wrap.show { display: block; }
+  .reason-detail-wrap textarea {
+    width: 100%; box-sizing: border-box;
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 8px 10px; font-size: 13px; resize: none;
+    font-family: inherit; min-height: 56px;
+    background: var(--bg);
+  }
+  .reason-detail-wrap textarea:focus {
+    outline: none; border-color: var(--primary); background: #fff;
+  }
+  .drawer-footer {
+    padding: 12px 20px;
+    border-top: 1px solid var(--border);
+    display: flex; gap: 10px;
+  }
+  .drawer-footer button {
+    flex: 1; padding: 12px 0; border: 0; border-radius: 10px;
+    font-size: 14px; font-weight: 700;
+    cursor: pointer; transition: opacity 0.15s, transform 0.1s;
+  }
+  .drawer-footer button:active { transform: scale(0.97); }
+  .drawer-footer .btn-cancel {
+    background: var(--bg); color: var(--text-secondary);
+  }
+  .drawer-footer .btn-confirm {
+    background: linear-gradient(135deg, #E84D4D 0%, #F87171 100%); color: #fff;
+  }
+  .drawer-footer .btn-confirm:disabled {
+    opacity: 0.4; pointer-events: none;
+  }
   .hidden { display: none !important; }
 
   /* === Loading shimmer === */
@@ -505,6 +601,47 @@
 
 <div class="toast hidden" id="toast"></div>
 
+<!-- 线下无货原因抽屉 -->
+<div class="drawer-mask" id="reasonMask"></div>
+<div class="drawer" id="reasonDrawer">
+  <div class="drawer-header">
+    <div>
+      <div class="drawer-title">选择线下无货原因</div>
+      <div class="drawer-subtitle" id="reasonSubtitle"></div>
+    </div>
+    <button class="drawer-close" id="reasonCloseBtn">×</button>
+  </div>
+  <div class="drawer-body">
+    <div class="reason-option" data-reason="1">
+      <div class="reason-radio"></div>
+      <div class="reason-label">品质不好</div>
+    </div>
+    <div class="reason-option" data-reason="2">
+      <div class="reason-radio"></div>
+      <div class="reason-label">价格错误</div>
+    </div>
+    <div class="reason-option" data-reason="3">
+      <div class="reason-radio"></div>
+      <div class="reason-label">暂未到货</div>
+    </div>
+    <div class="reason-option" data-reason="4">
+      <div class="reason-radio"></div>
+      <div class="reason-label">已停售</div>
+    </div>
+    <div class="reason-option" data-reason="5">
+      <div class="reason-radio"></div>
+      <div class="reason-label">其他</div>
+    </div>
+    <div class="reason-detail-wrap" id="reasonDetailWrap">
+      <textarea id="reasonDetailText" rows="2" maxlength="200" placeholder="补充说明（选填，最多200字）"></textarea>
+    </div>
+  </div>
+  <div class="drawer-footer">
+    <button class="btn-cancel" id="reasonCancelBtn">取消</button>
+    <button class="btn-confirm" id="reasonConfirmBtn" disabled>确认</button>
+  </div>
+</div>
+
 <script>
 // ============ Config ============
 const _params = new URLSearchParams(location.search);
@@ -535,6 +672,7 @@ let currentTask = null;
 // 多选/分类筛选 state
 let allTasksCache = [];            // 完整任务列表
 let selectedIds = new Set();        // 跨tab保留
+let demoMode = false;               // API不通时自动切换演示模式
 let activeCategory = '__ALL__';     // 默认: 全部
 let multiMode = false;
 
@@ -612,7 +750,25 @@ async function loadList() {
     renderCatTabs();
     renderList();
   } catch (err) {
-    document.getElementById('listContainer').innerHTML = '<p style="color:var(--danger);padding:20px;">网络异常，请刷新</p>';
+    // === Demo fallback: API 不通时用 mock 数据展示完整交互 ===
+    console.warn('[demo] API unreachable, using mock data');
+    demoMode = true;
+    const mockTasks = [
+      { id: 901, sku: 'SKU-6901234001', barcode: '6901234001', item_name: '蒙牛纯甄酸奶200g', category: '乳制品', priority: 'P0', status: 'PENDING', stock: 0, monthly_sales: 86, current_price: 6.9, activity_price: 5.5, store_name: '成山农场·闪购店', image_url: null, source: 'system' },
+      { id: 902, sku: 'SKU-6902345002', barcode: '6902345002', item_name: '海天生抽酱油500ml', category: '粮油调味', priority: 'P1', status: 'PENDING', stock: 3, monthly_sales: 42, current_price: 12.8, activity_price: null, store_name: '成山农场·闪购店', image_url: null, source: 'system' },
+      { id: 903, sku: 'SKU-6903456003', barcode: '6903456003', item_name: '红富士苹果 500g', category: '水果', priority: 'P0', status: 'PENDING', stock: 0, monthly_sales: 128, current_price: 8.9, activity_price: 6.9, store_name: '成山农场·闪购店', image_url: null, source: 'hq_assigned', assigned_by: '总部运营' },
+      { id: 904, sku: 'SKU-6904567004', barcode: '6904567004', item_name: '维达抽纸100抽*6包', category: '日用百货', priority: 'P1', status: 'PENDING', stock: 5, monthly_sales: 35, current_price: 19.9, activity_price: 15.9, store_name: '成山农场·闪购店', image_url: null, source: 'system' },
+      { id: 905, sku: 'SKU-6905678005', barcode: '6905678005', item_name: '三全灌汤小笼包 450g', category: '速冻食品', priority: 'P1', status: 'PENDING', stock: 0, monthly_sales: 67, current_price: 15.5, activity_price: null, store_name: '成山农场·闪购店', image_url: null, source: 'system' },
+    ];
+    document.getElementById('storeName').textContent = '成山农场·闪购店 (演示)';
+    document.getElementById('healthBadge').classList.add('offline');
+    document.getElementById('healthLabel').textContent = '演示模式';
+    const tasks = mockTasks;
+    updateBadgeFromTasks = () => {}; // 演示模式不再刷新badge
+    tasks.forEach(t => { t._bucket = bucketize(t.category); });
+    allTasksCache = tasks;
+    renderCatTabs();
+    renderList();
   }
 }
 
@@ -712,6 +868,7 @@ function renderList() {
       +   '<div class="card-footer">'
       +     '<span class="status-badge s-' + t.status + '">' + labelOf(t.status) + '</span>'
       +     (t.source === 'hq_assigned' ? '<span class="source-hq">总部派</span>' : '')
+      +     (t.status === 'PENDING' && (!t.stock || Number(t.stock) === 0) ? '<span class="stock-zero-badge">库存0</span>' : '')
       +   '</div>'
       +   actionsHtml
       + '</div>'
@@ -813,10 +970,43 @@ function updateBatchBar() {
 async function batchAct(action) {
   if (selectedIds.size === 0) return;
   const ids = Array.from(selectedIds);
-  const verb = action === 'shelf' ? '上架' : '线下缺货';
-  if (!confirm('确认批量' + verb + ' ' + ids.length + ' 件商品？')) return;
 
-  // 禁用按钮
+  if (action === 'shelf') {
+    const zeroCount = ids.filter(id => {
+      const t = allTasksCache.find(x => String(x.id) === String(id));
+      return t && (!t.stock || Number(t.stock) === 0);
+    }).length;
+    let msg = '确认批量上架 ' + ids.length + ' 件商品？';
+    if (zeroCount > 0) {
+      msg += '\n\n其中 ' + zeroCount + ' 件库存为 0，系统将自动补 5 件库存后再上架。';
+    }
+    if (!confirm(msg)) return;
+    await batchSubmit(ids, { action: 'shelf' });
+    return;
+  }
+
+  // shortage: 打开抽屉，统一一个原因
+  openReasonDrawer({
+    subtitle: '将应用于已选 ' + ids.length + ' 件商品',
+    onConfirm: async (reasonCode, reasonDetail) => {
+      const body = { action: 'shortage', shortageReason: reasonCode };
+      if (reasonDetail) body.shortageReasonDetail = reasonDetail;
+      await batchSubmit(ids, body);
+    },
+  });
+}
+
+async function batchSubmit(ids, body) {
+  if (demoMode) {
+    for (const id of ids) {
+      const idx = allTasksCache.findIndex(t => String(t.id) === String(id));
+      if (idx !== -1) allTasksCache[idx].status = (body.action === 'shortage') ? 'SHORTAGE' : 'EXECUTING';
+      selectedIds.delete(id);
+    }
+    toast('✓ 成功 ' + ids.length + ' 件 (演示)');
+    renderCatTabs(); renderList();
+    return;
+  }
   document.getElementById('batchShelfBtn').disabled = true;
   document.getElementById('batchOutBtn').disabled = true;
 
@@ -824,24 +1014,19 @@ async function batchAct(action) {
   for (const id of ids) {
     try {
       const r = await api('/tasks/' + id + '/act', {
-        method: 'POST', body: JSON.stringify({ action })
+        method: 'POST', body: JSON.stringify(body),
       });
       if (r.ok) {
         ok++;
-        // 从缓存移除（已成为终态）
-        const idx = allTasksCache.findIndex(t => t.id === id);
+        const idx = allTasksCache.findIndex(t => String(t.id) === String(id));
         if (idx !== -1) {
-          // 改成最新状态（让 PENDING tab 计数即时减）
-          allTasksCache[idx].status = (action === 'shortage') ? 'SHORTAGE' : 'EXECUTING';
+          allTasksCache[idx].status = (body.action === 'shortage') ? 'SHORTAGE' : 'EXECUTING';
         }
         selectedIds.delete(id);
       } else if (r.err === 'STATE_CONFLICT') {
         conflict++;
-        // 已被处理，按当前状态同步本地缓存
-        const idx = allTasksCache.findIndex(t => t.id === id);
-        if (idx !== -1 && r.current) {
-          allTasksCache[idx].status = r.current;
-        }
+        const idx = allTasksCache.findIndex(t => String(t.id) === String(id));
+        if (idx !== -1 && r.current) allTasksCache[idx].status = r.current;
         selectedIds.delete(id);
       } else {
         fail++;
@@ -858,7 +1043,6 @@ async function batchAct(action) {
   if (conflict > 0) msg += '，已处理过 ' + conflict + ' 件';
   if (fail > 0) msg += '，异常 ' + fail + ' 件';
   toast(msg);
-  // 重新刷一次拿真实状态
   await loadList();
 }
 
@@ -873,48 +1057,103 @@ async function cardAct(btn) {
   const taskId = btn.dataset.id;
   const action = btn.dataset.act;
   const card = btn.closest('.card');
+  const task = allTasksCache.find(t => String(t.id) === String(taskId));
 
-  // Disable buttons
+  if (action === 'shelf') {
+    // 库存=0 时弹确认 toast/window.confirm
+    if (task && (!task.stock || Number(task.stock) === 0)) {
+      if (!confirm('该商品当前线下库存为 0，系统将自动补 5 件库存后再上架。确认继续？')) {
+        return;
+      }
+    }
+    await postShelfAct(card, btn, taskId);
+    return;
+  }
+
+  // shortage: 打开抽屉
+  openReasonDrawer({
+    subtitle: task ? task.item_name : '',
+    onConfirm: async (reasonCode, reasonDetail) => {
+      await postShortageAct(card, btn, taskId, reasonCode, reasonDetail);
+    },
+  });
+}
+
+async function postShelfAct(card, btn, taskId) {
+  if (demoMode) {
+    afterActSuccess(card, taskId, 'shelf');
+    toast('已提交上架 (演示)');
+    return;
+  }
   card.querySelectorAll('.card-actions button').forEach(b => b.disabled = true);
-  btn.textContent = '处理中…';
-
+  if (btn) btn.textContent = '处理中…';
   try {
     const r = await api('/tasks/' + taskId + '/act', {
-      method: 'POST', body: JSON.stringify({ action })
+      method: 'POST', body: JSON.stringify({ action: 'shelf' })
     });
     if (!r.ok) {
       if (r.err === 'STATE_CONFLICT') toast('已被处理（' + labelOf(r.current) + '）');
       else toast('操作失败: ' + r.err);
       card.querySelectorAll('.card-actions button').forEach(b => b.disabled = false);
-      btn.textContent = action === 'shelf' ? '一键上架' : '线下缺货';
+      if (btn) btn.textContent = '一键上架';
       return;
     }
-    // Success: 同步更新本地缓存（避免切 tab 后该品又出现）
-    const idx = allTasksCache.findIndex(t => t.id === taskId);
-    if (idx !== -1) {
-      allTasksCache[idx].status = (action === 'shortage') ? 'SHORTAGE' : 'EXECUTING';
-    }
-    selectedIds.delete(taskId);
-    // Success: slide out
-    toast(action === 'shortage' ? '已标线下缺货' : '已提交上架');
-    card.classList.add('card-slide-out');
-    card.addEventListener('animationend', () => {
-      card.remove();
-      // Check if list is empty
-      const remaining = document.querySelectorAll('#listContainer .card');
-      if (remaining.length === 0) {
-        document.getElementById('emptyState').classList.remove('hidden');
-      }
-      // Update header count
-      const lab = document.getElementById('healthLabel');
-      const cur = parseInt(lab.textContent) || 0;
-      if (cur > 0) lab.textContent = (cur - 1) + ' 件待处理';
-    });
+    afterActSuccess(card, taskId, 'shelf');
+    toast('已提交上架');
   } catch (e) {
     toast('网络异常');
     card.querySelectorAll('.card-actions button').forEach(b => b.disabled = false);
-    btn.textContent = action === 'shelf' ? '一键上架' : '线下缺货';
+    if (btn) btn.textContent = '一键上架';
   }
+}
+
+async function postShortageAct(card, btn, taskId, reasonCode, reasonDetail) {
+  if (demoMode) {
+    afterActSuccess(card, taskId, 'shortage');
+    toast('已标线下缺货 (演示)');
+    return;
+  }
+  card.querySelectorAll('.card-actions button').forEach(b => b.disabled = true);
+  if (btn) btn.textContent = '处理中…';
+  try {
+    const body = { action: 'shortage', shortageReason: reasonCode };
+    if (reasonDetail) body.shortageReasonDetail = reasonDetail;
+    const r = await api('/tasks/' + taskId + '/act', {
+      method: 'POST', body: JSON.stringify(body),
+    });
+    if (!r.ok) {
+      if (r.err === 'STATE_CONFLICT') toast('已被处理（' + labelOf(r.current) + '）');
+      else toast('操作失败: ' + r.err);
+      card.querySelectorAll('.card-actions button').forEach(b => b.disabled = false);
+      if (btn) btn.textContent = '线下缺货';
+      return;
+    }
+    afterActSuccess(card, taskId, 'shortage');
+    toast('已标线下缺货');
+  } catch (e) {
+    toast('网络异常');
+    card.querySelectorAll('.card-actions button').forEach(b => b.disabled = false);
+    if (btn) btn.textContent = '线下缺货';
+  }
+}
+
+function afterActSuccess(card, taskId, action) {
+  const idx = allTasksCache.findIndex(t => String(t.id) === String(taskId));
+  if (idx !== -1) {
+    allTasksCache[idx].status = (action === 'shortage') ? 'SHORTAGE' : 'EXECUTING';
+  }
+  selectedIds.delete(taskId);
+  card.classList.add('card-slide-out');
+  card.addEventListener('animationend', () => {
+    card.remove();
+    const remaining = document.querySelectorAll('#listContainer .card');
+    if (remaining.length === 0) {
+      document.getElementById('emptyState').classList.remove('hidden');
+    }
+    const lab = document.getElementById('healthLabel');
+    const cur = parseInt(lab.textContent) || 0;
+    if (cur > 0) lab.textContent = (cur - 1) + ' 件待处理';
+  });
 }
 
 function labelOf(s) {
@@ -932,7 +1171,13 @@ async function showDetail(id) {
   document.body.classList.add('detail-view');
   currentView = 'detail';
 
-  const data = await api(`/tasks/${id}`);
+  let data;
+  if (demoMode) {
+    const task = allTasksCache.find(t => String(t.id) === String(id));
+    data = task ? { ok: true, task, substitutes: [] } : { ok: false, err: 'NOT_FOUND' };
+  } else {
+    data = await api(`/tasks/${id}`);
+  }
   if (!data.ok) { toast(`加载失败: ${data.err}`); return; }
   const t = data.task; currentTask = t;
 
@@ -995,6 +1240,15 @@ async function showDetail(id) {
 // ============ Actions ============
 async function act(action, body = {}) {
   if (!currentTask) return;
+  if (demoMode) {
+    const idx = allTasksCache.findIndex(t => t.id === currentTask.id);
+    if (idx !== -1) allTasksCache[idx].status = (action === 'shortage') ? 'SHORTAGE' : 'EXECUTING';
+    selectedIds.delete(currentTask.id);
+    if (action === 'shortage') { toast('已标线下缺货 (演示)'); setTimeout(backToList, 800); return; }
+    toast('✓ 操作已提交 (演示)');
+    setTimeout(backToList, 1000);
+    return;
+  }
   const r = await api(`/tasks/${currentTask.id}/act`, {
     method: 'POST', body: JSON.stringify({ action, ...body })
   });
@@ -1016,8 +1270,24 @@ async function act(action, body = {}) {
 
 function actSubstitute(sku, price) { act('substitute', { substituteSku: sku }); }
 
-document.getElementById('btnShelf').onclick = () => act('shelf');
-document.getElementById('btnOut').onclick = () => { if (confirm('确认标记为线下缺货？')) act('shortage'); };
+document.getElementById('btnShelf').onclick = () => {
+  if (!currentTask) return;
+  if (!currentTask.stock || Number(currentTask.stock) === 0) {
+    if (!confirm('该商品当前线下库存为 0，系统将自动补 5 件库存后再上架。确认继续？')) return;
+  }
+  act('shelf');
+};
+document.getElementById('btnOut').onclick = () => {
+  if (!currentTask) return;
+  openReasonDrawer({
+    subtitle: currentTask.item_name || '',
+    onConfirm: (reasonCode, reasonDetail) => {
+      const body = { shortageReason: reasonCode };
+      if (reasonDetail) body.shortageReasonDetail = reasonDetail;
+      act('shortage', body);
+    },
+  });
+};
 
 // ============ Navigation ============
 function backToList() {
@@ -1027,7 +1297,8 @@ function backToList() {
   document.getElementById('pageTitle').textContent = '缺货补品';
   document.body.classList.remove('detail-view');
   currentView = 'list'; currentTask = null;
-  loadList(); tickHealth();
+  if (demoMode) { renderCatTabs(); renderList(); }
+  else { loadList(); tickHealth(); }
 }
 document.getElementById('backBtn').onclick = backToList;
 document.getElementById('refreshBtn').onclick = () => {
@@ -1035,6 +1306,51 @@ document.getElementById('refreshBtn').onclick = () => {
   else if (currentTask) showDetail(currentTask.id);
   tickHealth();
 };
+
+// ============ Reason Drawer ============
+const reasonState = { code: null, detail: '', onConfirm: null };
+function openReasonDrawer({ subtitle, onConfirm }) {
+  reasonState.code = null;
+  reasonState.detail = '';
+  reasonState.onConfirm = onConfirm;
+  document.getElementById('reasonSubtitle').textContent = subtitle || '';
+  document.getElementById('reasonDetailText').value = '';
+  document.getElementById('reasonDetailWrap').classList.remove('show');
+  document.querySelectorAll('.reason-option').forEach(el => el.classList.remove('selected'));
+  document.getElementById('reasonConfirmBtn').disabled = true;
+  document.getElementById('reasonMask').classList.add('show');
+  document.getElementById('reasonDrawer').classList.add('show');
+}
+function closeReasonDrawer() {
+  document.getElementById('reasonMask').classList.remove('show');
+  document.getElementById('reasonDrawer').classList.remove('show');
+  reasonState.onConfirm = null;
+}
+document.querySelectorAll('.reason-option').forEach(el => {
+  el.onclick = () => {
+    const code = Number(el.dataset.reason);
+    reasonState.code = code;
+    document.querySelectorAll('.reason-option').forEach(x => x.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('reasonDetailWrap').classList.toggle('show', code === 5);
+    document.getElementById('reasonConfirmBtn').disabled = false;
+  };
+});
+document.getElementById('reasonCloseBtn').onclick = closeReasonDrawer;
+document.getElementById('reasonCancelBtn').onclick = closeReasonDrawer;
+document.getElementById('reasonMask').onclick = closeReasonDrawer;
+document.getElementById('reasonConfirmBtn').onclick = () => {
+  if (!reasonState.code) return;
+  const detail = (document.getElementById('reasonDetailText').value || '').trim();
+  const cb = reasonState.onConfirm;
+  closeReasonDrawer();
+  if (cb) cb(reasonState.code, detail || null);
+};
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && document.getElementById('reasonDrawer').classList.contains('show')) {
+    closeReasonDrawer();
+  }
+});
 
 // ============ Boot ============
 tickHealth();
