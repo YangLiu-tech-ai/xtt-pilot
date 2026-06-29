@@ -159,6 +159,151 @@
     pointer-events: none;
   }
 
+  /* === Multi-select bar === */
+  .multi-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    background: #fff; padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 90;
+  }
+  .multi-toggle {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--text-secondary); cursor: pointer;
+    user-select: none;
+  }
+  .multi-toggle .switch {
+    width: 36px; height: 20px; border-radius: 20px; background: #E5E7EB;
+    position: relative; transition: background 0.2s;
+  }
+  .multi-toggle .switch::after {
+    content: ''; position: absolute; top: 2px; left: 2px;
+    width: 16px; height: 16px; border-radius: 50%; background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2); transition: transform 0.2s;
+  }
+  body.multi-mode .multi-toggle .switch { background: var(--primary); }
+  body.multi-mode .multi-toggle .switch::after { transform: translateX(16px); }
+  .select-all-btn {
+    background: var(--primary-light); color: var(--primary);
+    border: 0; padding: 6px 14px; border-radius: 16px;
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    display: none;
+  }
+  body.multi-mode .select-all-btn { display: inline-block; }
+  body.multi-mode .select-all-btn.all-selected {
+    background: var(--primary); color: #fff;
+  }
+
+  /* === Category Tabs === */
+  .cat-tabs {
+    display: flex; gap: 8px; overflow-x: auto; padding: 10px 16px;
+    background: #fff; border-bottom: 1px solid var(--border);
+    position: sticky; top: 41px; z-index: 89;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .cat-tabs::-webkit-scrollbar { display: none; }
+  .cat-tab {
+    flex-shrink: 0; padding: 6px 14px; border-radius: 16px;
+    background: #F3F4F6; color: var(--text-secondary);
+    font-size: 12px; font-weight: 500;
+    border: 0; cursor: pointer; white-space: nowrap;
+    transition: background 0.15s, color 0.15s;
+  }
+  .cat-tab.active {
+    background: var(--primary); color: #fff; font-weight: 600;
+  }
+  .cat-tab .count {
+    margin-left: 4px; opacity: 0.8; font-size: 11px;
+  }
+
+  /* === Card checkbox === */
+  .card-checkbox {
+    display: none;
+    align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 50%;
+    border: 2px solid #D1D5DB; background: #fff;
+    flex-shrink: 0; margin-right: -4px;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  body.multi-mode .card-checkbox { display: flex; }
+  .card-checkbox::after {
+    content: ''; width: 10px; height: 6px;
+    border-left: 2px solid #fff; border-bottom: 2px solid #fff;
+    transform: rotate(-45deg) translate(1px, -1px);
+    opacity: 0;
+  }
+  .card.selected .card-checkbox {
+    background: var(--primary); border-color: var(--primary);
+  }
+  .card.selected .card-checkbox::after { opacity: 1; }
+  .card.selected {
+    background: var(--primary-light);
+    box-shadow: inset 3px 0 0 var(--primary), var(--shadow);
+  }
+  body.multi-mode .card-actions { display: none; }
+  body.multi-mode .card-clickable { pointer-events: none; }
+
+  /* === Bottom batch bar === */
+  .batch-bar {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(100%);
+    width: 100%; max-width: 414px; background: #fff;
+    padding: 12px 16px;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    display: flex; align-items: center; gap: 10px;
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+    z-index: 200; transition: transform 0.25s ease;
+  }
+  .batch-bar.show { transform: translateX(-50%) translateY(0); }
+  .batch-bar .selected-count {
+    font-size: 13px; color: var(--text); font-weight: 600;
+    flex-shrink: 0;
+  }
+  .batch-bar .selected-count em {
+    color: var(--primary); font-style: normal; font-size: 15px;
+    font-weight: 700; margin: 0 2px;
+  }
+  .batch-bar button {
+    flex: 1; padding: 11px 0; border: 0; border-radius: 10px;
+    font-size: 13px; font-weight: 700; color: #fff;
+    transition: transform 0.1s, opacity 0.15s;
+    cursor: pointer;
+  }
+  .batch-bar button:active { transform: scale(0.96); }
+  .batch-bar button:disabled { opacity: 0.5; pointer-events: none; }
+  .batch-bar .btn-batch-shelf {
+    background: linear-gradient(135deg, #2DB87B 0%, #34D399 100%);
+  }
+  .batch-bar .btn-batch-out {
+    background: #fff; color: var(--danger);
+    border: 1.5px solid var(--danger);
+  }
+
+  /* === Filter bar visibility === */
+  #filterBar { background: #fff; border-bottom: 1px solid var(--border); }
+  body.detail-view #filterBar { display: none; }
+
+  /* === Card checkbox (覆盖兜底，多选模式显示) === */
+  .card-checkbox {
+    display: none;
+    width: 22px; height: 22px; border-radius: 50%;
+    border: 2px solid #D1D5DB; background: #fff;
+    flex-shrink: 0; align-self: center;
+    align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  body.multi-mode .card-checkbox { display: flex; }
+  .card-checkbox.checked {
+    background: var(--primary); border-color: var(--primary);
+  }
+  .card-checkbox.checked::after {
+    content: ''; width: 6px; height: 10px;
+    border: solid #fff; border-width: 0 2px 2px 0;
+    transform: rotate(45deg) translate(-1px, -1px);
+  }
+
+  /* 列表底部留出 batch-bar 高度 */
+  body.multi-mode #listView { padding-bottom: 80px; }
+
   .empty {
     text-align: center; padding: 100px 20px; color: var(--text-muted);
   }
@@ -271,6 +416,18 @@
   </div>
 </div>
 
+<!-- Filter bar (multi-select toggle + category tabs) -->
+<div id="filterBar">
+  <div class="multi-bar">
+    <div class="multi-toggle" id="multiToggleBtn" role="switch" aria-checked="false">
+      <span>多选</span>
+      <div class="switch"></div>
+    </div>
+    <button class="select-all-btn" id="selectAllBtn">全选当前</button>
+  </div>
+  <div class="cat-tabs" id="catTabs"></div>
+</div>
+
 <!-- LIST view -->
 <div id="listView" class="list">
   <div id="listContainer">
@@ -282,6 +439,13 @@
     <div class="empty-icon">🎉</div>
     <div class="empty-text">全部完成，太棒了！</div>
   </div>
+</div>
+
+<!-- Batch action bar (multi-mode floating) -->
+<div class="batch-bar" id="batchBar">
+  <div class="selected-count">已选 <em id="batchCount">0</em> 件</div>
+  <button class="btn-batch-out" id="batchOutBtn">线下无货</button>
+  <button class="btn-batch-shelf" id="batchShelfBtn">一键上架</button>
 </div>
 
 <!-- DETAIL view -->
@@ -346,6 +510,41 @@ function fmtPrice(n) { return n ? '¥' + Number(n).toFixed(1) : '-'; }
 let currentView = 'list';
 let currentTask = null;
 
+// 多选/分类筛选 state
+let allTasksCache = [];            // 完整任务列表
+let selectedIds = new Set();        // 跨tab保留
+let activeCategory = '__ALL__';     // 默认: 全部
+let multiMode = false;
+
+// ============ Category mapping ============
+// SQL CASE 映射 → 11 大类 + fallback "12日杂百货"
+const CATEGORY_ORDER = [
+  '01蔬菜豆制品', '02肉禽蛋类', '03水果', '04水产',
+  '05_3R', '06休食便利', '07冲调滋补', '08粮油调味',
+  '09酒水饮料', '10乳品冻品', '11个护家清', '12日杂百货'
+];
+const CATEGORY_MAP = {
+  '蔬菜': '01蔬菜豆制品', '豆制品': '01蔬菜豆制品',
+  '肉禽蛋类': '02肉禽蛋类', '肉禽蛋': '02肉禽蛋类',
+  '水果': '03水果',
+  '水产': '04水产',
+  '半成品食材': '05_3R', '鲜食': '05_3R', '熟食': '05_3R', '鲜食/熟食': '05_3R',
+  '便利食品': '06休食便利', '休闲食品': '06休食便利',
+  '冲调': '07冲调滋补', '滋补保健': '07冲调滋补', '冲调滋补': '07冲调滋补',
+  '调味品': '08粮油调味', '粮油米面': '08粮油调味', '粮油调味': '08粮油调味',
+  '酒': '09酒水饮料', '饮料': '09酒水饮料', '酒水饮料': '09酒水饮料',
+  '冷冻食品': '10乳品冻品', '乳制品': '10乳品冻品', '乳品冻品': '10乳品冻品',
+  '个护清洁': '11个护家清', '家庭清洁': '11个护家清', '个护家清': '11个护家清',
+};
+function bucketize(category) {
+  if (!category) return '12日杂百货';
+  // 用 category 字符串包含匹配 - 支持 "蔬菜/绿叶菜" 这种带层级的 category
+  for (const key of Object.keys(CATEGORY_MAP)) {
+    if (category.indexOf(key) !== -1) return CATEGORY_MAP[key];
+  }
+  return '12日杂百货';
+}
+
 // ============ Health ============
 async function tickHealth() {
   try {
@@ -372,7 +571,6 @@ async function loadList() {
   try {
     const data = await api('/tasks');
     const c = document.getElementById('listContainer');
-    const e = document.getElementById('emptyState');
     if (!data.ok) { c.innerHTML = '<p style="color:var(--danger);padding:20px;">加载失败: ' + data.err + '</p>'; return; }
 
     const tasks = data.tasks || [];
@@ -381,73 +579,259 @@ async function loadList() {
     }
     updateBadgeFromTasks(tasks);
 
-    e.classList.toggle('hidden', tasks.length > 0);
-    c.innerHTML = tasks.map(t => {
-      let imgHtml;
-      if (t.image_url) {
-        imgHtml = '<img class="card-img card-clickable" src="' + t.image_url + '" data-detail="' + t.id + '">';
-      } else {
-        imgHtml = '<div class="card-img-placeholder card-clickable" data-detail="' + t.id + '">' + placeholderSvg + '</div>';
-      }
+    // 预计算 bucket
+    tasks.forEach(t => { t._bucket = bucketize(t.category); });
+    allTasksCache = tasks;
 
-      const monthlySales = t.monthly_sales || t.yesterday_sales || 0;
-      const currentPrice = t.current_price || t.suggest_price || 0;
-      const activityPrice = t.activity_price;
+    // 清理已不存在的 selectedIds
+    const validIds = new Set(tasks.map(t => t.id));
+    selectedIds.forEach(id => { if (!validIds.has(id)) selectedIds.delete(id); });
 
-      let priceHtml;
-      if (activityPrice) {
-        priceHtml = '<span class="price-current has-activity">' + fmtPrice(currentPrice) + '</span>'
-          + '<span class="price-activity"><span class="price-activity-label">活动</span>' + fmtPrice(activityPrice) + '</span>';
-      } else {
-        priceHtml = '<span class="price-current">' + fmtPrice(currentPrice) + '</span>';
-      }
-
-      // Action buttons only for PENDING
-      let actionsHtml = '';
-      if (t.status === 'PENDING') {
-        actionsHtml = '<div class="card-actions">'
-          + '<button class="btn-act-shelf" data-act="shelf" data-id="' + t.id + '">一键上架</button>'
-          + '<button class="btn-act-out" data-act="shortage" data-id="' + t.id + '">标缺货</button>'
-          + '</div>';
-      }
-
-      return '<div class="card" data-id="' + t.id + '">'
-        + imgHtml
-        + '<div class="card-body">'
-        +   '<div class="card-clickable" data-detail="' + t.id + '">'
-        +     '<div class="card-name">' + t.item_name + '</div>'
-        +   '</div>'
-        +   '<div class="card-metrics">'
-        +     '<div class="metric-item">'
-        +       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>'
-        +       '<span>月售 <span class="metric-value">' + monthlySales + '</span></span>'
-        +     '</div>'
-        +     '<div class="metric-item">'
-        +       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>'
-        +       '<span>库存 <span class="metric-value">' + t.stock + '</span></span>'
-        +     '</div>'
-        +   '</div>'
-        +   '<div class="card-price-row">' + priceHtml + '</div>'
-        +   '<div class="card-footer">'
-        +     '<span class="status-badge s-' + t.status + '">' + labelOf(t.status) + '</span>'
-        +   '</div>'
-        +   actionsHtml
-        + '</div>'
-        + '</div>';
-    }).join('');
-
-    // Bind detail clicks (image + name only)
-    c.querySelectorAll('.card-clickable').forEach(el => {
-      el.onclick = (ev) => { ev.stopPropagation(); showDetail(el.dataset.detail); };
-    });
-    // Bind inline action buttons
-    c.querySelectorAll('.card-actions button').forEach(btn => {
-      btn.onclick = (ev) => { ev.stopPropagation(); cardAct(btn); };
-    });
+    renderCatTabs();
+    renderList();
   } catch (err) {
     document.getElementById('listContainer').innerHTML = '<p style="color:var(--danger);padding:20px;">网络异常，请刷新</p>';
   }
 }
+
+function renderCatTabs() {
+  const tabs = document.getElementById('catTabs');
+  // 仅展示有数据的大类（含 PENDING 的优先），但按 CATEGORY_ORDER 固定顺序
+  const counts = {};
+  allTasksCache.forEach(t => {
+    if (t.status !== 'PENDING') return;  // 仅统计待办
+    counts[t._bucket] = (counts[t._bucket] || 0) + 1;
+  });
+  const totalPending = Object.values(counts).reduce((a,b)=>a+b, 0);
+  const buckets = CATEGORY_ORDER.filter(b => counts[b] > 0);
+
+  let html = '<div class="cat-tab ' + (activeCategory === '__ALL__' ? 'active' : '') + '" data-cat="__ALL__">全部 ' + totalPending + '</div>';
+  buckets.forEach(b => {
+    const shortName = b.replace(/^\d+_?/, '');  // 去前缀数字
+    html += '<div class="cat-tab ' + (activeCategory === b ? 'active' : '') + '" data-cat="' + b + '">' + shortName + ' ' + counts[b] + '</div>';
+  });
+  tabs.innerHTML = html;
+
+  tabs.querySelectorAll('.cat-tab').forEach(el => {
+    el.onclick = () => {
+      activeCategory = el.dataset.cat;
+      renderCatTabs();
+      renderList();
+    };
+  });
+}
+
+function renderList() {
+  const c = document.getElementById('listContainer');
+  const e = document.getElementById('emptyState');
+
+  const tasks = allTasksCache.filter(t => {
+    if (activeCategory === '__ALL__') return true;
+    return t._bucket === activeCategory;
+  });
+
+  e.classList.toggle('hidden', tasks.length > 0);
+  c.innerHTML = tasks.map(t => {
+    let imgHtml;
+    if (t.image_url) {
+      imgHtml = '<img class="card-img card-clickable" src="' + t.image_url + '" data-detail="' + t.id + '">';
+    } else {
+      imgHtml = '<div class="card-img-placeholder card-clickable" data-detail="' + t.id + '">' + placeholderSvg + '</div>';
+    }
+
+    const monthlySales = t.monthly_sales || t.yesterday_sales || 0;
+    const currentPrice = t.current_price || t.suggest_price || 0;
+    const activityPrice = t.activity_price;
+
+    let priceHtml;
+    if (activityPrice) {
+      priceHtml = '<span class="price-current has-activity">' + fmtPrice(currentPrice) + '</span>'
+        + '<span class="price-activity"><span class="price-activity-label">活动</span>' + fmtPrice(activityPrice) + '</span>';
+    } else {
+      priceHtml = '<span class="price-current">' + fmtPrice(currentPrice) + '</span>';
+    }
+
+    // Action buttons only for PENDING
+    let actionsHtml = '';
+    if (t.status === 'PENDING') {
+      actionsHtml = '<div class="card-actions">'
+        + '<button class="btn-act-shelf" data-act="shelf" data-id="' + t.id + '">一键上架</button>'
+        + '<button class="btn-act-out" data-act="shortage" data-id="' + t.id + '">标缺货</button>'
+        + '</div>';
+    }
+
+    // checkbox 只对 PENDING 可选
+    const isChecked = selectedIds.has(t.id);
+    const cbCls = 'card-checkbox' + (isChecked ? ' checked' : '');
+    const cardCls = 'card' + (isChecked && multiMode ? ' selected' : '');
+    const cbHtml = (t.status === 'PENDING')
+      ? '<div class="' + cbCls + '" data-select="' + t.id + '"></div>'
+      : '<div class="card-checkbox" style="opacity:0.3;pointer-events:none;"></div>';
+
+    return '<div class="' + cardCls + '" data-id="' + t.id + '">'
+      + cbHtml
+      + imgHtml
+      + '<div class="card-body">'
+      +   '<div class="card-clickable" data-detail="' + t.id + '">'
+      +     '<div class="card-name">' + t.item_name + '</div>'
+      +   '</div>'
+      +   '<div class="card-metrics">'
+      +     '<div class="metric-item">'
+      +       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>'
+      +       '<span>月售 <span class="metric-value">' + monthlySales + '</span></span>'
+      +     '</div>'
+      +     '<div class="metric-item">'
+      +       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>'
+      +       '<span>库存 <span class="metric-value">' + t.stock + '</span></span>'
+      +     '</div>'
+      +   '</div>'
+      +   '<div class="card-price-row">' + priceHtml + '</div>'
+      +   '<div class="card-footer">'
+      +     '<span class="status-badge s-' + t.status + '">' + labelOf(t.status) + '</span>'
+      +   '</div>'
+      +   actionsHtml
+      + '</div>'
+      + '</div>';
+  }).join('');
+
+  // Bind detail clicks (image + name only)
+  c.querySelectorAll('.card-clickable').forEach(el => {
+    el.onclick = (ev) => {
+      ev.stopPropagation();
+      if (multiMode) {
+        // 多选模式下整卡区域都用于选中
+        const card = el.closest('.card');
+        const id = card && card.dataset.id;
+        if (id && selectedIds.size >= 0) toggleSelect(id);
+        return;
+      }
+      showDetail(el.dataset.detail);
+    };
+  });
+  // Bind checkbox
+  c.querySelectorAll('[data-select]').forEach(el => {
+    el.onclick = (ev) => { ev.stopPropagation(); toggleSelect(el.dataset.select); };
+  });
+  // 整卡点击（多选模式下）
+  c.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', (ev) => {
+      if (!multiMode) return;
+      const id = card.dataset.id;
+      // 仅 PENDING 可勾
+      const t = allTasksCache.find(x => x.id === id);
+      if (t && t.status === 'PENDING') toggleSelect(id);
+    });
+  });
+  // Bind inline action buttons
+  c.querySelectorAll('.card-actions button').forEach(btn => {
+    btn.onclick = (ev) => { ev.stopPropagation(); cardAct(btn); };
+  });
+
+  updateBatchBar();
+}
+
+// ============ Multi-select ============
+function toggleMultiMode(on) {
+  multiMode = (on === undefined) ? !multiMode : on;
+  document.body.classList.toggle('multi-mode', multiMode);
+  document.getElementById('multiToggleBtn').setAttribute('aria-checked', multiMode);
+  if (!multiMode) selectedIds.clear();
+  renderList();
+}
+
+function toggleSelect(id) {
+  if (selectedIds.has(id)) selectedIds.delete(id);
+  else selectedIds.add(id);
+  // 局部更新避免整列表重绘
+  const card = document.querySelector('.card[data-id="' + id + '"]');
+  if (card) {
+    const cb = card.querySelector('.card-checkbox');
+    const checked = selectedIds.has(id);
+    if (cb) cb.classList.toggle('checked', checked);
+    card.classList.toggle('selected', checked && multiMode);
+  }
+  updateBatchBar();
+}
+
+function selectAllVisible() {
+  const visiblePending = allTasksCache.filter(t => {
+    if (t.status !== 'PENDING') return false;
+    if (activeCategory === '__ALL__') return true;
+    return t._bucket === activeCategory;
+  });
+  const allSel = visiblePending.every(t => selectedIds.has(t.id));
+  if (allSel) {
+    // 全选状态 → 取消当前可见
+    visiblePending.forEach(t => selectedIds.delete(t.id));
+  } else {
+    visiblePending.forEach(t => selectedIds.add(t.id));
+  }
+  renderList();
+}
+
+function updateBatchBar() {
+  const bar = document.getElementById('batchBar');
+  const cnt = document.getElementById('batchCount');
+  const n = selectedIds.size;
+  cnt.textContent = n;
+  bar.classList.toggle('show', multiMode && n > 0);
+  // 更新全选按钮文案
+  const btn = document.getElementById('selectAllBtn');
+  const visiblePending = allTasksCache.filter(t => {
+    if (t.status !== 'PENDING') return false;
+    if (activeCategory === '__ALL__') return true;
+    return t._bucket === activeCategory;
+  });
+  const allSel = visiblePending.length > 0 && visiblePending.every(t => selectedIds.has(t.id));
+  btn.textContent = allSel ? '取消全选' : '全选当前';
+}
+
+async function batchAct(action) {
+  if (selectedIds.size === 0) return;
+  const ids = Array.from(selectedIds);
+  const verb = action === 'shelf' ? '上架' : '标记线下无货';
+  if (!confirm('确认批量' + verb + ' ' + ids.length + ' 件商品？')) return;
+
+  // 禁用按钮
+  document.getElementById('batchShelfBtn').disabled = true;
+  document.getElementById('batchOutBtn').disabled = true;
+
+  let ok = 0, fail = 0;
+  for (const id of ids) {
+    try {
+      const r = await api('/tasks/' + id + '/act', {
+        method: 'POST', body: JSON.stringify({ action })
+      });
+      if (r.ok) {
+        ok++;
+        // 从缓存移除（已成为终态）
+        const idx = allTasksCache.findIndex(t => t.id === id);
+        if (idx !== -1) {
+          // 改成最新状态（让 PENDING tab 计数即时减）
+          allTasksCache[idx].status = (action === 'shortage') ? 'SHORTAGE' : 'EXECUTING';
+        }
+        selectedIds.delete(id);
+      } else {
+        fail++;
+      }
+    } catch (e) {
+      fail++;
+    }
+  }
+
+  document.getElementById('batchShelfBtn').disabled = false;
+  document.getElementById('batchOutBtn').disabled = false;
+
+  toast('✓ 成功 ' + ok + ' 件' + (fail > 0 ? '，失败 ' + fail + ' 件' : ''));
+  // 重新刷一次拿真实状态
+  await loadList();
+}
+
+// 按钮绑定
+document.getElementById('multiToggleBtn').onclick = () => toggleMultiMode();
+document.getElementById('selectAllBtn').onclick = (e) => { e.stopPropagation(); selectAllVisible(); };
+document.getElementById('batchShelfBtn').onclick = () => batchAct('shelf');
+document.getElementById('batchOutBtn').onclick = () => batchAct('shortage');
 
 // ============ Card Inline Action ============
 async function cardAct(btn) {
@@ -504,6 +888,7 @@ async function showDetail(id) {
   document.getElementById('detailView').classList.remove('hidden');
   document.getElementById('backBtn').classList.remove('hidden');
   document.getElementById('pageTitle').textContent = '任务详情';
+  document.body.classList.add('detail-view');
   currentView = 'detail';
 
   const data = await api(`/tasks/${id}`);
@@ -571,6 +956,7 @@ function backToList() {
   document.getElementById('listView').classList.remove('hidden');
   document.getElementById('backBtn').classList.add('hidden');
   document.getElementById('pageTitle').textContent = '缺货补品';
+  document.body.classList.remove('detail-view');
   currentView = 'list'; currentTask = null;
   loadList(); tickHealth();
 }
