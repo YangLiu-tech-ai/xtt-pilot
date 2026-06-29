@@ -5,8 +5,7 @@ services:
     plan: free
     buildCommand: |
       echo "BUILD $(date) $(git rev-parse --short HEAD)" &&
-      cd backend && npm install --production && cd .. &&
-      cd hq-h5 && npm install --no-audit --no-fund && npm run build:all && cd ..
+      cd backend && npm install --production && cd ..
     startCommand: node render-start.js
     envVars:
       - key: NODE_ENV
