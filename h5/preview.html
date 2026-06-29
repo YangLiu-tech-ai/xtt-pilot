@@ -280,7 +280,7 @@
   </div>
   <div class="empty hidden" id="emptyState">
     <div class="empty-icon">🎉</div>
-    <div class="empty-text">全部在架，太棒了！</div>
+    <div class="empty-text">全部完成，太棒了！</div>
   </div>
 </div>
 
@@ -349,17 +349,19 @@ let currentTask = null;
 // ============ Health ============
 async function tickHealth() {
   try {
-    const h = await api('/health');
-    const badge = document.getElementById('healthBadge');
-    const lab = document.getElementById('healthLabel');
-    badge.classList.remove('offline');
-    const pending = (h.stats || []).find(s => s.status === 'PENDING')?.n || 0;
-    const executing = (h.stats || []).find(s => s.status === 'EXECUTING')?.n || 0;
-    lab.textContent = `${pending + executing}单待办`;
+    await api('/health');
+    document.getElementById('healthBadge').classList.remove('offline');
   } catch (e) {
     document.getElementById('healthBadge').classList.add('offline');
     document.getElementById('healthLabel').textContent = '离线';
   }
+}
+function updateBadgeFromTasks(tasks) {
+  const badge = document.getElementById('healthBadge');
+  const lab = document.getElementById('healthLabel');
+  if (badge.classList.contains('offline')) return;
+  const pendingLocal = tasks.filter(t => t.status === 'PENDING' || t.status === 'EXECUTING').length;
+  lab.textContent = `${pendingLocal} 件待处理`;
 }
 setInterval(tickHealth, 10000);
 
@@ -377,6 +379,7 @@ async function loadList() {
     if (tasks.length > 0 && tasks[0].store_name) {
       document.getElementById('storeName').textContent = tasks[0].store_name;
     }
+    updateBadgeFromTasks(tasks);
 
     e.classList.toggle('hidden', tasks.length > 0);
     c.innerHTML = tasks.map(t => {
@@ -480,7 +483,7 @@ async function cardAct(btn) {
       // Update header count
       const lab = document.getElementById('healthLabel');
       const cur = parseInt(lab.textContent) || 0;
-      if (cur > 0) lab.textContent = (cur - 1) + '单待办';
+      if (cur > 0) lab.textContent = (cur - 1) + ' 件待处理';
     });
   } catch (e) {
     toast('网络异常');
