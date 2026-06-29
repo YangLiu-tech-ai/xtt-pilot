@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-color: #16a34a;
+  --brand-light: #86efac;
+  --brand-bg: #f0fdf4;
+}
+
+html, body, #root {
+  height: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #0f172a;
+}
+
+/* 通用品牌色工具类（绕过 Tailwind JIT 对 var() 颜色函数的限制） */
+.bg-brand    { background-color: var(--brand-color); }
+.bg-brand-bg { background-color: var(--brand-bg); }
+.text-brand  { color: var(--brand-color); }
+.border-brand{ border-color: var(--brand-color); }
+.ring-brand  { --tw-ring-color: var(--brand-color); }
+
+/* 红/橙/绿数据色（保持中性，便于跨品牌一致解读） */
+.dot-red    { background: #ef4444; }
+.dot-orange { background: #f97316; }
+.dot-green  { background: #22c55e; }
+.dot-gray   { background: #94a3b8; }

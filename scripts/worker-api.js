@@ -100,6 +100,31 @@ async function onSale(token, storeSkuId) {
   return r.data;
 }
 
+// 查询并补充线下库存（offlineStock=0 时补到 DEFAULT_OFFLINE_STOCK）
+const DEFAULT_OFFLINE_STOCK = 5;
+async function ensureOfflineStock(token, barcode, shopId) {
+  // 1. 查询当前库存
+  const qUrl = `${WHALE_BASE_URL}/api/web/gms/b2c/store-goods/stocks/page?size=20&current=1&isSkuCodeFuzzy=0&isBarcodeFuzzy=0&barcode=${encodeURIComponent(barcode)}&organizationIds=${encodeURIComponent(shopId)}`;
+  const q = await request(qUrl, { method: 'GET', headers: { 'Authorization': `Bearer ${token}` } });
+  if (!q.data || q.data.code !== 0) throw new Error(`查询库存失败: ${JSON.stringify(q.data)}`);
+  const rec = (q.data.data?.records || [])[0];
+  if (!rec) return { skipped: true, reason: 'stock record not found' };
+  const stock = (rec.storeSkuStockList || [])[0];
+  if (!stock) return { skipped: true, reason: 'sku stock not found' };
+
+  const current = Number(stock.offlineStock) || 0;
+  if (current >= DEFAULT_OFFLINE_STOCK) {
+    return { skipped: true, reason: 'sufficient', current };
+  }
+
+  // 2. 补库存
+  const pUrl = `${WHALE_BASE_URL}/api/web/gms/b2c/store-goods/stocks/store-sku/stocks`;
+  const p = await request(pUrl, { method: 'PUT', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' } },
+    JSON.stringify({ id: stock.id, offlineStock: String(DEFAULT_OFFLINE_STOCK) }));
+  if (p.data?.code !== 0) throw new Error(`补库存失败: ${JSON.stringify(p.data)}`);
+  return { ok: true, from: current, to: DEFAULT_OFFLINE_STOCK, stockId: stock.id };
+}
+
 // === Render API ===
 async function claimTasks() {
   const url = `${RENDER_API}/v1/internal/worker/claim`;
@@ -137,7 +162,15 @@ async function processTask(task, token) {
     return { ok: true, skipped: true, reason: 'already_on_sale' };
   }
 
-  // 直接上架（不改价）
+  // 先补线下库存（offlineStock=0 时无法真正上架）
+  const stockResult = await ensureOfflineStock(token, barcode, WHALE_SHOP_ID);
+  if (stockResult.ok) {
+    console.log(`[worker] task#${id} stock seeded: ${stockResult.from} → ${stockResult.to}`);
+  } else if (stockResult.skipped) {
+    console.log(`[worker] task#${id} stock skipped: ${stockResult.reason}${stockResult.current!=null?' ('+stockResult.current+')':''}`);
+  }
+
+  // 上架（不改价）
   await onSale(token, sku.storeSkuId);
   console.log(`[worker] task#${id} on-sale ✓`);
 

@@ -103,11 +103,45 @@ const migrations = [
   'ALTER TABLE tasks ADD COLUMN monthly_sales INTEGER DEFAULT 0',
   'ALTER TABLE tasks ADD COLUMN current_price REAL',
   'ALTER TABLE tasks ADD COLUMN activity_price REAL',
+  // === HQ 总部派单扩展 ===
+  "ALTER TABLE tasks ADD COLUMN source TEXT DEFAULT 'system'",
+  'ALTER TABLE tasks ADD COLUMN assigned_by TEXT',
+  'ALTER TABLE tasks ADD COLUMN assigned_at TEXT',
 ];
 for (const sql of migrations) {
   try { db.exec(sql); } catch (e) {
     if (!e.message.includes('duplicate column')) console.warn('[db] migration skip:', e.message);
   }
+}
+
+// === HQ 端建表 + 7 店初始化（幂等） ===
+// hq-migration.sql 由 HQ 模块提供，CREATE TABLE IF NOT EXISTS + INSERT OR REPLACE
+try {
+  const fs = require('fs');
+  const sqlPath = path.join(__dirname, 'hq-migration.sql');
+  if (fs.existsSync(sqlPath)) {
+    const raw = fs.readFileSync(sqlPath, 'utf-8');
+    // 1) 逐行去掉 -- 单行注释 2) 拼回完整 SQL 3) 按 ; 切分
+    const stripped = raw
+      .split(/\r?\n/)
+      .map((line) => line.replace(/--.*$/, ''))
+      .join('\n');
+    const statements = stripped
+      .split(/;\s*/)
+      .map((s) => s.trim())
+      .filter((s) => s && !/^SELECT\b/i.test(s));
+    for (const stmt of statements) {
+      try { db.exec(stmt); } catch (e) {
+        if (!/duplicate column|already exists/i.test(e.message)) {
+          console.warn('[db][hq-migration] skip:', e.message.slice(0, 80));
+        }
+      }
+    }
+    const shopCnt = db.prepare('SELECT COUNT(*) as n FROM hq_shops_meta').get();
+    console.log('[db][hq] migration done. hq_shops_meta count =', shopCnt?.n || 0);
+  }
+} catch (e) {
+  console.warn('[db][hq] migration error:', e.message);
 }
 
 console.log('[db] schema initialized at', DB_PATH);

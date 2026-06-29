@@ -2,6 +2,7 @@
   {
     "barcode": "1003000221",
     "itemName": "【当日现做】中甘 /卷心菜 (包菜) 约900-1000",
+    "category": "调味品",
     "price": 2.8,
     "currentPrice": 2.8,
     "activityPrice": null,
@@ -13,6 +14,7 @@
   {
     "barcode": "2000161",
     "itemName": "【新鲜】泰国金枕头榴莲约1000g",
+    "category": "水果",
     "price": 72.5,
     "currentPrice": 72.5,
     "activityPrice": null,
@@ -24,6 +26,7 @@
   {
     "barcode": "6921895988379",
     "itemName": "中街经典老冰棍牛奶口味60g",
+    "category": "冷冻食品",
     "price": 1.5,
     "currentPrice": 1.5,
     "activityPrice": 0.59,
@@ -35,6 +38,7 @@
   {
     "barcode": "2082961",
     "itemName": "【活鱼现杀】活鱼现杀 鲈鱼(条)约500-550g",
+    "category": "水产",
     "price": 26.9,
     "currentPrice": 26.9,
     "activityPrice": null,
@@ -46,6 +50,7 @@
   {
     "barcode": "200900165A",
     "itemName": "【15支】中街经典老冰棍牛奶口味60g*15",
+    "category": "冷冻食品",
     "price": 18.5,
     "currentPrice": 18.5,
     "activityPrice": 9.9,
@@ -57,6 +62,7 @@
   {
     "barcode": "110600066B",
     "itemName": "【新鲜】妃子笑荔枝约250g",
+    "category": "水果",
     "price": 12.8,
     "currentPrice": 12.8,
     "activityPrice": null,
@@ -68,6 +74,7 @@
   {
     "barcode": "1102000262",
     "itemName": "【时令必买】伦晚橙子约1000g",
+    "category": "水果",
     "price": 18.5,
     "currentPrice": 18.5,
     "activityPrice": 11.9,
@@ -79,6 +86,7 @@
   {
     "barcode": "6970339118582",
     "itemName": "华山牧黄桃燕麦风味酸奶120g*4",
+    "category": "乳制品",
     "price": 13.5,
     "currentPrice": 13.5,
     "activityPrice": 9.9,
@@ -90,6 +98,7 @@
   {
     "barcode": "2099812",
     "itemName": "【新鲜】14+怡颗莓蓝莓约125g",
+    "category": "水果",
     "price": 21.5,
     "currentPrice": 21.5,
     "activityPrice": 8.9,
@@ -101,6 +110,7 @@
   {
     "barcode": "6946917600923",
     "itemName": "成山农场柬埔寨香米5kg",
+    "category": "粮油米面",
     "price": 53.9,
     "currentPrice": 53.9,
     "activityPrice": null,
@@ -112,6 +122,7 @@
   {
     "barcode": "6949224301675",
     "itemName": "成山农场羔羊肉卷750g",
+    "category": "肉禽蛋类",
     "price": 53.9,
     "currentPrice": 53.9,
     "activityPrice": null,
@@ -123,6 +134,7 @@
   {
     "barcode": "6909493400233",
     "itemName": "和路雪迷你可爱多甜筒香草巧克力口味冰淇淋8*30g",
+    "category": "冷冻食品",
     "price": 22.8,
     "currentPrice": 22.8,
     "activityPrice": 16.8,
@@ -134,6 +146,7 @@
   {
     "barcode": "110200051a",
     "itemName": "【皮超薄】小糖丸西瓜约2.5kg",
+    "category": "水果",
     "price": 26.9,
     "currentPrice": 26.9,
     "activityPrice": 18.9,
@@ -145,6 +158,7 @@
   {
     "barcode": "6975108590026",
     "itemName": "泓兵食品竹筒粽甜美蜜枣120g",
+    "category": "便利食品",
     "price": 5.5,
     "currentPrice": 5.5,
     "activityPrice": 3.9,
@@ -156,6 +170,7 @@
   {
     "barcode": "110600037B",
     "itemName": "【新鲜】荔枝王约1000g",
+    "category": "水果",
     "price": 69.8,
     "currentPrice": 69.8,
     "activityPrice": null,
@@ -167,6 +182,7 @@
   {
     "barcode": "110600037A",
     "itemName": "【新鲜】荔枝王约500g",
+    "category": "水果",
     "price": 34.9,
     "currentPrice": 34.9,
     "activityPrice": null,
@@ -178,6 +194,7 @@
   {
     "barcode": "110700012A",
     "itemName": "【现剥】泰国金枕榴莲肉(精选)约200g",
+    "category": "水果",
     "price": 66.9,
     "currentPrice": 66.9,
     "activityPrice": null,
@@ -189,6 +206,7 @@
   {
     "barcode": "110600066A",
     "itemName": "【新鲜】妃子笑荔枝约500g(淘宝闪购专属价)",
+    "category": "水果",
     "price": 25.5,
     "currentPrice": 25.5,
     "activityPrice": 15.8,
@@ -200,6 +218,7 @@
   {
     "barcode": "6908791009827",
     "itemName": "三全大黄米蜜枣粽455g",
+    "category": "便利食品",
     "price": 22.8,
     "currentPrice": 22.8,
     "activityPrice": 15.9,
@@ -211,6 +230,7 @@
   {
     "barcode": "110200047",
     "itemName": "【超值】国产沃柑 约1000g(单果90g+)",
+    "category": "水果",
     "price": 13.8,
     "currentPrice": 13.8,
     "activityPrice": 9.9,

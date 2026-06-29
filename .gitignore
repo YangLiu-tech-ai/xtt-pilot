@@ -5,3 +5,6 @@
 daemon-err.log
 .env
 cloudflared.exe
+token.tmp
+run-worker-now.bat
+run_worker.bat

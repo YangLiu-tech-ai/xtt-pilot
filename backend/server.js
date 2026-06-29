@@ -67,11 +67,13 @@ app.get('/v1/tasks', authMiddleware, (req, res) => {
     SELECT id, sku, barcode, item_name, category, priority,
            suggest_price, image_url, yesterday_sales, stock,
            monthly_sales, current_price, activity_price,
-           status, action, store_name, created_at
+           status, action, store_name, created_at,
+           source, assigned_by, assigned_at
     FROM tasks
     WHERE store_id = ? AND status NOT IN ('VERIFIED')
       AND (status = 'PENDING' OR action IS NOT NULL)
     ORDER BY
+      CASE WHEN source = 'hq_assigned' THEN 0 ELSE 1 END,
       CASE priority WHEN 'P0' THEN 0 WHEN 'P1' THEN 1 ELSE 2 END,
       monthly_sales DESC,
       created_at
@@ -259,9 +261,36 @@ app.post('/v1/internal/sync-tasks', internalOnly, (req, res) => {
   res.json({ ok: true, batchId, storeId, deleted: deleted.changes, created });
 });
 
-// ============ 静态文件: H5 前端 ============
+// ============ HQ 总部端路由 ============
+try {
+  const hqRoutes = require('./hq-routes');
+  hqRoutes.mount(app, db);
+} catch (e) {
+  console.warn('[server] hq-routes not mounted:', e.message);
+}
+
+// ============ 静态文件: 店长端 H5 + 三品牌 HQ H5 ============
 const path = require('path');
+const fs = require('fs');
 app.use('/h5', express.static(path.join(__dirname, '..', 'h5')));
+
+// HQ 三品牌：dist/csnc dist/xq dist/txp（hq-h5 build:all 产物）
+const HQ_H5_DIST = path.join(__dirname, '..', 'hq-h5', 'dist');
+['csnc', 'xq', 'txp'].forEach((brand) => {
+  const dir = path.join(HQ_H5_DIST, brand);
+  if (fs.existsSync(dir)) {
+    app.use(`/${brand}`, express.static(dir));
+    // SPA fallback: react-router 刷新不出现 404
+    app.get(`/${brand}/*`, (req, res, next) => {
+      const idx = path.join(dir, 'index.html');
+      if (fs.existsSync(idx)) return res.sendFile(idx);
+      next();
+    });
+    console.log(`[server] hq-h5 mounted: /${brand} -> ${dir}`);
+  } else {
+    console.warn(`[server] hq-h5 dist missing: ${dir} (run hq-h5/npm run build:${brand})`);
+  }
+});
 
 // 根路径跳转到 H5 (localtunnel bypass 后会重定向到 /)
 app.get('/', (req, res) => {

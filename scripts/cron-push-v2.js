@@ -31,6 +31,26 @@ const WEBHOOK = process.env.DING_WEBHOOK
 const API = process.env.MVP_API || 'https://xtt-pilot.onrender.com';
 const INTERNAL_KEY = process.env.MVP_INTERNAL_KEY || 'worker-key-2026-prod';
 
+// ============ HQ Magic Link 配置（P2） ============
+// 7 店 → 品牌映射
+const SHOP_TO_BRAND = {
+  '1137486501': 'xq',   // 兴勤陈江
+  '1328460101': 'xq',   // 兴勤港惠
+  '1262004557': 'csnc', // 成山龙湖天街
+  '1265426893': 'csnc', // 成山京东MALL
+  '1284510785': 'txp',  // 淘小胖龙湖
+  '528662517':  'txp',  // 淘小胖荥阳
+  '1316559920': 'txp',  // 淘小胖宝龙城广
+};
+// brand 显示名
+const BRAND_DISPLAY = { csnc: '成山农场', xq: '兴勤超市', txp: '淘小胖' };
+// HQ 子路径默认与 MVP_API 同源；可通过 HQ_BASE_URL_<BRAND> 覆盖
+function getHqBaseUrl(brand) {
+  return process.env[`HQ_BASE_URL_${brand.toUpperCase()}`] || `${API}/${brand}`;
+}
+// 是否启用 HQ 按钮（默认开启，可用 HQ_BUTTON=off 关闭）
+const HQ_BUTTON_ENABLED = (process.env.HQ_BUTTON || 'on').toLowerCase() !== 'off';
+
 // 解析命令行参数
 const argv = process.argv.slice(2);
 function getArg(flag, def) {
@@ -235,13 +255,41 @@ async function main() {
       console.warn(`[cron-push-v2] token签发失败(非致命): ${e.message}`);
     }
 
+    // 7.1 HQ Magic Link (P2)：为 7 店之一签发对应品牌的 magic-link
+    let hqUrl = null;
+    const brand = SHOP_TO_BRAND[String(storeId)];
+    if (HQ_BUTTON_ENABLED && brand) {
+      try {
+        const magicRes = await post(`${API}/api/hq/auth/issue-magic`, {
+          brand,
+          userId: 'group-broadcast',
+        });
+        if (magicRes.ok && magicRes.link) {
+          hqUrl = magicRes.link;
+        } else if (magicRes.ok && magicRes.token) {
+          hqUrl = `${getHqBaseUrl(brand)}/?t=${encodeURIComponent(magicRes.token)}`;
+        }
+      } catch (e) {
+        console.warn(`[cron-push-v2] HQ magic-link 签发失败(非致命): ${e.message}`);
+      }
+    }
+
+    // 构建多按钮 actionCard
+    const btns = [{ title: '📱 店长查看清单', actionURL: h5Url }];
+    if (hqUrl) {
+      btns.push({
+        title: `🏢 ${BRAND_DISPLAY[brand] || '总部'}盯盘`,
+        actionURL: hqUrl,
+      });
+    }
+
     const cardBody = {
       msgtype: 'actionCard',
       actionCard: {
         title: `推送: 缺货补品 · ${storeName} · ${unattended.length}件`,
         text: lines.join('\n'),
-        singleTitle: '📱 查看补品清单',
-        singleURL: h5Url,
+        btnOrientation: '0', // 0 = 竖直
+        btns,
       },
     };
 
