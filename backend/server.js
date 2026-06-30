@@ -232,10 +232,11 @@ app.post('/v1/internal/sync-tasks', internalOnly, (req, res) => {
     return res.status(400).json({ ok: false, err: 'batchId, storeId, items[] required' });
   }
 
-  // 幂等：清除同一 batch 的旧 PENDING（不动 EXECUTING/DONE 等已推进状态）
+  // 幂等：清除该门店所有未操作的 PENDING（含旧 batch），保证每次 sync 以最新一批为准
+  // 不动 EXECUTING/DONE/SHORTAGE 等已推进状态，店长正在操作中的任务不受影响
   const deleted = db.prepare(
-    `DELETE FROM tasks WHERE batch_id=? AND store_id=? AND status='PENDING'`
-  ).run([batchId, storeId]);
+    `DELETE FROM tasks WHERE store_id=? AND status='PENDING'`
+  ).run([storeId]);
 
   // 确保门店存在
   const storeExists = db.prepare('SELECT 1 FROM stores WHERE store_id=?').get([storeId]);
