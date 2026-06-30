@@ -16,13 +16,16 @@
  */
 const https = require('https');
 const http = require('http');
+const fs = require('fs');
+const path = require('path');
 
 const RENDER_API = process.env.RENDER_API || 'https://xtt-pilot.onrender.com';
 const INTERNAL_KEY = process.env.INTERNAL_KEY || 'worker-key-2026-prod';
 const WHALE_BASE_URL = process.env.WHALE_BASE_URL || 'https://whale.zwztf.net';
-const WHALE_REFRESH_TOKEN = process.env.WHALE_REFRESH_TOKEN || '';
+let WHALE_REFRESH_TOKEN = process.env.WHALE_REFRESH_TOKEN || '';
 const WHALE_SHOP_ID = process.env.WHALE_SHOP_ID || '1579337942525061';
 const BASIC_AUTH = 'Basic d2hhbGU6d2hhbGU=';
+const TOKEN_FILE = path.join(__dirname, '..', 'token.tmp');
 
 // Token 缓存
 let _token = null;
@@ -54,19 +57,63 @@ function request(url, opts, body) {
   });
 }
 
-// === Token ===
+// === Token 恢复：从 token.tmp 文件读取 ===
+function recoverTokenFromFile() {
+  try {
+    if (!fs.existsSync(TOKEN_FILE)) return null;
+    const content = fs.readFileSync(TOKEN_FILE, 'utf8').trim();
+    if (content.startsWith('{')) {
+      const obj = JSON.parse(content);
+      return obj.refresh_token || obj.WHALE_REFRESH_TOKEN || null;
+    }
+    return content || null;
+  } catch {
+    return null;
+  }
+}
+
+// === Token 刷新（带自动恢复） ===
+async function refreshWithToken(refreshToken) {
+  const url = `${WHALE_BASE_URL}/api/auth/oauth/token?refresh_token=${encodeURIComponent(refreshToken)}&grant_type=refresh_token&scope=server`;
+  const r = await request(url, { method: 'POST', headers: { 'Authorization': BASIC_AUTH } });
+  return r.data;
+}
+
 async function getToken() {
   if (_token && Date.now() < _tokenExp - 300000) return _token;
-  if (!WHALE_REFRESH_TOKEN) throw new Error('WHALE_REFRESH_TOKEN not set');
 
-  const url = `${WHALE_BASE_URL}/api/auth/oauth/token?refresh_token=${encodeURIComponent(WHALE_REFRESH_TOKEN)}&grant_type=refresh_token&scope=server`;
-  const r = await request(url, { method: 'POST', headers: { 'Authorization': BASIC_AUTH } });
-  if (!r.data?.access_token) throw new Error(`Token refresh failed: ${JSON.stringify(r.data)}`);
+  // 策略1: 用环境变量/当前的 WHALE_REFRESH_TOKEN
+  if (WHALE_REFRESH_TOKEN) {
+    const data = await refreshWithToken(WHALE_REFRESH_TOKEN);
+    if (data?.access_token) {
+      _token = data.access_token;
+      _tokenExp = Date.now() + (data.expires_in || 604799) * 1000;
+      console.log(`[worker] token refreshed, expires ${data.expires_in}s`);
+      return _token;
+    }
+    console.warn(`[worker] env token failed: ${JSON.stringify(data)}`);
+  }
 
-  _token = r.data.access_token;
-  _tokenExp = Date.now() + (r.data.expires_in || 604799) * 1000;
-  console.log(`[worker] token refreshed, expires ${r.data.expires_in}s`);
-  return _token;
+  // 策略2: 从 token.tmp 文件恢复
+  const fileToken = recoverTokenFromFile();
+  if (fileToken && fileToken !== WHALE_REFRESH_TOKEN) {
+    console.log('[worker] trying token from token.tmp...');
+    const data = await refreshWithToken(fileToken);
+    if (data?.access_token) {
+      WHALE_REFRESH_TOKEN = fileToken;
+      _token = data.access_token;
+      _tokenExp = Date.now() + (data.expires_in || 604799) * 1000;
+      console.log(`[worker] token recovered from token.tmp, expires ${data.expires_in}s`);
+      return _token;
+    }
+    console.warn(`[worker] token.tmp also failed: ${JSON.stringify(data)}`);
+  }
+
+  // 策略3: 所有 token 都失效，抛出可识别错误
+  const err = new Error('TOKEN_EXPIRED: All refresh_tokens invalid. Need browser login to whale.zwztf.net to recover.');
+  err.code = 'TOKEN_EXPIRED';
+  err.needBrowserLogin = true;
+  throw err;
 }
 
 // === 鲸品云操作 ===
