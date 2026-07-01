@@ -1,0 +1,29 @@
+{
+  "_comment": "多品牌配置：每个品牌包含昆仑取数凭证 + 鲸品云执行凭证 + 门店列表 + 钉钉推送配置",
+  "brands": {
+    "csnc": {
+      "brandName": "成山农场",
+      "kunlunCredKey": "csnc-kunlun",
+      "credentialKey": "csnc-whale",
+      "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=86ff44c61d0eb7877f9db3bef374ab387480e7193764dfc3a98c125711cc48b2",
+      "dingtalkKeyword": "推送",
+      "monitorFile": "monitor-barcodes-csnc-all.json",
+      "stores": [
+        {
+          "name": "成山农场(龙湖天街店)",
+          "wid": "1262004557",
+          "storeId": "20031256003",
+          "sellerId": "1919957953830",
+          "whaleShopId": "1579337942525061"
+        },
+        {
+          "name": "成山农场(曲江京东MALL店)",
+          "wid": "1265426893",
+          "storeId": "20011619473",
+          "sellerId": "1919957953830",
+          "whaleShopId": "191413243541909"
+        }
+      ]
+    }
+  }
+}

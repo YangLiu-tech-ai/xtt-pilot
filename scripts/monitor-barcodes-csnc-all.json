@@ -1,0 +1,2802 @@
+[
+  {
+    "barcode": "1002000271",
+    "item_name": "【新鲜】水果西红柿约500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6976111740149",
+    "item_name": "小川沟鲜鸡蛋30枚约1.5kg",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1003000141",
+    "item_name": "【炖煮季】当季新鲜黄心土豆 约500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2063841",
+    "item_name": "【新鲜】(新客专享)黄瓜1根约250g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2063844",
+    "item_name": "【新鲜】(新客专享)红洋葱1个约250g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1006000281",
+    "item_name": "【新鲜】日日鲜 小葱 约50g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6978104250253",
+    "item_name": "【当日现做】成山老面馒头4个装约400g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110600034",
+    "item_name": "【软糯香甜】佳农 九分甜进口香蕉约1kg",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6949224301682",
+    "item_name": "成山农场肥牛肉卷750g(淘宝闪购专属价)",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1002000131",
+    "item_name": "【新鲜】薄皮西葫芦约500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6973629914550",
+    "item_name": "成山农场抽取式面巾纸330张8包",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2070067",
+    "item_name": "【菌菇星球】金针菇(份)约200g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6947475900371",
+    "item_name": "老哥俩稻香米5kg",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6973629914543",
+    "item_name": "成山农场卫生纸2000克14卷",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2070109",
+    "item_name": "【新鲜】日日鲜 香菜 约100g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1006000151",
+    "item_name": "【新鲜】大葱约500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110300028A",
+    "item_name": "【现切】麒麟瓜西瓜(称重退差) (四分之一个)约2kg",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2063616",
+    "item_name": "【新鲜现配】(外卖)老豆腐约400g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000681",
+    "item_name": "【新鲜】菠菜约300g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2063840",
+    "item_name": "【新鲜】(新客专享)土豆1个约150g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "100100046B",
+    "item_name": "【新鲜】空心菜约250g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110300032A",
+    "item_name": "【现切】甜王西瓜(四分之一个)约2.5kg",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6933037100891",
+    "item_name": "正大无抗鲜鸡蛋【15枚】720g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6978104250277",
+    "item_name": "【门店现做】成山刀切馒头4个装约400g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6921168558049",
+    "item_name": "农夫山泉东方树叶茉莉花500ml",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1303000211",
+    "item_name": "[骑手到店现捞]鲜活活虾(基围虾)500g（保证鲜活发货，到家不保活）(淘宝闪购专属价)",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1507000311",
+    "item_name": "【新鲜现配】日日鲜 百叶/千张/厚豆腐皮约200g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000271",
+    "item_name": "【新鲜】生菜约500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1005000091",
+    "item_name": "【新鲜】鲜香菇约200g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1006000041",
+    "item_name": "【新鲜】紫皮大蒜 (新蒜) 约200g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1201000881",
+    "item_name": "【日日鲜】精选鲜猪里脊肉约300g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "130300021A",
+    "item_name": "[骑手到店现捞]鲜活活虾(基围虾)150g（保证鲜活发货，到家不保活）(淘宝闪购专属价)",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1005000161",
+    "item_name": "【新鲜】平菇约450g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6933190927892",
+    "item_name": "永和内脂豆腐350g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2070012",
+    "item_name": "【新鲜】黄甜玉米(份)约700g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "100400003A",
+    "item_name": "【新鲜现配】长豆角约300g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1508000691",
+    "item_name": "【烧烤季】川渝凉拌菜素拼约350g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1201000931",
+    "item_name": "【冰鲜】冰鲜 猪五花肉 约500g(日日鲜)(淘宝闪购专属价)",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1201000151",
+    "item_name": "【不打水】新鲜黄牛牛肉 （牛霖）约300g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110300028",
+    "item_name": "【现切】麒麟瓜西瓜(称重退差) (半个)约3.5kg(淘宝闪购专属价)",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "100300014A",
+    "item_name": "【炖煮季】当季新鲜黄心土豆 约1000g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6974321800011",
+    "item_name": "金豆子绿豆芽约350g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1006000141",
+    "item_name": "【新鲜】大蒜（直条）约300g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2070110",
+    "item_name": "【新鲜】日日鲜 香葱(份)约100g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000501",
+    "item_name": "【新鲜】韭菜 约250g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1201001031",
+    "item_name": "【冰鲜】冰鲜 猪肋排粒(带软骨) 约400g(日日鲜)",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000191",
+    "item_name": "【新鲜】西兰花约550-600g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6922577738640",
+    "item_name": "君乐宝悦鲜活A2牛奶260ml",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1006000091",
+    "item_name": "【新鲜】老姜约200g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6978104250475",
+    "item_name": "成山棍棍面(生)",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2099812",
+    "item_name": "【新鲜】14+怡颗莓蓝莓约125g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1002000601",
+    "item_name": "【新鲜】日日鲜 切片冬瓜约950-1000g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110500047A",
+    "item_name": "【季节限定】黄肉油桃500g（约3-4个）（闪购专属价）",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1002000261",
+    "item_name": "【新鲜】茄王约450-500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1003000221",
+    "item_name": "【当日现做】中甘 /卷心菜 (包菜) 约900-1000",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2099519",
+    "item_name": "【鲜果切】麒麟瓜果切约400g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "100100065A",
+    "item_name": "【新鲜】小青菜约250g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2063152",
+    "item_name": "【当日现做】(外卖)梅干菜烧饼 葱油饼 时蔬锅盔自选1个",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2062960",
+    "item_name": "【当日现做】油饼(个)",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6902890228462",
+    "item_name": "双汇王中王50g*10",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6971738655623",
+    "item_name": "安井虾滑150g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6975060032626",
+    "item_name": "成山农场德式小麦啤酒1L",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6970339116984",
+    "item_name": "华山牧益生菌原味6联杯160ml",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2062976",
+    "item_name": "【门店现烤】霸王烤肠1根",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6923644240783",
+    "item_name": "蒙牛八连黄桃酸奶100g*8",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6921665735035",
+    "item_name": "思念珍味三鲜薄皮小云吞305g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000291",
+    "item_name": "【新鲜】散花菜约700g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1003000341",
+    "item_name": "【新鲜】胡(红)萝卜 约600g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2062951",
+    "item_name": "【门店现做】肉花卷一个",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2002935A",
+    "item_name": "[骑手到店现捞]鲜活活虾(基围虾)350g（保证鲜活发货，到家不保活）",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6973990230051",
+    "item_name": "皇家小虎原味脆皮烤肠500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2065016",
+    "item_name": "【新鲜】印尼红肉菠萝蜜(盒)约210g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2901507003113",
+    "item_name": "家庭装鲜豆浆1kg",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1202001841",
+    "item_name": "【日日鲜】中润鲜鸡胸肉约500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110500034A",
+    "item_name": "【汁水充盈】水蜜桃约600g（约3-4个）",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6970339119572",
+    "item_name": "华山牧每日鲜活鲜牛奶950ml",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110600058",
+    "item_name": "【新鲜】(外卖)小台芒约500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000651",
+    "item_name": "【新鲜】日日鲜 小青菜约500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6978104250635",
+    "item_name": "【当日现做】成山饺子皮约420g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1004000161",
+    "item_name": "【新鲜现配】架豆王约350g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000331",
+    "item_name": "【新鲜】芹菜苗约450g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000131",
+    "item_name": "【新鲜】小白菜约250g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "200900165A",
+    "item_name": "【15支】中街经典老冰棍牛奶口味60g*15",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1005000061",
+    "item_name": "【菌菇星球】杏鲍菇约250g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6902083881405",
+    "item_name": "娃哈哈纯净水596ml",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6902083892104",
+    "item_name": "娃哈哈 饮用纯净水 596ml*12瓶",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6920189008038",
+    "item_name": "大豫竹香辣牛肉面52g*5",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1002000081",
+    "item_name": "【新鲜】小乳瓜约450-500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2000384",
+    "item_name": "【新鲜】娃娃菜（颗）约900g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1506000151",
+    "item_name": "【新鲜现配】(外卖)短绿豆芽约250g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6938749816122",
+    "item_name": "鲁花低芥酸特香菜籽油非转基因5L",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2061516",
+    "item_name": "【日日鲜】成山奥尔良烤鸡整只约500g 【鸡皮微焦、鸡肉嫩滑、秘制配方】",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6922577730378",
+    "item_name": "君乐宝简醇酸奶0糖袋150g*6",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977829299967",
+    "item_name": "【当日现做】鲜牛奶吐司面包约400g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "200900209A",
+    "item_name": "【6支】伊利 玉米香雪糕 65g*6",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "200900201A",
+    "item_name": "【4支】伊利火炬80g*4",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1507000301",
+    "item_name": "【新鲜现配】(外卖)榆林黑豆腐约500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6978104250659",
+    "item_name": "成山手擀面(生)",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "200900308A",
+    "item_name": "【持久耐融】魏乐冰食用冰杯180g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6954767441481",
+    "item_name": "可口可乐芬达橙味易拉罐330ml",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6970339118582",
+    "item_name": "华山牧黄桃燕麦风味酸奶120g*4",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2005001",
+    "item_name": "【新鲜】日日鲜 莴笋(份)约1100g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2062952",
+    "item_name": "【门店现做】素花卷1个",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2070026",
+    "item_name": "【新鲜】小米椒(份)约100g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2099272",
+    "item_name": "【日日鲜】韭菜鸡蛋粉条菜盒1个",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6901285993282",
+    "item_name": "怡宝矿泉水6L",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1303000171",
+    "item_name": "【现捞】鲜活特大花甲约500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000341",
+    "item_name": "【新鲜】芹菜约700g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1004000031",
+    "item_name": "【新鲜现配】长豆角约500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6907992507385",
+    "item_name": "伊利金典纯牛奶250ml*12",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6970006620639",
+    "item_name": "好欢螺螺蛳粉（加臭加辣）400g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1202001821",
+    "item_name": "【日日鲜】中润鲜琵琶腿约500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6940211889602",
+    "item_name": "养乐多乳饮100m1*5",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110600352A",
+    "item_name": "【新鲜】牛油果3个装约400g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6908791508047",
+    "item_name": "成山农场手抓饼葱香味990g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6976081375181",
+    "item_name": "成山农场100%苹果汁1kg",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000071",
+    "item_name": "【新鲜】日日鲜 新鲜油麦菜 约500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1002000381",
+    "item_name": "【新鲜】苦瓜约450-500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6917790975323",
+    "item_name": "安琪酵母15g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6909131280647",
+    "item_name": "劲牌劲酒520ml",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "150800072C",
+    "item_name": "【当日现制】五香酱牛肉约100g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6921168561445",
+    "item_name": "农夫山泉东方树叶茉莉花茶1.5L",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1004000041",
+    "item_name": "【新鲜现配】鲜毛豆约400g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000261",
+    "item_name": "【新鲜】蒜苗约250g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6921895988379",
+    "item_name": "中街经典老冰棍牛奶口味60g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "130300021aa",
+    "item_name": "[骑手到店现捞]鲜活活虾(基围虾)250g(保证鲜活发货，到家不保活)",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1104000021",
+    "item_name": "【新鲜】一颗大串红约400g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6980101420010",
+    "item_name": "【超值爆款】成山叔叔饮用纯净水550ml*24",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2063438",
+    "item_name": "【当日现做】(外卖)里脊肉饼1个",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6921665735059",
+    "item_name": "思念荠菜猪肉薄皮小云吞305g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110400039",
+    "item_name": "【新鲜】(外卖)千禧果约500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000461",
+    "item_name": "【新鲜】空心菜约500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6944656413019",
+    "item_name": "绿清竹老豆腐450g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6944656413064",
+    "item_name": "绿清竹嫩豆腐450g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2065878",
+    "item_name": "【当日现做】麻辣 秘汁小龙虾约1500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "120100020A",
+    "item_name": "【日日鲜】牛肋条约400g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6957466107856",
+    "item_name": "正大原香谷物鸡蛋30枚1.5kg",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6975896021078",
+    "item_name": "【成山烘焙】瑞士卷（原味+伯爵红茶味）8片 560g/盒",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1508000671",
+    "item_name": "【门店现做】猪头肉约250g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6957466109560",
+    "item_name": "正大 可生食鲜鸡蛋 550g/盒（10枚装）",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "120100097A",
+    "item_name": "【日日鲜】带皮前后腿肉约500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6922577790181",
+    "item_name": "君乐宝奶皮子酸奶酪120g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "100200031A",
+    "item_name": "【新鲜】散称南瓜约 600g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "100200052A",
+    "item_name": "【基地直采】红彩椒约250g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000411",
+    "item_name": "【新鲜】罗马生菜约300g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000471",
+    "item_name": "【新鲜】韭苔约200g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1508001411",
+    "item_name": "【当日现做】锅包肉约200g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110600023",
+    "item_name": "【新鲜】(外卖)国产红心火龙果2个装约800g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000671",
+    "item_name": "【新鲜】日日鲜 菜心约250g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2063603",
+    "item_name": "【当日现做】(外卖)牛筋面约300g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6974348722976",
+    "item_name": "喜茶茉莉清抹茶500ml",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1002000221",
+    "item_name": "【新鲜】秋葵约230g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6970339119350",
+    "item_name": "华山牧有机厚酸奶260g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "150200498A",
+    "item_name": "【门店现做】手工辣条约200g【口味自选】",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1508000721",
+    "item_name": "【当日现制】五香酱牛肉约250g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6973629914765",
+    "item_name": "成山农场洁面柔巾60抽",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1201000141",
+    "item_name": "【新鲜鲜切】鲜切 牛吊龙火锅片 约150g/盒",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110300032B",
+    "item_name": "【现切】甜王西瓜(半个)约5kg",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6970339117240",
+    "item_name": "华山牧益生菌酸牛奶（无蔗糖）160g*6",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6974354668404",
+    "item_name": "Herlab她研社深藏BLUE棉柔卫生巾240mm*8片",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2062947",
+    "item_name": "【当日现做】荞面饸饹1份",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1004000221",
+    "item_name": "【新鲜现配】白爬豆约300g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "8851994612012",
+    "item_name": "象牌苏打水饮料325ml",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6933664902875",
+    "item_name": "成山农场低芥酸菜籽油5L(淘宝闪购专属价)",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6975338584802",
+    "item_name": "成山农场多效酵素洗衣液3kg",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6903244674546",
+    "item_name": "心相印茶语思享14卷2004g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2064786",
+    "item_name": "【成山烘焙】牛奶软蛋糕(约260gy)",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6908791508030",
+    "item_name": "成山农场手抓饼原味990g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2099521",
+    "item_name": "【鲜果切】晓蜜蜜瓜果切约400g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6949224301972",
+    "item_name": "成山农场家庭装黑椒菲力牛排650g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6909972588476",
+    "item_name": "【黄金奶源带】成山叔叔有机纯牛奶200g*12（淘宝闪购专属价）",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2082961",
+    "item_name": "【活鱼现杀】活鱼现杀 鲈鱼(条)约500-550g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1201001151",
+    "item_name": "【日日鲜】日日鲜精选鲜猪肉糜 猪肉馅（肥瘦约5：5）后腿肉约500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6974272834264",
+    "item_name": "成山农场小米锅巴香辣味360g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110100008",
+    "item_name": "【脆甜爽口】(外卖)甘肃富士约600g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6949224301675",
+    "item_name": "成山农场羔羊肉卷750g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6933037100211",
+    "item_name": "正大富硒鸡蛋20枚",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2066360A",
+    "item_name": "【鲜活】鲜活小龙虾6-8钱约500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110600018B",
+    "item_name": "【新鲜】干尧榴莲约3000g保4房",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "150200327A",
+    "item_name": "【日日鲜】麻椒鸡约500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6971738659393",
+    "item_name": "安井全家福火锅丸子组合400g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110100015",
+    "item_name": "【脆甜爽口】洛川富士苹果4粒装 约1kg",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1201003011",
+    "item_name": "【日日鲜】精选鲜猪本香五花肉约300g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1508001271",
+    "item_name": "【门店现炸】炸带鱼约200g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1201002291",
+    "item_name": "【不打水】新鲜黄牛牛肉约250g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6946917600923",
+    "item_name": "成山农场柬埔寨香米5kg",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1201000031",
+    "item_name": "【当日分切】羊肉约300g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1508001221",
+    "item_name": "【当日现做】麻辣 秘汁小龙虾约500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1202001801",
+    "item_name": "【日日鲜】中润鲜翅中约250g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2063070",
+    "item_name": "【门店现烤】北京烤鸭(半只)",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6934468001306",
+    "item_name": "五得利特精小麦粉5kg",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1508000722",
+    "item_name": "【当日现制】五香酱牛肉约500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6934468000279",
+    "item_name": "五得利六星超精小麦粉10kg",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6914209017780",
+    "item_name": "爱菊中筋面粉5kg",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1201000221",
+    "item_name": "【日日鲜】牛黄瓜条约250g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1201003871",
+    "item_name": "【日日鲜】黑虎虾滑约170g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1303000441",
+    "item_name": "【活鱼现杀】活鱼现杀 循环吊水大鲈鱼约600g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2066360B",
+    "item_name": "【鲜活】鲜活小龙虾6-8钱约1500g",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110600032B",
+    "item_name": "【新鲜】金枕榴莲(称重退差) 约4斤",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "4580133872515",
+    "item_name": "发玛21蓬松控油轻盈洗发水600ml",
+    "store_id": "1262004557",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6976111740149",
+    "item_name": "小川沟鲜鸡蛋30枚约1.5kg",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1002000271",
+    "item_name": "【新鲜】水果西红柿约500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2063841",
+    "item_name": "【新鲜】(新客专享)黄瓜1根约250g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2063844",
+    "item_name": "【新鲜】(新客专享)红洋葱1个约250g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1003000141",
+    "item_name": "【炖煮季】当季新鲜黄心土豆 约500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110600034",
+    "item_name": "【软糯香甜】佳农 九分甜进口香蕉约1kg",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1006000151",
+    "item_name": "【新鲜】大葱约500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1002000131",
+    "item_name": "【新鲜】薄皮西葫芦约500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2070110",
+    "item_name": "【新鲜】日日鲜 香葱(份)约100g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2063840",
+    "item_name": "【新鲜】(新客专享)土豆1个约150g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2070109",
+    "item_name": "【新鲜】日日鲜 香菜 约100g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6947475900371",
+    "item_name": "老哥俩稻香米5kg",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6949224301682",
+    "item_name": "成山农场肥牛肉卷750g(淘宝闪购专属价)",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1004000091",
+    "item_name": "【新鲜现配】甜豆约300g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000271",
+    "item_name": "【新鲜】生菜约500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2070067",
+    "item_name": "【菌菇星球】金针菇(份)约200g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6975060032626",
+    "item_name": "成山农场德式小麦啤酒1L",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "100100046B",
+    "item_name": "【新鲜】空心菜约250g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1201000931",
+    "item_name": "【冰鲜】冰鲜 猪五花肉 约500g(日日鲜)(淘宝闪购专属价)",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "150400555B",
+    "item_name": "【当日现做】酱香饼约250g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6921895988379",
+    "item_name": "中街经典老冰棍牛奶口味60g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1006000091",
+    "item_name": "【新鲜】老姜约200g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110300028A",
+    "item_name": "【现切】麒麟瓜西瓜(称重退差) (四分之一个)约2kg",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "100300014A",
+    "item_name": "【炖煮季】当季新鲜黄心土豆 约1000g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6974321800011",
+    "item_name": "金豆子绿豆芽约350g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2070012",
+    "item_name": "【新鲜】黄甜玉米(份)约700g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6973629914543",
+    "item_name": "成山农场卫生纸2000克14卷",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1005000161",
+    "item_name": "【新鲜】平菇约450g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "100100065A",
+    "item_name": "【新鲜】小青菜约250g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1006000041",
+    "item_name": "【新鲜】紫皮大蒜 (新蒜) 约200g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6970006620639",
+    "item_name": "好欢螺螺蛳粉（加臭加辣）400g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000501",
+    "item_name": "【新鲜】韭菜 约250g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110300028",
+    "item_name": "【现切】麒麟瓜西瓜(称重退差) (半个)约3.5kg(淘宝闪购专属价)",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1005000091",
+    "item_name": "【新鲜】鲜香菇约200g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1201000881",
+    "item_name": "【日日鲜】精选鲜猪里脊肉约300g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6973629914550",
+    "item_name": "成山农场抽取式面巾纸330张8包",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000681",
+    "item_name": "【新鲜】菠菜约300g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "100400003A",
+    "item_name": "【新鲜现配】长豆角约300g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2000468",
+    "item_name": "【新鲜】14+蓝莓（盒）约125g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000191",
+    "item_name": "【新鲜】西兰花约550-600g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1303000211",
+    "item_name": "[骑手到店现捞]鲜活活虾(基围虾)500g（保证鲜活发货，到家不保活）(淘宝闪购专属价)",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "200900201A",
+    "item_name": "【4支】伊利火炬80g*4",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1507000301",
+    "item_name": "【新鲜现配】(外卖)榆林黑豆腐约500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2061371",
+    "item_name": "【3个】现包现蒸肉花卷*3",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "130300021A",
+    "item_name": "[骑手到店现捞]鲜活活虾(基围虾)150g（保证鲜活发货，到家不保活）(淘宝闪购专属价)",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1507000311",
+    "item_name": "【新鲜现配】日日鲜 百叶/千张/厚豆腐皮约200g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6921168558049",
+    "item_name": "农夫山泉东方树叶茉莉花500ml",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1006000141",
+    "item_name": "【新鲜】大蒜（直条）约300g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6902890228462",
+    "item_name": "双汇王中王50g*10",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2063664",
+    "item_name": "【门店现做】孜卷两条装",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6978104250253",
+    "item_name": "【当日现做】成山老面馒头4个装约400g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "150800072C",
+    "item_name": "【当日现制】五香酱牛肉约100g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110500034A",
+    "item_name": "【汁水充盈】水蜜桃约600g（约3-4个）",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2062976",
+    "item_name": "【门店现烤】霸王烤肠1根",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1103000411",
+    "item_name": "【新鲜】羊角蜜瓜 约1000g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6970339116984",
+    "item_name": "华山牧益生菌原味6联杯160ml",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110300032A",
+    "item_name": "【现切】甜王西瓜(四分之一个)约2.5kg",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1003000341",
+    "item_name": "【新鲜】胡(红)萝卜 约600g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1508000721",
+    "item_name": "【当日现制】五香酱牛肉约250g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2099812",
+    "item_name": "【新鲜】14+怡颗莓蓝莓约125g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6944656413019",
+    "item_name": "绿清竹老豆腐450g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2061516",
+    "item_name": "【日日鲜】成山奥尔良烤鸡整只约500g 【鸡皮微焦、鸡肉嫩滑、秘制配方】",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6933037100891",
+    "item_name": "正大无抗鲜鸡蛋【15枚】720g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1003000221",
+    "item_name": "【当日现做】中甘 /卷心菜 (包菜) 约900-1000",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1506000151",
+    "item_name": "【新鲜现配】(外卖)短绿豆芽约250g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6970339118582",
+    "item_name": "华山牧黄桃燕麦风味酸奶120g*4",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6901285993282",
+    "item_name": "怡宝矿泉水6L",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2901507003113",
+    "item_name": "家庭装鲜豆浆1kg",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6978104250277",
+    "item_name": "【门店现做】成山刀切馒头4个装约400g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6938749816122",
+    "item_name": "鲁花低芥酸特香菜籽油非转基因5L",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6976081375266",
+    "item_name": "成山农场100%椰子水1kg",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977829299967",
+    "item_name": "【当日现做】鲜牛奶吐司面包约400g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6970339119572",
+    "item_name": "华山牧每日鲜活鲜牛奶950ml",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2064216",
+    "item_name": "【门店现做】芝麻酥馕1个",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000291",
+    "item_name": "【新鲜】散花菜约700g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1004000161",
+    "item_name": "【新鲜现配】架豆王约350g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6902083881405",
+    "item_name": "娃哈哈纯净水596ml",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1201001031",
+    "item_name": "【冰鲜】冰鲜 猪肋排粒(带软骨) 约400g(日日鲜)",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6922577730378",
+    "item_name": "君乐宝简醇酸奶0糖袋150g*6",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6970339117240",
+    "item_name": "华山牧益生菌酸牛奶（无蔗糖）160g*6",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "120100097A",
+    "item_name": "【日日鲜】带皮前后腿肉约500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2062892",
+    "item_name": "【3个】现包现蒸猪肉大葱包*3",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1507000081",
+    "item_name": "【新鲜现配】(外卖)老豆腐约500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1002000381",
+    "item_name": "【新鲜】苦瓜约450-500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6971253497012",
+    "item_name": "秦豆园内酯豆腐350g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2099519",
+    "item_name": "【鲜果切】麒麟瓜果切约400g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000331",
+    "item_name": "【新鲜】芹菜苗约450g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000341",
+    "item_name": "【新鲜】芹菜约700g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1504005481",
+    "item_name": "【当日现做】千层饼约500gl",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6908791508047",
+    "item_name": "成山农场手抓饼葱香味990g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110500047A",
+    "item_name": "【季节限定】黄肉油桃500g（约3-4个）（闪购专属价）",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1002000601",
+    "item_name": "【新鲜】日日鲜 切片冬瓜约950-1000g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1508000671",
+    "item_name": "【门店现做】猪头肉约250g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6940211889602",
+    "item_name": "养乐多乳饮100m1*5",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6921168593033",
+    "item_name": "农夫山泉饮用天然水（婴儿用水）1L",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1303000171",
+    "item_name": "【现捞】鲜活特大花甲约500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6922577738640",
+    "item_name": "君乐宝悦鲜活A2牛奶260ml",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1002000261",
+    "item_name": "【新鲜】茄王约450-500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "8851994612012",
+    "item_name": "象牌苏打水饮料325ml",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1002000561",
+    "item_name": "【新鲜】广茄约500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2070026",
+    "item_name": "【新鲜】小米椒(份)约100g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000451",
+    "item_name": "【新鲜】苦菊约250g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6909131280647",
+    "item_name": "劲牌劲酒520ml",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6909972588476",
+    "item_name": "【黄金奶源带】成山叔叔有机纯牛奶200g*12（淘宝闪购专属价）",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6974386090969",
+    "item_name": "【闭眼入】黄马甲鲜鸡蛋30枚",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6942032700029",
+    "item_name": "海底捞清油麻辣火锅料220g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6973990230051",
+    "item_name": "皇家小虎原味脆皮烤肠500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110300024A",
+    "item_name": "【现切】慕田佳宝麒麟瓜(称重退差) (四分之一个)约2kg",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2099272",
+    "item_name": "【日日鲜】韭菜鸡蛋粉条菜盒1个",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1202000541",
+    "item_name": "【日日鲜】黑椒鸡排约120g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000071",
+    "item_name": "【新鲜】日日鲜 新鲜油麦菜 约500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6971738655623",
+    "item_name": "安井虾滑150g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6923644240028",
+    "item_name": "蒙牛八连草莓酸奶100g*8",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1202001841",
+    "item_name": "【日日鲜】中润鲜鸡胸肉约500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6920189008038",
+    "item_name": "大豫竹香辣牛肉面52g*5",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2064984",
+    "item_name": "蜂蜜粽子250g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1002000221",
+    "item_name": "【新鲜】秋葵约230g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2062858",
+    "item_name": "【门店现做】(外卖)白糖糖糕2个装",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1004000031",
+    "item_name": "【新鲜现配】长豆角约500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2062857",
+    "item_name": "【当日现做】光头油饼1个装",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6972945645209",
+    "item_name": "成山农场原味瓜子500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1508001411",
+    "item_name": "【当日现做】锅包肉约200g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110300032B",
+    "item_name": "【现切】甜王西瓜(半个)约5kg",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1504005551",
+    "item_name": "【当日现做】酱香饼约500gl",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6957466109560",
+    "item_name": "正大 可生食鲜鸡蛋 550g/盒（10枚装）",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110600009",
+    "item_name": "【新鲜】(外卖)白心火龙果2个装约1000g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2099273",
+    "item_name": "【门店现做】酸菜粉条菜盒1个装",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2099663",
+    "item_name": "【门店现做】青椒茄丁菜盒1个装",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "8858735501383",
+    "item_name": "三麟椰子水330ml",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "150800090B",
+    "item_name": "【门店现做】蜂蜜猪肝约150g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2064215",
+    "item_name": "【门店现做】皮牙子馕1份",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6917790975323",
+    "item_name": "安琪酵母15g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1201000141",
+    "item_name": "【新鲜鲜切】鲜切 牛吊龙火锅片 约150g/盒",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110300024B",
+    "item_name": "【现切】慕田佳宝麒麟瓜(称重退差) (半个)约4kg",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110400040",
+    "item_name": "【新鲜】(外卖)青提约500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6974272834264",
+    "item_name": "成山农场小米锅巴香辣味360g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6921168561445",
+    "item_name": "农夫山泉东方树叶茉莉花茶1.5L",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1003000281",
+    "item_name": "【水八仙】鲜莲菜(莲藕)约450-500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110400039",
+    "item_name": "【新鲜】(外卖)千禧果约500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000651",
+    "item_name": "【新鲜】日日鲜 小青菜约500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1001000661",
+    "item_name": "【新鲜】大白菜约1500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6975795360049",
+    "item_name": "滇二娃土豆片麻辣味80g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1507000331",
+    "item_name": "【当日现做】(外卖)小面筋约250g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6971253491225",
+    "item_name": "秦豆园嫩豆腐",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6949224301675",
+    "item_name": "成山农场羔羊肉卷750g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6957466107856",
+    "item_name": "正大原香谷物鸡蛋30枚1.5kg",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6903244674546",
+    "item_name": "心相印茶语思享14卷2004g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1201003011",
+    "item_name": "【日日鲜】精选鲜猪本香五花肉约300g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1201001151",
+    "item_name": "【日日鲜】日日鲜精选鲜猪肉糜 猪肉馅（肥瘦约5：5）后腿肉约500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110400224",
+    "item_name": "【新鲜】(外卖)玲珑小番茄约500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6971265523280",
+    "item_name": "【门店热销】千焙屋三色藜麦无蔗糖吐司约328g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6902890276838",
+    "item_name": "双汇减脂午餐方腿400g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2099672",
+    "item_name": "【新鲜】青小贝 贝贝南瓜单枚约400g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2064885",
+    "item_name": "【门店现做】蓝田饸饹/份1份",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2062896",
+    "item_name": "【4个】素花卷4个装",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6921665735035",
+    "item_name": "思念珍味三鲜薄皮小云吞305g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6922577790181",
+    "item_name": "君乐宝奶皮子酸奶酪120g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2065878",
+    "item_name": "【当日现做】麻辣 秘汁小龙虾约1500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6949224301972",
+    "item_name": "成山农场家庭装黑椒菲力牛排650g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6907992507385",
+    "item_name": "伊利金典纯牛奶250ml*12",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1201000201",
+    "item_name": "【日日鲜】牛肋条约250g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6975312982501",
+    "item_name": "张小米锅巴麻辣味500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2002935A",
+    "item_name": "[骑手到店现捞]鲜活活虾(基围虾)350g（保证鲜活发货，到家不保活）",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110600029",
+    "item_name": "【软糯香甜】(外卖)佳农皇帝蕉约500-550g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "200900225A",
+    "item_name": "【3支】宏宝莱俄式大蛋脆筒牛奶味冰淇淋90g*3",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6920882279650",
+    "item_name": "成山农场清香型纯粮53度白酒500ml",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6933664902875",
+    "item_name": "成山农场低芥酸菜籽油5L(淘宝闪购专属价)",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1201001121",
+    "item_name": "【日日鲜】精排约400g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2064781",
+    "item_name": "【门店现烤】(外卖)现烤核桃红枣蛋糕约400g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2099932",
+    "item_name": "【门店现做】奶香黑芝麻蛋卷(份)约300g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110600018B",
+    "item_name": "【新鲜】干尧榴莲约3000g保4房",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6934468000279",
+    "item_name": "五得利六星超精小麦粉10kg",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2060795",
+    "item_name": "北京烤鸭单人套餐",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6933276212102",
+    "item_name": "春蕾白壳鸡蛋30枚1.6kg",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1201002461",
+    "item_name": "【日日鲜】无忧黑猪排骨约500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "130300081B",
+    "item_name": "鲜活小龙虾1.5kg(4-6钱)(淘宝闪购专属价)",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "120100020A",
+    "item_name": "【日日鲜】牛肋条约400g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1508001271",
+    "item_name": "【门店现炸】炸带鱼约200g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1508000771",
+    "item_name": "【当日鲜制】卤猪耳约250g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6926626900958",
+    "item_name": "成山农场精制小麦粉5kg",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1508001221",
+    "item_name": "【当日现做】麻辣 秘汁小龙虾约500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6975338584802",
+    "item_name": "成山农场多效酵素洗衣液3kg",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6921168593910",
+    "item_name": "农夫山泉NFC100%橙味果汁900ml",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1508000722",
+    "item_name": "【当日现制】五香酱牛肉约500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110600018A",
+    "item_name": "【新鲜】干尧榴莲约2000g保2房",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6923644297251",
+    "item_name": "蒙牛全脂灭菌乳利乐梦幻盖3.8g乳蛋白）250ml*10",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "210400348A",
+    "item_name": "【6瓶】成山农场德式小麦啤酒1L*6(箱装)",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2063189",
+    "item_name": "【门店现做】甜皮鸭一只装约600g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6971892270014",
+    "item_name": "黄天鹅可生食鸡蛋15枚",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "1303000441",
+    "item_name": "【活鱼现杀】活鱼现杀 循环吊水大鲈鱼约600g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "120100019B",
+    "item_name": "【不打水】新鲜黄牛 牛肉（牛霖）约300g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2066341",
+    "item_name": "【活鱼现杀】活鱼现杀 鲜活桂鱼(条)约650g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2066360B",
+    "item_name": "【鲜活】鲜活小龙虾6-8钱约1500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110300028B",
+    "item_name": "【新鲜】麒麟瓜(1个)(称重退差) 约6kg",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6946917600923",
+    "item_name": "成山农场柬埔寨香米5kg",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "120100019A",
+    "item_name": "【不打水】新鲜黄牛牛肉(牛霖)约500g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2061277",
+    "item_name": "【门店现烤】(外卖)北京烤鸭双人套餐",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "120100013A",
+    "item_name": "【日日鲜】牛上脑约400g",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "110600032B",
+    "item_name": "【新鲜】金枕榴莲(称重退差) 约4斤",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6971892270144",
+    "item_name": "黄天鹅可生食无抗鸡蛋30枚（礼盒）",
+    "store_id": "1265426893",
+    "brand": "成山农场",
+    "priority": "P1"
+  }
+]

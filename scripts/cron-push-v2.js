@@ -27,7 +27,7 @@ const http = require('http');
 const path = require('path');
 
 const WEBHOOK = process.env.DING_WEBHOOK
-  || 'https://oapi.dingtalk.com/robot/send?access_token=b92c7d5f0c3a4447294f310afbaa99ce09ae3ce1b15a470e029dd8f38a60fa86';
+  || 'https://oapi.dingtalk.com/robot/send?access_token=86ff44c61d0eb7877f9db3bef374ab387480e7193764dfc3a98c125711cc48b2';
 const API = process.env.MVP_API || 'https://xtt-pilot.onrender.com';
 const INTERNAL_KEY = process.env.MVP_INTERNAL_KEY || 'worker-key-2026-prod';
 
@@ -50,6 +50,31 @@ function getHqBaseUrl(brand) {
 }
 // 是否启用 HQ 按钮（默认开启，可用 HQ_BUTTON=off 关闭）
 const HQ_BUTTON_ENABLED = (process.env.HQ_BUTTON || 'on').toLowerCase() !== 'off';
+
+// ============ 品牌配置加载 ============
+const BRANDS_CONFIG_PATH = path.join(__dirname, 'brands-config.json');
+let brandsConfig = null;
+try {
+  brandsConfig = JSON.parse(fs.readFileSync(BRANDS_CONFIG_PATH, 'utf8'));
+} catch (e) {
+  console.warn(`[cron-push-v2] brands-config.json 不存在或解析失败，鲸品云字段将缺省: ${e.message}`);
+}
+
+// 按 wid 查找对应门店的 whaleShopId 和 credentialKey
+function getWhaleConfig(storeWid) {
+  if (!brandsConfig || !brandsConfig.brands) return { whaleShopId: null, credentialKey: null };
+  for (const [brandKey, brand] of Object.entries(brandsConfig.brands)) {
+    for (const store of (brand.stores || [])) {
+      if (String(store.wid) === String(storeWid)) {
+        return {
+          whaleShopId: store.whaleShopId || null,
+          credentialKey: brand.credentialKey || null,
+        };
+      }
+    }
+  }
+  return { whaleShopId: null, credentialKey: null };
+}
 
 // 解析命令行参数
 const argv = process.argv.slice(2);
@@ -207,10 +232,15 @@ async function main() {
         console.warn(`[cron-push-v2] cleanup-pending 失败 (非致命): ${e.message}`);
       }
       try {
+        // 从 brands-config 获取门店对应的鲸品云隔离字段
+        const whaleConf = getWhaleConfig(storeId);
         const syncRes = await post(`${API}/v1/internal/sync-tasks`, {
           batchId, storeId, storeName, items: unattended,
+          whaleShopId: whaleConf.whaleShopId,
+          credentialKey: whaleConf.credentialKey,
         }, { 'X-Internal-Key': INTERNAL_KEY });
-        console.log(`[cron-push-v2] sync result:`, syncRes.ok ? 'OK' : syncRes);
+        console.log(`[cron-push-v2] sync result:`, syncRes.ok ? 'OK' : syncRes,
+          `(whale=${whaleConf.whaleShopId}, cred=${whaleConf.credentialKey})`);
       } catch (e) {
         console.warn(`[cron-push-v2] sync-render 失败 (非致命): ${e.message}`);
       }

@@ -147,9 +147,10 @@ app.get('/v1/tasks/:id/status', authMiddleware, (req, res) => {
 
 // ============ Worker 内部 API ============
 app.post('/v1/internal/worker/claim', internalOnly, (req, res) => {
-  // 拿一批 EXECUTING 状态 + retry_count < 3 的任务
+  // 拿一批 EXECUTING 状态 + retry_count < 3 的任务（含鲸品云隔离字段）
   const rows = db.prepare(`
-    SELECT id, store_id, sku, barcode, item_name, action, substitute_sku, actual_price, retry_count
+    SELECT id, store_id, sku, barcode, item_name, action, substitute_sku, actual_price, retry_count,
+           whale_shop_id, credential_key
     FROM tasks
     WHERE status='EXECUTING' AND retry_count < 3
     ORDER BY updated_at LIMIT 20
@@ -227,7 +228,7 @@ app.post('/v1/internal/cleanup-pending', internalOnly, (req, res) => {
 
 // ============ Kunlun 实时同步 API ============
 app.post('/v1/internal/sync-tasks', internalOnly, (req, res) => {
-  const { batchId, storeId, storeName, items } = req.body || {};
+  const { batchId, storeId, storeName, items, whaleShopId, credentialKey } = req.body || {};
   if (!batchId || !storeId || !Array.isArray(items)) {
     return res.status(400).json({ ok: false, err: 'batchId, storeId, items[] required' });
   }
@@ -245,12 +246,13 @@ app.post('/v1/internal/sync-tasks', internalOnly, (req, res) => {
       VALUES (?, ?, ?, 1)`).run([storeId, storeName || storeId, storeName || storeId]);
   }
 
-  // 批量插入
+  // 批量插入（含鲸品云隔离字段）
   const ins = db.prepare(`INSERT INTO tasks
     (batch_id, store_id, store_name, sku, barcode, item_name, category,
      priority, suggest_price, image_url, yesterday_sales, stock,
-     monthly_sales, current_price, activity_price, status)
-    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'PENDING')`);
+     monthly_sales, current_price, activity_price,
+     whale_shop_id, credential_key, status)
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'PENDING')`);
 
   let created = 0;
   for (const it of items) {
@@ -268,11 +270,13 @@ app.post('/v1/internal/sync-tasks', internalOnly, (req, res) => {
       it.monthlySales || it.monthly_sales || 0,
       it.currentPrice || it.current_price || it.price || 0,
       it.activityPrice || it.activity_price || null,
+      whaleShopId || null,
+      credentialKey || null,
     ]);
     created++;
   }
 
-  console.log(`[sync-tasks] batch=${batchId} store=${storeId} deleted=${deleted.changes} created=${created}`);
+  console.log(`[sync-tasks] batch=${batchId} store=${storeId} whale=${whaleShopId||'N/A'} cred=${credentialKey||'N/A'} deleted=${deleted.changes} created=${created}`);
   res.json({ ok: true, batchId, storeId, deleted: deleted.changes, created });
 });
 

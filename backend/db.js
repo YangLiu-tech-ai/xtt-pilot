@@ -111,6 +111,11 @@ const migrations = [
   // shortage_reason: 1=品质不好 2=价格错误 3=暂未到货 4=已停售 5=其他
   'ALTER TABLE tasks ADD COLUMN shortage_reason INTEGER',
   'ALTER TABLE tasks ADD COLUMN shortage_reason_detail TEXT',
+  // === 多品牌多账号隔离（v2026.07） ===
+  // whale_shop_id: 鲸品云门店ID（每店不同），worker 按此字段查询/上架
+  // credential_key: 凭证池索引键，worker 用它加载对应品牌的 refreshToken
+  'ALTER TABLE tasks ADD COLUMN whale_shop_id TEXT',
+  'ALTER TABLE tasks ADD COLUMN credential_key TEXT',
 ];
 for (const sql of migrations) {
   try { db.exec(sql); } catch (e) {

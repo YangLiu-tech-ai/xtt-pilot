@@ -9,3 +9,10 @@ token.tmp
 run-worker.bat
 run-worker-now.bat
 run_worker.bat
+# 敏感凭证（含 whale refresh_token / kunlun buc token / cookieFile 路径），本地保管，禁入库
+scripts/whale-credentials.json
+scripts/kunlun-credentials.json
+# cron 每次运行生成的临时数据（每次覆盖），无需入库
+scripts/items_*.json
+scripts/stores_*.json
+scripts/unattended-*.json
