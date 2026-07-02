@@ -257,10 +257,13 @@ function mount(app, db) {
     });
   });
 
-  // ========== 派活 ==========
+  // ========== 催办 ==========
 
   /**
-   * 总部派活：勾选 SKU → 建 task → 钉钉群 @ 店长
+   * 总部催办：勾选 SKU → 升级已有任务为"总部关注" → 钉钉群 @ 店长
+   * 逻辑：优先 UPDATE 已有 PENDING/EXECUTING 任务的 source/assigned_by/assigned_at，
+   *       门店端只看到一条记录但多了紫色"总部派"徽标 + 置顶。
+   *       若该 (store_id, barcode) 无活跃任务，才 INSERT 新记录（罕见场景）。
    * POST /api/hq/tasks/assign
    * body: { items: [{ shop_id, barcode, item_name?, yesterday_sales?, suggest_price? }] }
    */
@@ -274,12 +277,13 @@ function mount(app, db) {
       return res.status(400).json({ ok: false, err: 'TOO_MANY_ITEMS' });
     }
 
-    const created = [];
+    const upgraded = [];   // 已有任务被标记为催办
+    const inserted = [];   // 全新插入（罕见）
     const skipped = [];
     const byShop = {};
     const nowIso = new Date().toISOString();
 
-    // 按 shop_id 分组
+    // 按 shop_id 分组 + 权限校验
     for (const it of items) {
       const shop = getShopMeta(it.shop_id);
       if (!shop || shop.brand !== brand) {
@@ -294,7 +298,19 @@ function mount(app, db) {
       byShop[it.shop_id].items.push(it);
     }
 
-    // 逐店事务化创建任务
+    // 准备 SQL
+    const findExisting = db.prepare(`
+      SELECT id FROM tasks
+      WHERE store_id = ? AND barcode = ? AND status IN ('PENDING','EXECUTING')
+      ORDER BY created_at DESC LIMIT 1
+    `);
+    const upgradeStmt = db.prepare(`
+      UPDATE tasks
+      SET source = 'hq_assigned',
+          assigned_by = ?,
+          assigned_at = ?
+      WHERE id = ?
+    `);
     const insertStmt = db.prepare(`
       INSERT INTO tasks
         (batch_id, store_id, store_name, sku, barcode, item_name,
@@ -307,54 +323,57 @@ function mount(app, db) {
 
     for (const shopId in byShop) {
       const { shop, items: shopItems } = byShop[shopId];
-      const insertedItems = [];
+      const notifiedItems = [];
 
       for (const it of shopItems) {
         try {
-          const info = insertStmt.run([
-            batchId,
-            shopId,
-            shop.shop_full_name,
-            it.sku || it.barcode || `HQ-${Date.now()}`,
-            it.barcode || '',
-            it.item_name || '未命名商品',
-            it.category || '',
-            it.priority || 'P1',
-            it.suggest_price || 0,
-            it.yesterday_sales || 0,
-            it.stock || 0,
-            it.monthly_sales || 0,
-            userId || 'hq_unknown',
-            nowIso,
-          ]);
-          const taskId = info.lastInsertRowid;
-          insertedItems.push({
+          const existing = findExisting.get([shopId, it.barcode]);
+          let taskId;
+
+          if (existing) {
+            // 催办：升级已有任务（不产生新记录，店长只看到一条）
+            upgradeStmt.run([userId || 'hq_unknown', nowIso, existing.id]);
+            taskId = existing.id;
+            upgraded.push({ task_id: taskId, shop_id: shopId, barcode: it.barcode });
+          } else {
+            // 罕见：tasks 表无此 SKU 的活跃记录
+            const info = insertStmt.run([
+              batchId, shopId, shop.shop_full_name,
+              it.sku || it.barcode || `HQ-${Date.now()}`,
+              it.barcode || '', it.item_name || '未命名商品',
+              it.category || '', it.priority || 'P1',
+              it.suggest_price || 0, it.yesterday_sales || 0,
+              it.stock || 0, it.monthly_sales || 0,
+              userId || 'hq_unknown', nowIso,
+            ]);
+            taskId = info.lastInsertRowid;
+            inserted.push({ task_id: taskId, shop_id: shopId, barcode: it.barcode });
+          }
+
+          notifiedItems.push({
             task_id: taskId,
             shop_id: shopId,
             barcode: it.barcode,
             item_name: it.item_name,
             yesterday_loss_gmv: (it.yesterday_sales || 0) * (it.suggest_price || 0),
           });
-          created.push({
-            task_id: taskId,
-            shop_id: shopId,
-            barcode: it.barcode,
-          });
 
           db.prepare(`INSERT INTO task_logs (task_id, event, detail) VALUES (?, ?, ?)`)
-            .run([taskId, 'hq_assigned', JSON.stringify({ assigned_by: userId, brand })]);
+            .run([taskId, 'hq_assigned', JSON.stringify({
+              assigned_by: userId, brand,
+              mode: existing ? 'upgrade' : 'insert',
+            })]);
         } catch (e) {
-          skipped.push({ ...it, reason: 'INSERT_FAIL: ' + e.message });
+          skipped.push({ ...it, reason: 'ASSIGN_FAIL: ' + e.message });
         }
       }
 
-      // 发钉钉群通知 @ 该店店长
-      if (insertedItems.length > 0) {
+      // 发钉钉群催办通知 @ 该店店长
+      if (notifiedItems.length > 0) {
         try {
-          await sendTaskAssigned(brand, shop, insertedItems, `HQ运营·${userId || 'test'}`);
+          await sendTaskAssigned(brand, shop, notifiedItems, `HQ运营·${userId || 'test'}`);
         } catch (e) {
           console.error('[hq-routes] dingtalk push failed for shop', shopId, e.message);
-          // 不影响 task 创建成功
         }
       }
     }
@@ -362,9 +381,11 @@ function mount(app, db) {
     res.json({
       ok: true,
       batch_id: batchId,
-      created_cnt: created.length,
+      upgraded_cnt: upgraded.length,
+      inserted_cnt: inserted.length,
       skipped_cnt: skipped.length,
-      created,
+      upgraded,
+      inserted,
       skipped,
     });
   });

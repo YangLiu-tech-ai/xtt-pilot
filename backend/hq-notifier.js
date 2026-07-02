@@ -92,12 +92,12 @@ async function sendMorningAlert(brand, summary) {
   });
 }
 
-// ============ 场景 2：总部派单通知 @ 店长 ============
+// ============ 场景 2：总部催办通知 @ 店长 ============
 /**
  * @param {string} brand
  * @param {object} shopInfo { shop_id, shop_short_name, store_manager_mobile }
  * @param {Array<object>} items [{ item_name, yesterday_loss_gmv }]
- * @param {string} assignedBy 派单人显示名
+ * @param {string} assignedBy 催办人显示名
  */
 async function sendTaskAssigned(brand, shopInfo, items, assignedBy = 'HQ总部') {
   const cfg = BRAND_CONFIG[brand];
@@ -113,24 +113,24 @@ async function sendTaskAssigned(brand, shopInfo, items, assignedBy = 'HQ总部')
   if (items.length > 8) skuLines.push(`- ... 共 ${items.length} 件`);
 
   const md = [
-    `### 推送 · 总部派单提醒`,
+    `### 推送 · 总部催办`,
     '',
     mobile ? `@${mobile}` : '',
     '',
-    `**${shopInfo.shop_short_name}** 总部派单 **${items.length}** 件待处理`,
+    `**${shopInfo.shop_short_name}** 以下 **${items.length}** 件商品总部重点关注，请尽快处理`,
     `预估挽回损失 ¥${totalLoss.toFixed(0)}`,
     '',
     ...skuLines,
     '',
     `[立即处理 →](${storeH5Link})`,
     '',
-    `> 派单人：${assignedBy} · ${new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })}`,
+    `> 催办人：${assignedBy} · ${new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })}`,
   ].filter(Boolean).join('\n');
 
   return postToDingtalk(cfg.webhook, {
     msgtype: 'markdown',
     markdown: {
-      title: `推送·总部派单`,
+      title: `推送·总部催办`,
       text: md,
     },
     at: {
