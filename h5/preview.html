@@ -630,6 +630,10 @@
     </div>
     <div class="reason-option" data-reason="5">
       <div class="reason-radio"></div>
+      <div class="reason-label">线下售罄</div>
+    </div>
+    <div class="reason-option" data-reason="6">
+      <div class="reason-radio"></div>
       <div class="reason-label">其他</div>
     </div>
     <div class="reason-detail-wrap" id="reasonDetailWrap">
@@ -1336,7 +1340,7 @@ document.querySelectorAll('.reason-option').forEach(el => {
     reasonState.code = code;
     document.querySelectorAll('.reason-option').forEach(x => x.classList.remove('selected'));
     el.classList.add('selected');
-    document.getElementById('reasonDetailWrap').classList.toggle('show', code === 5);
+    document.getElementById('reasonDetailWrap').classList.toggle('show', code === 6);
     document.getElementById('reasonConfirmBtn').disabled = false;
   };
 });

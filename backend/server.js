@@ -101,11 +101,11 @@ app.post('/v1/tasks/:id/act', authMiddleware, (req, res) => {
   if (!['shelf', 'shortage', 'substitute'].includes(action)) {
     return res.status(400).json({ ok: false, err: 'bad action' });
   }
-  // shortage 必须带 reason (1-5)
+  // shortage 必须带 reason (1-6)
   let reasonCode = null, reasonDetail = null;
   if (action === 'shortage') {
     reasonCode = Number(shortageReason);
-    if (!Number.isInteger(reasonCode) || reasonCode < 1 || reasonCode > 5) {
+    if (!Number.isInteger(reasonCode) || reasonCode < 1 || reasonCode > 6) {
       return res.status(400).json({ ok: false, err: 'SHORTAGE_REASON_REQUIRED' });
     }
     if (shortageReasonDetail) {
