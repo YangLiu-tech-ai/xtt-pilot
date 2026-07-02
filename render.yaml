@@ -2,7 +2,11 @@ services:
   - type: web
     name: xtt-pilot
     runtime: node
-    plan: free
+    plan: starter
+    disk:
+      name: xtt-data
+      mountPath: /var/data
+      sizeGB: 1
     buildCommand: |
       echo "BUILD $(date) $(git rev-parse --short HEAD)" &&
       cd backend && npm install --production && cd ..
@@ -10,6 +14,8 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      - key: DB_PATH
+        value: /var/data/mvp.db
       - key: MVP_SECRET
         value: xtt-mvp-prod-secret-2026
       - key: MVP_INTERNAL_KEY

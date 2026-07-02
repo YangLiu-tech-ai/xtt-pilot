@@ -407,6 +407,101 @@ app.get('/v1/internal/report/daily-summary', internalOnly, (req, res) => {
   });
 });
 
+// 按 batchId / storeId 拉 task_logs 事件流（join tasks 取核心字段）
+// GET /v1/internal/task-logs?batchId=xxx&storeId=xxx&days=1&limit=500
+app.get('/v1/internal/task-logs', internalOnly, (req, res) => {
+  const { batchId, storeId } = req.query;
+  const days = Math.max(1, Math.min(30, parseInt(req.query.days || '1', 10) || 1));
+  const limit = Math.max(1, Math.min(2000, parseInt(req.query.limit || '500', 10) || 500));
+  if (!batchId && !storeId) {
+    return res.status(400).json({ ok: false, err: 'batchId or storeId required' });
+  }
+
+  const where = [`l.created_at >= datetime('now','+8 hours','-${days} days')`];
+  const params = [];
+  if (batchId) { where.push(`t.batch_id = ?`); params.push(batchId); }
+  if (storeId) { where.push(`t.store_id = ?`); params.push(storeId); }
+
+  const rows = db.prepare(`
+    SELECT
+      l.id            AS log_id,
+      l.task_id       AS task_id,
+      l.event         AS event,
+      l.detail        AS detail,
+      l.created_at    AS event_at,
+      t.batch_id      AS batch_id,
+      t.store_id      AS store_id,
+      t.store_name    AS store_name,
+      t.barcode       AS barcode,
+      t.item_name     AS item_name,
+      t.sku           AS sku,
+      t.status        AS status,
+      t.action        AS action,
+      t.operator      AS operator,
+      t.shortage_reason      AS shortage_reason,
+      t.shortage_reason_detail AS shortage_reason_detail,
+      t.error_msg     AS error_msg,
+      t.acted_at      AS acted_at,
+      t.updated_at    AS updated_at
+    FROM task_logs l
+    LEFT JOIN tasks t ON t.id = l.task_id
+    WHERE ${where.join(' AND ')}
+    ORDER BY l.id DESC
+    LIMIT ${limit}
+  `).all(params);
+
+  // detail 反序列化
+  const logs = rows.map(r => ({ ...r, detail: safeJson(r.detail) }));
+
+  // 事件类型直方图
+  const eventHist = {};
+  for (const r of logs) eventHist[r.event] = (eventHist[r.event] || 0) + 1;
+
+  res.json({
+    ok: true,
+    query: { batchId: batchId || null, storeId: storeId || null, days, limit },
+    count: logs.length,
+    eventHist,
+    logs,
+  });
+});
+
+// 白名单单表 dump（开发排查用）
+// GET /v1/internal/db-dump?table=tasks&limit=200&where=status:PENDING
+app.get('/v1/internal/db-dump', internalOnly, (req, res) => {
+  const ALLOW = new Set(['tasks', 'task_logs', 'stores', 'hq_shops_meta', 'substitutes', 'substitute_rules']);
+  const table = String(req.query.table || '').trim();
+  if (!ALLOW.has(table)) {
+    return res.status(400).json({ ok: false, err: 'table must be one of: ' + [...ALLOW].join(', ') });
+  }
+  const limit = Math.max(1, Math.min(1000, parseInt(req.query.limit || '200', 10) || 200));
+
+  // 可选 where=col:val 简单等值过滤（仅字母数字下划线列名，避免注入）
+  const whereClauses = [];
+  const whereParams = [];
+  const rawWhere = req.query.where;
+  if (rawWhere) {
+    const parts = String(rawWhere).split(',');
+    for (const p of parts) {
+      const [col, ...rest] = p.split(':');
+      const val = rest.join(':');
+      if (!/^[A-Za-z_][A-Za-z0-9_]*$/.test(col)) continue;
+      whereClauses.push(`${col} = ?`);
+      whereParams.push(val);
+    }
+  }
+
+  const sql = `SELECT * FROM ${table} ${whereClauses.length ? 'WHERE ' + whereClauses.join(' AND ') : ''}
+    ORDER BY ${table === 'task_logs' ? 'id' : (table === 'tasks' ? 'id' : 'ROWID')} DESC LIMIT ${limit}`;
+
+  try {
+    const rows = db.prepare(sql).all(whereParams);
+    res.json({ ok: true, table, count: rows.length, rows });
+  } catch (e) {
+    res.status(500).json({ ok: false, err: e.message });
+  }
+});
+
 // ============ HQ 总部端路由 ============
 try {
   const hqRoutes = require('./hq-routes');

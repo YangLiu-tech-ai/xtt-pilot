@@ -437,6 +437,92 @@ function mount(app, db) {
     res.json({ ok: true, count: tasks.length, tasks });
   });
 
+  /**
+   * 门店在推送清单上的完整操作历史
+   * GET /api/hq/tasks/history?days=7&status=&shop_id=&batchId=&limit=200
+   * 返回全 source（含 sync-tasks 自动同步 + hq_assigned 派单）所有状态任务，附带 task_logs 事件序列
+   */
+  app.get('/api/hq/tasks/history', hqAuth(), (req, res) => {
+    const { brand, shopIds } = req.hqUser;
+    const days = Math.max(1, Math.min(30, parseInt(req.query.days || '7', 10) || 7));
+    const limit = Math.max(1, Math.min(1000, parseInt(req.query.limit || '200', 10) || 200));
+    const { status, shop_id, batchId } = req.query;
+
+    const shops = getBrandShops(brand, shopIds);
+    const allowedShopIds = shops.map(s => s.shop_id);
+    if (allowedShopIds.length === 0) return res.json({ ok: true, tasks: [] });
+
+    let sql = `
+      SELECT t.id AS task_id, t.batch_id, t.store_id, t.store_name,
+             t.barcode, t.item_name, t.sku, t.category,
+             t.status, t.action, t.source, t.operator,
+             t.assigned_by, t.assigned_at, t.pushed_at, t.acted_at,
+             t.shortage_reason, t.shortage_reason_detail,
+             t.error_msg, t.retry_count,
+             t.created_at, t.updated_at
+      FROM tasks t
+      WHERE t.store_id IN (${allowedShopIds.map(() => '?').join(',')})
+        AND t.created_at >= datetime('now','+8 hours','-${days} days')
+    `;
+    const params = [...allowedShopIds];
+    if (status)   { sql += ` AND t.status = ?`;    params.push(status); }
+    if (shop_id)  { sql += ` AND t.store_id = ?`;  params.push(shop_id); }
+    if (batchId)  { sql += ` AND t.batch_id = ?`;  params.push(batchId); }
+    sql += ` ORDER BY COALESCE(t.acted_at, t.updated_at, t.created_at) DESC LIMIT ${limit}`;
+
+    const tasks = db.prepare(sql).all(params);
+
+    // 附加事件流：一次查所有 task_ids 的 task_logs，避免 N+1
+    let logsByTask = {};
+    if (tasks.length > 0) {
+      const ids = tasks.map(t => t.task_id);
+      const placeholders = ids.map(() => '?').join(',');
+      const logs = db.prepare(`
+        SELECT id, task_id, event, detail, created_at
+        FROM task_logs
+        WHERE task_id IN (${placeholders})
+        ORDER BY id
+      `).all(ids);
+      for (const l of logs) {
+        if (!logsByTask[l.task_id]) logsByTask[l.task_id] = [];
+        let d = l.detail;
+        try { d = JSON.parse(d); } catch { /* keep raw */ }
+        logsByTask[l.task_id].push({
+          id: l.id, event: l.event, detail: d, at: l.created_at,
+        });
+      }
+    }
+
+    // SLA + 事件摘要
+    const enriched = tasks.map(t => {
+      const logs = logsByTask[t.task_id] || [];
+      let sla_minutes = null;
+      if (t.pushed_at && t.acted_at) {
+        sla_minutes = Math.round((new Date(t.acted_at) - new Date(t.pushed_at)) / 60000);
+      } else if (t.assigned_at && t.acted_at) {
+        sla_minutes = Math.round((new Date(t.acted_at) - new Date(t.assigned_at)) / 60000);
+      }
+      return { ...t, sla_minutes, events: logs, event_count: logs.length };
+    });
+
+    // 状态直方图
+    const statusHist = {};
+    const actionHist = {};
+    for (const t of enriched) {
+      statusHist[t.status] = (statusHist[t.status] || 0) + 1;
+      if (t.action) actionHist[t.action] = (actionHist[t.action] || 0) + 1;
+    }
+
+    res.json({
+      ok: true,
+      query: { days, limit, status: status || null, shop_id: shop_id || null, batchId: batchId || null },
+      count: enriched.length,
+      statusHist,
+      actionHist,
+      tasks: enriched,
+    });
+  });
+
   // ========== 群推触发（手动 / cron） ==========
 
   /**
