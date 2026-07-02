@@ -280,6 +280,133 @@ app.post('/v1/internal/sync-tasks', internalOnly, (req, res) => {
   res.json({ ok: true, batchId, storeId, deleted: deleted.changes, created });
 });
 
+// ============ 只读审计 API（门店操作记录查询） ============
+
+// 计算某日在北京时区的 [YYYY-MM-DD 00:00:00, YYYY-MM-DD 24:00:00) 范围
+// 数据库 created_at/acted_at/updated_at 存的是 +8 时区字符串，直接字符串比较即可
+function normalizeDate(dateStr) {
+  if (!dateStr) {
+    const now = new Date(Date.now() + 8 * 3600 * 1000);
+    return now.toISOString().slice(0, 10);
+  }
+  const s = String(dateStr).slice(0, 10);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(s)) return null;
+  return s;
+}
+
+// 按门店 + 日期返回当天全部任务快照（含状态、动作、鲸品云字段、错误信息）
+app.get('/v1/internal/report/tasks-by-store', internalOnly, (req, res) => {
+  const { storeId } = req.query;
+  const date = normalizeDate(req.query.date);
+  if (!storeId) return res.status(400).json({ ok: false, err: 'storeId required' });
+  if (!date) return res.status(400).json({ ok: false, err: 'date must be YYYY-MM-DD' });
+
+  const start = `${date} 00:00:00`;
+  const end = `${date} 23:59:59`;
+
+  const rows = db.prepare(`
+    SELECT id, batch_id, store_id, store_name, sku, barcode, item_name, category,
+           priority, suggest_price, actual_price, substitute_sku,
+           status, action, operator, retry_count, error_msg,
+           shortage_reason, shortage_reason_detail,
+           whale_shop_id, credential_key,
+           created_at, pushed_at, acted_at, updated_at
+    FROM tasks
+    WHERE store_id = ?
+      AND (
+        (created_at BETWEEN ? AND ?)
+        OR (acted_at BETWEEN ? AND ?)
+        OR (updated_at BETWEEN ? AND ?)
+      )
+    ORDER BY COALESCE(acted_at, updated_at, created_at) DESC
+  `).all([storeId, start, end, start, end, start, end]);
+
+  // 附加状态分布
+  const summary = { total: rows.length };
+  for (const r of rows) summary[r.status] = (summary[r.status] || 0) + 1;
+
+  res.json({ ok: true, storeId, date, summary, tasks: rows });
+});
+
+// 按任务 ID 返回全事件流水
+app.get('/v1/internal/report/task-logs/:taskId', internalOnly, (req, res) => {
+  const taskId = Number(req.params.taskId);
+  if (!Number.isInteger(taskId)) return res.status(400).json({ ok: false, err: 'taskId must be integer' });
+  const task = db.prepare(`SELECT * FROM tasks WHERE id=?`).get([taskId]);
+  if (!task) return res.status(404).json({ ok: false, err: 'NOT_FOUND' });
+  const logs = db.prepare(`
+    SELECT id, event, detail, created_at FROM task_logs WHERE task_id=? ORDER BY id
+  `).all([taskId]);
+  res.json({ ok: true, task, logs: logs.map(l => ({ ...l, detail: safeJson(l.detail) })) });
+});
+
+function safeJson(s) {
+  if (s == null) return null;
+  try { return JSON.parse(s); } catch { return s; }
+}
+
+// 按品牌 credential_key + 日期出日报聚合（跨门店汇总）
+app.get('/v1/internal/report/daily-summary', internalOnly, (req, res) => {
+  const date = normalizeDate(req.query.date);
+  const credKey = req.query.credentialKey || null;
+  if (!date) return res.status(400).json({ ok: false, err: 'date must be YYYY-MM-DD' });
+
+  const start = `${date} 00:00:00`;
+  const end = `${date} 23:59:59`;
+
+  const where = [`(created_at BETWEEN ? AND ? OR acted_at BETWEEN ? AND ? OR updated_at BETWEEN ? AND ?)`];
+  const params = [start, end, start, end, start, end];
+  if (credKey) { where.push(`credential_key = ?`); params.push(credKey); }
+
+  // 按门店 x 状态聚合
+  const byStore = db.prepare(`
+    SELECT store_id, store_name, whale_shop_id, credential_key,
+           status, action, COUNT(*) as n
+    FROM tasks
+    WHERE ${where.join(' AND ')}
+    GROUP BY store_id, store_name, whale_shop_id, credential_key, status, action
+    ORDER BY store_id
+  `).all(params);
+
+  // 按门店整理
+  const storeMap = {};
+  for (const r of byStore) {
+    const key = r.store_id;
+    if (!storeMap[key]) {
+      storeMap[key] = {
+        storeId: r.store_id,
+        storeName: r.store_name,
+        whaleShopId: r.whale_shop_id,
+        credentialKey: r.credential_key,
+        total: 0,
+        byStatus: {},
+        byAction: {},
+      };
+    }
+    storeMap[key].total += r.n;
+    storeMap[key].byStatus[r.status] = (storeMap[key].byStatus[r.status] || 0) + r.n;
+    if (r.action) storeMap[key].byAction[r.action] = (storeMap[key].byAction[r.action] || 0) + r.n;
+  }
+
+  // 失败任务样例（便于排查）
+  const failWhere = [...where, `status = 'FAILED'`];
+  const failedSamples = db.prepare(`
+    SELECT id, store_id, store_name, sku, barcode, item_name,
+           whale_shop_id, credential_key, error_msg, retry_count, updated_at
+    FROM tasks
+    WHERE ${failWhere.join(' AND ')}
+    ORDER BY updated_at DESC LIMIT 20
+  `).all(params);
+
+  res.json({
+    ok: true,
+    date,
+    credentialKey: credKey,
+    stores: Object.values(storeMap),
+    failedSamples,
+  });
+});
+
 // ============ HQ 总部端路由 ============
 try {
   const hqRoutes = require('./hq-routes');
