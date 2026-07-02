@@ -9,11 +9,14 @@
 // 初始化 DB schema（db.js 导入时自动创建表）
 const db = require('./backend/db');
 
-// 检查是否需要 seed
+// 检查是否需要 seed（默认关闭，避免冷启动覆盖真实推送数据；开发/测试环境显式设 SEED_ON_START=1 才跑）
 const count = db.prepare('SELECT COUNT(*) as n FROM tasks').get().n;
-if (count === 0) {
-  console.log('[render-start] DB 为空，执行 seed...');
+const shouldSeed = process.env.SEED_ON_START === '1';
+if (count === 0 && shouldSeed) {
+  console.log('[render-start] DB 为空且 SEED_ON_START=1，执行 seed...');
   require('./scripts/seed');
+} else if (count === 0) {
+  console.log('[render-start] DB 为空，未设 SEED_ON_START=1，跳过 seed（生产模式）');
 } else {
   console.log(`[render-start] DB 已有 ${count} 条任务，跳过 seed`);
 }
