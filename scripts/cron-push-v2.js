@@ -161,6 +161,12 @@ async function main() {
     const items = store.items || [];
     console.log(`[cron-push-v2] 门店: ${storeName} (${storeId}), 商品: ${items.length}`);
 
+    // ⛔ 防护1：商品数据为空 = 昆仑取数失败，严禁推送
+    if (!items || items.length === 0) {
+      console.error(`[cron-push-v2] ⛔ 数据异常: ${storeName}(${storeId}) 商品数据为空，昆仑取数可能失败，跳过推送`);
+      continue;
+    }
+
     // 完整性检查
     if (store.fetchedCount && store.apiTotal) {
       const rate = store.fetchedCount / store.apiTotal;
@@ -211,6 +217,15 @@ async function main() {
     }
 
     console.log(`[cron-push-v2] 未出勤: ${unattended.length} 件`);
+
+    // ⛔ 防护2：未出勤占比超过 80% = 数据异常（正常情况下不会几乎全部缺货）
+    const storeMonitorCount = Array.from(monitorMap.values()).filter(
+      m => !m.store_id || m.store_id === storeId
+    ).length;
+    if (storeMonitorCount > 0 && unattended.length > storeMonitorCount * 0.8) {
+      console.error(`[cron-push-v2] ⛔ 数据异常: ${storeName}(${storeId}) 未出勤 ${unattended.length}/${storeMonitorCount} (${(unattended.length / storeMonitorCount * 100).toFixed(1)}% > 80%)，疑似数据不完整，跳过推送`);
+      continue;
+    }
 
     if (unattended.length === 0) {
       console.log(`[cron-push-v2] ✅ ${storeName} 全部在架，跳过推送`);
