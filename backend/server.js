@@ -159,14 +159,15 @@ app.post('/v1/internal/worker/claim', internalOnly, (req, res) => {
 });
 
 app.post('/v1/internal/worker/report', internalOnly, (req, res) => {
-  const { taskId, success, errorMsg } = req.body || {};
+  const { taskId, success, errorMsg, operationType } = req.body || {};
   const task = db.prepare(`SELECT * FROM tasks WHERE id=?`).get([taskId]);
   if (!task) return res.status(404).json({ ok: false, err: 'NOT_FOUND' });
 
   if (success) {
     db.prepare(`UPDATE tasks SET status='DONE', error_msg=NULL,
-      updated_at=datetime('now','+8 hours') WHERE id=?`).run([taskId]);
-    logEvent(taskId, 'done', { success });
+      operation_type=?,
+      updated_at=datetime('now','+8 hours') WHERE id=?`).run([operationType || 'operated', taskId]);
+    logEvent(taskId, 'done', { success, operationType: operationType || 'operated' });
     return res.json({ ok: true, next: 'DONE' });
   }
 

@@ -116,6 +116,10 @@ const migrations = [
   // credential_key: 凭证池索引键，worker 用它加载对应品牌的 refreshToken
   'ALTER TABLE tasks ADD COLUMN whale_shop_id TEXT',
   'ALTER TABLE tasks ADD COLUMN credential_key TEXT',
+  // === 上架操作类型区分（v2026.07） ===
+  // operated: worker 实际调了 onSale API 做了上架操作
+  // already_on_sale: worker 查到 saleStatus=1，商品已在架，跳过操作
+  "ALTER TABLE tasks ADD COLUMN operation_type TEXT",
 ];
 for (const sql of migrations) {
   try { db.exec(sql); } catch (e) {

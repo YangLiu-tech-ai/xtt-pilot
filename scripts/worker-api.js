@@ -199,9 +199,9 @@ async function claimTasks() {
   return r.data.tasks || [];
 }
 
-async function reportResult(taskId, success, errorMsg) {
+async function reportResult(taskId, success, errorMsg, operationType) {
   const url = `${RENDER_API}/v1/internal/worker/report`;
-  const body = { taskId, success, errorMsg: errorMsg || undefined };
+  const body = { taskId, success, errorMsg: errorMsg || undefined, operationType: operationType || undefined };
   const r = await request(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-internal-key': INTERNAL_KEY } },
     JSON.stringify(body));
   return r.data;
@@ -277,9 +277,10 @@ async function main() {
     try {
       const result = await processTask(task);
       if (result.ok) {
-        await reportResult(task.id, true);
+        const opType = result.skipped ? 'already_on_sale' : 'operated';
+        await reportResult(task.id, true, undefined, opType);
         success++;
-        console.log(`[worker] task#${task.id} → DONE`);
+        console.log(`[worker] task#${task.id} → DONE (${opType})`);
       } else {
         await reportResult(task.id, false, result.error);
         failed++;
