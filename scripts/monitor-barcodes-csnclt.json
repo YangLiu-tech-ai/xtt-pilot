@@ -1,4426 +1,6062 @@
 [
   {
     "barcode": "1002000271",
+    "item_id": "1042587538012",
     "item_name": "【新鲜】水果西红柿约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6976111740149",
+    "item_id": "1046419237624",
     "item_name": "小川沟鲜鸡蛋30枚约1.5kg",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1003000141",
+    "item_id": "1042587286776",
     "item_name": "【炖煮季】当季新鲜黄心土豆 约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2063841",
+    "item_id": "1046460793293",
     "item_name": "【新鲜】(新客专享)黄瓜1根约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2063844",
+    "item_id": "1045500726234",
     "item_name": "【新鲜】(新客专享)红洋葱1个约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1006000281",
+    "item_id": "1045513518667",
     "item_name": "【新鲜】日日鲜 小葱 约50g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6978104250253",
+    "item_id": "1000959318153",
     "item_name": "【当日现做】成山老面馒头4个装约400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110600034",
+    "item_id": "1041576991648",
     "item_name": "【软糯香甜】佳农 九分甜进口香蕉约1kg",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6949224301682",
+    "item_id": "1000718246855",
     "item_name": "成山农场肥牛肉卷750g(淘宝闪购专属价)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1002000131",
+    "item_id": "1042587382010",
     "item_name": "【新鲜】薄皮西葫芦约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6973629914550",
+    "item_id": "1000115347958",
     "item_name": "成山农场抽取式面巾纸330张8包",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2070067",
+    "item_id": "1043789838911",
     "item_name": "【菌菇星球】金针菇(份)约200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6947475900371",
+    "item_id": "1002251628647",
     "item_name": "老哥俩稻香米5kg",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6973629914543",
+    "item_id": "1000721618815",
     "item_name": "成山农场卫生纸2000克14卷",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2070109",
+    "item_id": "1043063931077",
     "item_name": "【新鲜】日日鲜 香菜 约100g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1006000151",
+    "item_id": "1043541337932",
     "item_name": "【新鲜】大葱约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110300028A",
+    "item_id": "1049168108369",
     "item_name": "【现切】麒麟瓜西瓜(称重退差) (四分之一个)约2kg",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2063616",
+    "item_id": "1051934253958",
     "item_name": "【新鲜现配】(外卖)老豆腐约400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1001000681",
+    "item_id": "1044410308809",
     "item_name": "【新鲜】菠菜约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2063840",
+    "item_id": "1044760791872",
     "item_name": "【新鲜】(新客专享)土豆1个约150g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "100100046B",
+    "item_id": "1054547454653",
     "item_name": "【新鲜】空心菜约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110300032A",
+    "item_id": "1054592784934",
     "item_name": "【现切】甜王西瓜(四分之一个)约2.5kg",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6933037100891",
+    "item_id": "1000116523495",
     "item_name": "正大无抗鲜鸡蛋【15枚】720g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6978104250277",
+    "item_id": "1002490476102",
     "item_name": "【门店现做】成山刀切馒头4个装约400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6921168558049",
+    "item_id": "1000113355244",
     "item_name": "农夫山泉东方树叶茉莉花500ml",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1303000211",
+    "item_id": "1046522546594",
     "item_name": "[骑手到店现捞]鲜活活虾(基围虾)500g（保证鲜活发货，到家不保活）(淘宝闪购专属价)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1507000311",
+    "item_id": "1042269091188",
     "item_name": "【新鲜现配】日日鲜 百叶/千张/厚豆腐皮约200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1001000271",
+    "item_id": "1044411108115",
     "item_name": "【新鲜】生菜约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1005000091",
+    "item_id": "1044411120155",
     "item_name": "【新鲜】鲜香菇约200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1006000041",
+    "item_id": "1043751786674",
     "item_name": "【新鲜】紫皮大蒜 (新蒜) 约200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000881",
+    "item_id": "1043681817391",
     "item_name": "【日日鲜】精选鲜猪里脊肉约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "130300021A",
+    "item_id": "1051228991516",
     "item_name": "[骑手到店现捞]鲜活活虾(基围虾)150g（保证鲜活发货，到家不保活）(淘宝闪购专属价)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1005000161",
+    "item_id": "1042586950878",
     "item_name": "【新鲜】平菇约450g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6933190927892",
+    "item_id": "1052834787352",
     "item_name": "永和内脂豆腐350g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2070012",
+    "item_id": "1045669190915",
     "item_name": "【新鲜】黄甜玉米(份)约700g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "100400003A",
+    "item_id": "1053671007214",
     "item_name": "【新鲜现配】长豆角约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1508000691",
+    "item_id": "1047940705307",
     "item_name": "【烧烤季】川渝凉拌菜素拼约350g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000931",
+    "item_id": "1042726478152",
     "item_name": "【冰鲜】冰鲜 猪五花肉 约500g(日日鲜)(淘宝闪购专属价)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000151",
+    "item_id": "1043326315633",
     "item_name": "【不打水】新鲜黄牛牛肉 （牛霖）约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110300028",
+    "item_id": "1041577027395",
     "item_name": "【现切】麒麟瓜西瓜(称重退差) (半个)约3.5kg(淘宝闪购专属价)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "100300014A",
+    "item_id": "1051717613787",
     "item_name": "【炖煮季】当季新鲜黄心土豆 约1000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6974321800011",
+    "item_id": "1000722266690",
     "item_name": "金豆子绿豆芽约350g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1006000141",
+    "item_id": "1043541969194",
     "item_name": "【新鲜】大蒜（直条）约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2070110",
+    "item_id": "1048721134878",
     "item_name": "【新鲜】日日鲜 香葱(份)约100g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1001000501",
+    "item_id": "1044411360838",
     "item_name": "【新鲜】韭菜 约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201001031",
+    "item_id": "1044552296448",
     "item_name": "【冰鲜】冰鲜 猪肋排粒(带软骨) 约400g(日日鲜)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1001000191",
+    "item_id": "1041851131828",
     "item_name": "【新鲜】西兰花约550-600g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6922577738640",
+    "item_id": "1000718470232",
     "item_name": "君乐宝悦鲜活A2牛奶260ml",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1006000091",
+    "item_id": "1044410828864",
     "item_name": "【新鲜】老姜约200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6978104250475",
+    "item_id": "1044114846235",
     "item_name": "成山棍棍面(生)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2099812",
+    "item_id": "1032080432208",
     "item_name": "【新鲜】14+怡颗莓蓝莓约125g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1002000601",
+    "item_id": "1044410804695",
     "item_name": "【新鲜】日日鲜 切片冬瓜约950-1000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110500047A",
+    "item_id": "1058844640031",
     "item_name": "【季节限定】黄肉油桃500g（约3-4个）（闪购专属价）",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1002000261",
+    "item_id": "1044410752775",
     "item_name": "【新鲜】茄王约450-500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1003000221",
+    "item_id": "1045676453856",
     "item_name": "【当日现做】中甘 /卷心菜 (包菜) 约900-1000",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2099519",
+    "item_id": "1034847613162",
     "item_name": "【鲜果切】麒麟瓜果切约400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "100100065A",
+    "item_id": "1052768036150",
     "item_name": "【新鲜】小青菜约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2063152",
+    "item_id": "1017135156456",
     "item_name": "【当日现做】(外卖)梅干菜烧饼 葱油饼 时蔬锅盔自选1个",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2062960",
+    "item_id": "1047993544751",
     "item_name": "【当日现做】油饼(个)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6902890228462",
+    "item_id": "1000115263927",
     "item_name": "双汇王中王50g*10",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6971738655623",
+    "item_id": "1000718694463",
     "item_name": "安井虾滑150g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6975060032626",
+    "item_id": "1001516865169",
     "item_name": "成山农场德式小麦啤酒1L",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6970339116984",
+    "item_id": "1030044583277",
     "item_name": "华山牧益生菌原味6联杯160ml",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2062976",
+    "item_id": "1001860173873",
     "item_name": "【门店现烤】霸王烤肠1根",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6923644240783",
+    "item_id": "1001758737370",
     "item_name": "蒙牛八连黄桃酸奶100g*8",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6921665735035",
+    "item_id": "1000112591490",
     "item_name": "思念珍味三鲜薄皮小云吞305g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1001000291",
+    "item_id": "1042587286701",
     "item_name": "【新鲜】散花菜约700g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1003000341",
+    "item_id": "1043541881335",
     "item_name": "【新鲜】胡(红)萝卜 约600g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2062951",
+    "item_id": "1014686599914",
     "item_name": "【门店现做】肉花卷一个",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2002935A",
+    "item_id": "1056816702016",
     "item_name": "[骑手到店现捞]鲜活活虾(基围虾)350g（保证鲜活发货，到家不保活）",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6973990230051",
+    "item_id": "1000717694891",
     "item_name": "皇家小虎原味脆皮烤肠500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2065016",
+    "item_id": "1044975209262",
     "item_name": "【新鲜】印尼红肉菠萝蜜(盒)约210g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2901507003113",
+    "item_id": "1017187900986",
     "item_name": "家庭装鲜豆浆1kg",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202001841",
+    "item_id": "1042977587774",
     "item_name": "【日日鲜】中润鲜鸡胸肉约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110500034A",
+    "item_id": "1050457202550",
     "item_name": "【汁水充盈】水蜜桃约600g（约3-4个）",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6970339119572",
+    "item_id": "1044670013229",
     "item_name": "华山牧每日鲜活鲜牛奶950ml",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110600058",
+    "item_id": "1044132852185",
     "item_name": "【新鲜】(外卖)小台芒约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1001000651",
+    "item_id": "1044411208370",
     "item_name": "【新鲜】日日鲜 小青菜约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6978104250635",
+    "item_id": "1043376751427",
     "item_name": "【当日现做】成山饺子皮约420g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1004000161",
+    "item_id": "1041851351472",
     "item_name": "【新鲜现配】架豆王约350g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1001000331",
+    "item_id": "1041851983263",
     "item_name": "【新鲜】芹菜苗约450g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1001000131",
+    "item_id": "1042587630098",
     "item_name": "【新鲜】小白菜约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "200900165A",
+    "item_id": "1051628622530",
     "item_name": "【15支】中街经典老冰棍牛奶口味60g*15",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1005000061",
+    "item_id": "1044411088482",
     "item_name": "【菌菇星球】杏鲍菇约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6902083881405",
+    "item_id": "1001517117387",
     "item_name": "娃哈哈纯净水596ml",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6902083892104",
+    "item_id": "1054586219556",
     "item_name": "娃哈哈 饮用纯净水 596ml*12瓶",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6920189008038",
+    "item_id": "1002252080190",
     "item_name": "大豫竹香辣牛肉面52g*5",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1002000081",
+    "item_id": "1054094570572",
     "item_name": "【新鲜】小乳瓜约450-500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2000384",
+    "item_id": "1046559484870",
     "item_name": "【新鲜】娃娃菜（颗）约900g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1506000151",
+    "item_id": "1044831900906",
     "item_name": "【新鲜现配】(外卖)短绿豆芽约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6938749816122",
+    "item_id": "1000721378443",
     "item_name": "鲁花低芥酸特香菜籽油非转基因5L",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2061516",
+    "item_id": "1003082747160",
     "item_name": "【日日鲜】成山奥尔良烤鸡整只约500g 【鸡皮微焦、鸡肉嫩滑、秘制配方】",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6922577730378",
+    "item_id": "1002248576709",
     "item_name": "君乐宝简醇酸奶0糖袋150g*6",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6977829299967",
+    "item_id": "1058582946844",
     "item_name": "【当日现做】鲜牛奶吐司面包约400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "200900209A",
+    "item_id": "1053503740164",
     "item_name": "【6支】伊利 玉米香雪糕 65g*6",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "200900201A",
+    "item_id": "1053307989260",
     "item_name": "【4支】伊利火炬80g*4",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1507000301",
+    "item_id": "1042269271054",
     "item_name": "【新鲜现配】(外卖)榆林黑豆腐约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6978104250659",
+    "item_id": "1045961916844",
     "item_name": "成山手擀面(生)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "200900308A",
+    "item_id": "1053648495320",
     "item_name": "【持久耐融】魏乐冰食用冰杯180g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6954767441481",
+    "item_id": "1000719410786",
     "item_name": "可口可乐芬达橙味易拉罐330ml",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6970339118582",
+    "item_id": "1001516205947",
     "item_name": "华山牧黄桃燕麦风味酸奶120g*4",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2005001",
+    "item_id": "1045656584108",
     "item_name": "【新鲜】日日鲜 莴笋(份)约1100g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2062952",
+    "item_id": "1057227368025",
     "item_name": "【门店现做】素花卷1个",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2070026",
+    "item_id": "1044756133959",
     "item_name": "【新鲜】小米椒(份)约100g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2099272",
+    "item_id": "1055267998416",
     "item_name": "【日日鲜】韭菜鸡蛋粉条菜盒1个",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6901285993282",
+    "item_id": "1000113567016",
     "item_name": "怡宝矿泉水6L",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1303000171",
+    "item_id": "1046696705025",
     "item_name": "【现捞】鲜活特大花甲约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1001000341",
+    "item_id": "1042587066877",
     "item_name": "【新鲜】芹菜约700g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1004000031",
+    "item_id": "1041851627822",
     "item_name": "【新鲜现配】长豆角约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6907992507385",
+    "item_id": "1001516581977",
     "item_name": "伊利金典纯牛奶250ml*12",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6970006620639",
+    "item_id": "1047755327749",
     "item_name": "好欢螺螺蛳粉（加臭加辣）400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202001821",
+    "item_id": "1042726054396",
     "item_name": "【日日鲜】中润鲜琵琶腿约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6940211889602",
+    "item_id": "1001516153196",
     "item_name": "养乐多乳饮100m1*5",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110600352A",
+    "item_id": "1056959242019",
     "item_name": "【新鲜】牛油果3个装约400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6908791508047",
+    "item_id": "1008543511577",
     "item_name": "成山农场手抓饼葱香味990g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6976081375181",
+    "item_id": "1009994929562",
     "item_name": "成山农场100%苹果汁1kg",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1001000071",
+    "item_id": "1044411536246",
     "item_name": "【新鲜】日日鲜 新鲜油麦菜 约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1002000381",
+    "item_id": "1044411396097",
     "item_name": "【新鲜】苦瓜约450-500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6917790975323",
+    "item_id": "1001518773788",
     "item_name": "安琪酵母15g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6909131280647",
+    "item_id": "1000113563028",
     "item_name": "劲牌劲酒520ml",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "150800072C",
+    "item_id": "1056248428776",
     "item_name": "【当日现制】五香酱牛肉约100g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6921168561445",
+    "item_id": "1000719366244",
     "item_name": "农夫山泉东方树叶茉莉花茶1.5L",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1004000041",
+    "item_id": "1042587154339",
     "item_name": "【新鲜现配】鲜毛豆约400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1001000261",
+    "item_id": "1041851463347",
     "item_name": "【新鲜】蒜苗约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6921895988379",
+    "item_id": "1000112867307",
     "item_name": "中街经典老冰棍牛奶口味60g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "130300021aa",
+    "item_id": "1046522378922",
     "item_name": "[骑手到店现捞]鲜活活虾(基围虾)250g(保证鲜活发货，到家不保活)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1104000021",
+    "item_id": "1046659284334",
     "item_name": "【新鲜】一颗大串红约400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6980101420010",
+    "item_id": "1060496516848",
     "item_name": "【超值爆款】成山叔叔饮用纯净水550ml*24",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2063438",
+    "item_id": "1043711866104",
     "item_name": "【当日现做】(外卖)里脊肉饼1个",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6921665735059",
+    "item_id": "1000718686555",
     "item_name": "思念荠菜猪肉薄皮小云吞305g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110400039",
+    "item_id": "1041576819807",
     "item_name": "【新鲜】(外卖)千禧果约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1001000461",
+    "item_id": "1044022938145",
     "item_name": "【新鲜】空心菜约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6944656413019",
+    "item_id": "1001519501996",
     "item_name": "绿清竹老豆腐450g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6944656413064",
+    "item_id": "1001519601967",
     "item_name": "绿清竹嫩豆腐450g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2065878",
+    "item_id": "1045076865378",
     "item_name": "【当日现做】麻辣 秘汁小龙虾约1500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120100020A",
+    "item_id": "1058922900295",
     "item_name": "【日日鲜】牛肋条约400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6957466107856",
+    "item_id": "1001520409310",
     "item_name": "正大原香谷物鸡蛋30枚1.5kg",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6975896021078",
+    "item_id": "1002490200465",
     "item_name": "【成山烘焙】瑞士卷（原味+伯爵红茶味）8片 560g/盒",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1508000671",
+    "item_id": "1046716269007",
     "item_name": "【门店现做】猪头肉约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6957466109560",
+    "item_id": "1045459070518",
     "item_name": "正大 可生食鲜鸡蛋 550g/盒（10枚装）",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120100097A",
+    "item_id": "1050713947532",
     "item_name": "【日日鲜】带皮前后腿肉约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6922577790181",
+    "item_id": "1000112591195",
     "item_name": "君乐宝奶皮子酸奶酪120g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "100200031A",
+    "item_id": "1048716250792",
     "item_name": "【新鲜】散称南瓜约 600g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "100200052A",
+    "item_id": "1056885789953",
     "item_name": "【基地直采】红彩椒约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1001000411",
+    "item_id": "1043541505926",
     "item_name": "【新鲜】罗马生菜约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1001000471",
+    "item_id": "1042587038544",
     "item_name": "【新鲜】韭苔约200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1508001411",
+    "item_id": "1048639580565",
     "item_name": "【当日现做】锅包肉约200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110600023",
+    "item_id": "1044132616478",
     "item_name": "【新鲜】(外卖)国产红心火龙果2个装约800g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1001000671",
+    "item_id": "1045597441299",
     "item_name": "【新鲜】日日鲜 菜心约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2063603",
+    "item_id": "1052083169120",
     "item_name": "【当日现做】(外卖)牛筋面约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6974348722976",
+    "item_id": "1053418325296",
     "item_name": "喜茶茉莉清抹茶500ml",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1002000221",
+    "item_id": "1044410612639",
     "item_name": "【新鲜】秋葵约230g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6970339119350",
+    "item_id": "1000112411553",
     "item_name": "华山牧有机厚酸奶260g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "150200498A",
+    "item_id": "1057154148412",
     "item_name": "【门店现做】手工辣条约200g【口味自选】",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1508000721",
+    "item_id": "1045665662989",
     "item_name": "【当日现制】五香酱牛肉约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6973629914765",
+    "item_id": "1002252452213",
     "item_name": "成山农场洁面柔巾60抽",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000141",
+    "item_id": "1044552440413",
     "item_name": "【新鲜鲜切】鲜切 牛吊龙火锅片 约150g/盒",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110300032B",
+    "item_id": "1054592748971",
     "item_name": "【现切】甜王西瓜(半个)约5kg",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6970339117240",
+    "item_id": "1032466140977",
     "item_name": "华山牧益生菌酸牛奶（无蔗糖）160g*6",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6974354668404",
+    "item_id": "1002252332502",
     "item_name": "Herlab她研社深藏BLUE棉柔卫生巾240mm*8片",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2062947",
+    "item_id": "1045545112340",
     "item_name": "【当日现做】荞面饸饹1份",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1004000221",
+    "item_id": "1041851043807",
     "item_name": "【新鲜现配】白爬豆约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "8851994612012",
+    "item_id": "1002250288109",
     "item_name": "象牌苏打水饮料325ml",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6933664902875",
+    "item_id": "1008539339926",
     "item_name": "成山农场低芥酸菜籽油5L(淘宝闪购专属价)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6975338584802",
+    "item_id": "1000115759144",
     "item_name": "成山农场多效酵素洗衣液3kg",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6903244674546",
+    "item_id": "1000115935136",
     "item_name": "心相印茶语思享14卷2004g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2064786",
+    "item_id": "1005308936492",
     "item_name": "【成山烘焙】牛奶软蛋糕(约260gy)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6908791508030",
+    "item_id": "1042976031389",
     "item_name": "成山农场手抓饼原味990g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2099521",
+    "item_id": "1033920398424",
     "item_name": "【鲜果切】晓蜜蜜瓜果切约400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6949224301972",
+    "item_id": "1047540356075",
     "item_name": "成山农场家庭装黑椒菲力牛排650g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6909972588476",
+    "item_id": "1051199503013",
     "item_name": "【黄金奶源带】成山叔叔有机纯牛奶200g*12（淘宝闪购专属价）",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2082961",
+    "item_id": "1050889164697",
     "item_name": "【活鱼现杀】活鱼现杀 鲈鱼(条)约500-550g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201001151",
+    "item_id": "1043765546795",
     "item_name": "【日日鲜】日日鲜精选鲜猪肉糜 猪肉馅（肥瘦约5：5）后腿肉约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6974272834264",
+    "item_id": "1059806057658",
     "item_name": "成山农场小米锅巴香辣味360g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110100008",
+    "item_id": "1044132344879",
     "item_name": "【脆甜爽口】(外卖)甘肃富士约600g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6949224301675",
+    "item_id": "1000718746550",
     "item_name": "成山农场羔羊肉卷750g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6933037100211",
+    "item_id": "1013724792640",
     "item_name": "正大富硒鸡蛋20枚",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2066360A",
+    "item_id": "1057802517003",
     "item_name": "【鲜活】鲜活小龙虾6-8钱约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110600018B",
+    "item_id": "1050111738655",
     "item_name": "【新鲜】干尧榴莲约3000g保4房",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "150200327A",
+    "item_id": "1057151864269",
     "item_name": "【日日鲜】麻椒鸡约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6971738659393",
+    "item_id": "1047793116388",
     "item_name": "安井全家福火锅丸子组合400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110100015",
+    "item_id": "1057970636904",
     "item_name": "【脆甜爽口】洛川富士苹果4粒装 约1kg",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201003011",
+    "item_id": "1042725894794",
     "item_name": "【日日鲜】精选鲜猪本香五花肉约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1508001271",
+    "item_id": "1050219323875",
     "item_name": "【门店现炸】炸带鱼约200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201002291",
+    "item_id": "1041990379724",
     "item_name": "【不打水】新鲜黄牛牛肉约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6946917600923",
+    "item_id": "1002251256511",
     "item_name": "成山农场柬埔寨香米5kg",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000031",
+    "item_id": "1044551884926",
     "item_name": "【当日分切】羊肉约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1508001221",
+    "item_id": "1047555796094",
     "item_name": "【当日现做】麻辣 秘汁小龙虾约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202001801",
+    "item_id": "1041990375369",
     "item_name": "【日日鲜】中润鲜翅中约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2063070",
+    "item_id": "1046078699305",
     "item_name": "【门店现烤】北京烤鸭(半只)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6934468001306",
+    "item_id": "1000114275787",
     "item_name": "五得利特精小麦粉5kg",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1508000722",
+    "item_id": "1044923847456",
     "item_name": "【当日现制】五香酱牛肉约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6934468000279",
+    "item_id": "1032015504619",
     "item_name": "五得利六星超精小麦粉10kg",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6914209017780",
+    "item_id": "1000114491524",
     "item_name": "爱菊中筋面粉5kg",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000221",
+    "item_id": "1041990643326",
     "item_name": "【日日鲜】牛黄瓜条约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201003871",
+    "item_id": "1043681653520",
     "item_name": "【日日鲜】黑虎虾滑约170g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1303000441",
+    "item_id": "1054065406584",
     "item_name": "【活鱼现杀】活鱼现杀 循环吊水大鲈鱼约600g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2066360B",
+    "item_id": "1056032495835",
     "item_name": "【鲜活】鲜活小龙虾6-8钱约1500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110600032B",
+    "item_id": "1056146175954",
     "item_name": "【新鲜】金枕榴莲(称重退差) 约4斤",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "4580133872515",
+    "item_id": "1044670589450",
     "item_name": "发玛21蓬松控油轻盈洗发水600ml",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2099520",
+    "item_id": "1000112099803",
     "item_name": "【鲜果切】玉菇瓜果切约380g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6907592000019",
+    "item_id": "1000115163684",
     "item_name": "王致和臭豆腐330g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6976111740040",
+    "item_id": "1000116115783",
     "item_name": "小川沟初生蛋30枚",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6933037100655",
+    "item_id": "1000116683150",
     "item_name": "正大农庄鲜蛋20枚",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6943840400101",
+    "item_id": "1000351959153",
     "item_name": "好大姐酸菜颗约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2002854",
+    "item_id": "1000368567830",
     "item_name": "【新鲜】(外卖)易开椰约900g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2001880",
+    "item_id": "1000718182345",
     "item_name": "【新鲜】黄金百香果4枚装约230g盒",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6928432600602",
+    "item_id": "1000718450596",
     "item_name": "野植珍高山细笋260g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6922711403946",
+    "item_id": "1000718566305",
     "item_name": "优形沙拉鸡胸肉（新奥尔良味）100g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6972918793579",
+    "item_id": "1000719214065",
     "item_name": "海底捞脆皮毛肚150g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6925356424727",
+    "item_id": "1000721122885",
     "item_name": "笑厨西红柿块400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6958216826720",
+    "item_id": "1000721486824",
     "item_name": "厨伴娘紫菜约30g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6942806984914",
+    "item_id": "1000722034485",
     "item_name": "仲景上海葱油230g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6971253491218",
+    "item_id": "1000722370606",
     "item_name": "秦豆园老豆腐400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6933276208037",
+    "item_id": "1000722690607",
     "item_name": "春蕾 15枚装白壳鸡蛋",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "2070465",
-    "item_name": "【新鲜】香姑娘约250g",
-    "store_id": "1262004557",
-    "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6908061002886",
+    "item_id": "1001515921553",
     "item_name": "得利斯无淀粉火腿400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6970138490384",
+    "item_id": "1001516329948",
     "item_name": "亲热毛肚200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6926213559095",
+    "item_id": "1001519533018",
     "item_name": "阿一波紫菜约100g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6913084213041",
+    "item_id": "1001519929845",
     "item_name": "神丹无铅鸭皮蛋12枚636g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6974321800004",
+    "item_id": "1001520105269",
     "item_name": "金豆子黄豆芽约350g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6976760276976",
+    "item_id": "1001758581828",
     "item_name": "海底捞响铃卷120g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2002014",
+    "item_id": "1001775357705",
     "item_name": "【新鲜】(外卖)人参果一盒约420g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2070478",
+    "item_id": "1001776329080",
     "item_name": "【新鲜】莲雾两枚装约200g(盒)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2000970",
+    "item_id": "1002248476964",
     "item_name": "【新鲜】(外卖)树莓(盒)约125g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6908061007041",
+    "item_id": "1002248668848",
     "item_name": "得利斯田园火腿258g/袋",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6902890230632",
+    "item_id": "1002249068165",
     "item_name": "双汇肘花火腿260g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6949224301705",
+    "item_id": "1002249116589",
     "item_name": "成山农场南美原切肥牛肉卷1kg",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6947773600973",
+    "item_id": "1002249468168",
     "item_name": "潮香村儿童系列90g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6926213561883",
+    "item_id": "1002251952826",
     "item_name": "阿一波裙带菜约80g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6926213561722",
+    "item_id": "1002252252225",
     "item_name": "【当日现做】阿一波安记有机紫菜（不含调料包）约35g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6953049003010",
+    "item_id": "1002252468411",
     "item_name": "孟姑马跑泉天水浆水菜500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6913084211115",
+    "item_id": "1002252696986",
     "item_name": "神丹无铅鹌鹑皮蛋168g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6971253498293",
+    "item_id": "1002401525951",
     "item_name": "秦豆园红枣豆浆约500ml",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6970679756659",
+    "item_id": "1002490148641",
     "item_name": "皓达火锅鞭炮笋约200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6975539181596",
+    "item_id": "1002490260306",
     "item_name": "好福巴沙鱼柳(袋)400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6913084217407",
+    "item_id": "1002490272462",
     "item_name": "神丹24枚宝宝鹌鹑蛋",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6933190906125",
+    "item_id": "1003133700814",
     "item_name": "永和黑豆腐约350g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2063101",
+    "item_id": "1013311065123",
     "item_name": "【小份】贝甜 迷你胡萝卜约198g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2060944",
+    "item_id": "1014070520332",
     "item_name": "【新鲜】一颗大樱桃番茄约400g(盒)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6976788710100",
+    "item_id": "1014297535368",
     "item_name": "司悦广味腊肠200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6970582940077",
+    "item_id": "1016419689209",
     "item_name": "华英鸭血300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2097070",
+    "item_id": "1029433814694",
     "item_name": "【新鲜】百香果两颗装约130g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2070301",
+    "item_id": "1030023423201",
     "item_name": "【新鲜】小青柠约200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6972918794859",
+    "item_id": "1030074447421",
     "item_name": "海底捞千层白毛肚200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "2093806",
-    "item_name": "【酸甜可口】云南蓝莓 约125g(果径18+)",
-    "store_id": "1262004557",
-    "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6944656413026",
+    "item_id": "1030701514795",
     "item_name": "绿清竹鲜豆腐450g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "2060266",
-    "item_name": "【明星品】'限量版怡颗梅蓝莓约125g(单果18+)",
-    "store_id": "1262004557",
-    "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6970582940008",
+    "item_id": "1031626705796",
     "item_name": "华英蒸鸭血300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2065965",
+    "item_id": "1032657963166",
     "item_name": "【有机】氧心园高原意大利约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2065973",
+    "item_id": "1032661127808",
     "item_name": "【有机】氧心园豌豆籽豌豆粒约150g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2065952",
+    "item_id": "1033342230783",
     "item_name": "【有机】氧心园小白菜约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2065956",
+    "item_id": "1033343346616",
     "item_name": "【有机】氧心园菠菜苗约200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "2065955",
-    "item_name": "【有机】氧心园红葱头约500g",
-    "store_id": "1262004557",
-    "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2065963",
+    "item_id": "1033345902413",
     "item_name": "【有机】氧心园香河韭菜约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2065975",
+    "item_id": "1033350422925",
     "item_name": "【有机】氧心园樱桃萝卜约350g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2066009",
+    "item_id": "1033352746342",
     "item_name": "【有机】氧心园荷兰豆约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2066012",
+    "item_id": "1033353366190",
     "item_name": "【有机】氧心园线椒约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6975979220039",
+    "item_id": "1033877238065",
     "item_name": "水果萝卜(袋)约216g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2097691",
+    "item_id": "1033914018225",
     "item_name": "【蜜甜】无花果6枚约280g（盒）",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6971892270014",
+    "item_id": "1033945967496",
     "item_name": "黄天鹅可生食鸡蛋15枚",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6971892270144",
+    "item_id": "1033946119191",
     "item_name": "黄天鹅可生食无抗鸡蛋30枚（礼盒）",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2065953",
+    "item_id": "1034270997354",
     "item_name": "【有机】氧心园小芹菜约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2065960",
+    "item_id": "1034272609861",
     "item_name": "【有机】氧心园水果甜椒约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2065959",
+    "item_id": "1034272997045",
     "item_name": "【有机】氧心园阳雀湖辣椒约200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2065961",
+    "item_id": "1034273213517",
     "item_name": "【有机】氧心园羽衣甘蓝约200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2066004",
+    "item_id": "1034279641763",
     "item_name": "【有机】氧心园大葱约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2066010",
+    "item_id": "1034281249320",
     "item_name": "【有机】氧心园仁兆蒜薹约400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2065954",
+    "item_id": "1035100020197",
     "item_name": "【有机】氧心园娃娃菜约400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2065957",
+    "item_id": "1035100884152",
     "item_name": "【有机】氧心园彩椒约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2065958",
+    "item_id": "1035101028632",
     "item_name": "【有机】氧心园水果玉米约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2065972",
+    "item_id": "1035106048977",
     "item_name": "【有机】氧心园迷你小洋葱约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2065971",
+    "item_id": "1035106520027",
     "item_name": "【有机】氧心园甜杆西兰花约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2065976",
+    "item_id": "1035107948032",
     "item_name": "【有机】氧心园冰草约200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2065977",
+    "item_id": "1035108092224",
     "item_name": "【有机】氧心园西芹约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110400049",
+    "item_id": "1041576683873",
     "item_name": "【新鲜】(外卖)无籽红提约600g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110600020",
+    "item_id": "1041576767747",
     "item_name": "【树熟】(外卖)树熟贵妃芒约500-600g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110600050",
+    "item_id": "1041577083398",
     "item_name": "【新鲜】(外卖)山竹约450g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110600042",
+    "item_id": "1041577135221",
     "item_name": "【新鲜】(外卖)木瓜单个约700g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110400032",
+    "item_id": "1041577175116",
     "item_name": "【新鲜】(外卖)茉莉香葡萄约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "110300020",
-    "item_name": "【新鲜】(外卖)绿宝瓜约750g",
-    "store_id": "1262004557",
-    "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "110600019",
-    "item_name": "【新鲜】(外卖)高乐密芒果 约600g",
-    "store_id": "1262004557",
-    "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1003000331",
+    "item_id": "1041850895852",
     "item_name": "【新鲜】红皮萝卜约1kg",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1003000091",
+    "item_id": "1041851104000",
     "item_name": "【新鲜】小白嘴山药约750-800g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1006000031",
+    "item_id": "1041851131864",
     "item_name": "【新鲜】新仔姜约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1004000091",
+    "item_id": "1041851215572",
     "item_name": "【新鲜现配】甜豆约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1001000661",
+    "item_id": "1041851247716",
     "item_name": "【新鲜】大白菜约1500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1002000021",
+    "item_id": "1041851347225",
     "item_name": "【新鲜】长丝瓜约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1002000561",
+    "item_id": "1041851351479",
     "item_name": "【新鲜】广茄约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1002000551",
+    "item_id": "1041851471218",
     "item_name": "【新鲜】旱黄瓜约450-500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1001000221",
+    "item_id": "1041851891181",
     "item_name": "【新鲜】茼蒿约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202002091",
+    "item_id": "1041990079775",
     "item_name": "【日日鲜】日日鲜 冰鲜土鸡翅中约250g(中润)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000811",
+    "item_id": "1041990115831",
     "item_name": "鲜猪汤骨约500gzy",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201002341",
+    "item_id": "1041990168000",
     "item_name": "牛杂约200gWLF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201002971",
+    "item_id": "1041990195911",
     "item_name": "【日日鲜】本香后腿肉约500gzs",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000871",
+    "item_id": "1041990219963",
     "item_name": "精选鲜猪前小排（带脊骨）约400gzy",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000071",
+    "item_id": "1041990331803",
     "item_name": "【日日鲜】香草牛排约120gWLF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000731",
+    "item_id": "1041990339620",
     "item_name": "猪蹄约900gzy",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000211",
+    "item_id": "1041990387669",
     "item_name": "【日日鲜】牛腱子约250gWLF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202002081",
+    "item_id": "1041990483416",
     "item_name": "【日日鲜】中润土鸡排腿约360g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202001301",
+    "item_id": "1041990591199",
     "item_name": "【日日鲜】湘佳土公鸡约900gzs",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201003781",
+    "item_id": "1041990755214",
     "item_name": "手工牛肉滑约170gWLF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000201",
+    "item_id": "1041990763112",
     "item_name": "【日日鲜】牛肋条约250gWLF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000991",
+    "item_id": "1041990763182",
     "item_name": "冰鲜 精品猪前后腿肉约300g(日日鲜)zy",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000791",
+    "item_id": "1041990779173",
     "item_name": "前肘子约1500gzy",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000171",
+    "item_id": "1041990855004",
     "item_name": "鲜 国产谷饲黄牛牛腩&;约400gWLF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1507000071",
+    "item_id": "1042268999446",
     "item_name": "(外卖)花干约140gZSF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110600006",
+    "item_id": "1042310654904",
     "item_name": "【新鲜】(外卖)澳芒(个)约400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110600015",
+    "item_id": "1042311014421",
     "item_name": "【芯都好吃】(外卖)佳农蜂蜜凤梨(个)约1.5kg",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1004000211",
+    "item_id": "1042587102855",
     "item_name": "【新鲜现配】扁豆约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "1001000451",
-    "item_name": "【新鲜】苦菊约250g",
-    "store_id": "1262004557",
-    "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1002000121",
+    "item_id": "1042587702206",
     "item_name": "【新鲜】线茄子约450-500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000701",
+    "item_id": "1042725502887",
     "item_name": "猪心约350gzy",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202001321",
+    "item_id": "1042725942664",
     "item_name": "湘佳仔水鸭约2200gzs",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202001271",
+    "item_id": "1042725942665",
     "item_name": "【日日鲜】湘佳鲜凤爪(鸡爪)约300gzs",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202001811",
+    "item_id": "1042725974505",
     "item_name": "【日日鲜】中润鲜翅根约400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202001701",
+    "item_id": "1042726042363",
     "item_name": "湘佳鸭肠约200gzs",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201003791",
+    "item_id": "1042726078631",
     "item_name": "香菜牛肉滑约160gWLF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202000131",
+    "item_id": "1042726090841",
     "item_name": "【日日鲜】鸡排约120gWLF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000281",
+    "item_id": "1042726106635",
     "item_name": "【日日鲜】鲜切匙柄约150gWLF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000801",
+    "item_id": "1042726110530",
     "item_name": "后肘子约1500gzy",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202001861",
+    "item_id": "1042726154273",
     "item_name": "【日日鲜】中润鲜鸡爪约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000951",
+    "item_id": "1042726154623",
     "item_name": "肉棒骨约750gzy",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201002251",
+    "item_id": "1042726214562",
     "item_name": "黑千层约150gWLF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000981",
+    "item_id": "1042726234629",
     "item_name": "冰鲜 猪前排(脊骨+肋排) 约400g(日日鲜)zy",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202000541",
+    "item_id": "1042726430285",
     "item_name": "【日日鲜】黑椒鸡排约120gzy",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201002261",
+    "item_id": "1042726458244",
     "item_name": "大叶片约150gWLF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201003021",
+    "item_id": "1042726494037",
     "item_name": "【日日鲜】本香梅花肉约500gzs",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000961",
+    "item_id": "1042726534086",
     "item_name": "肉龙骨约500gzy",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202001951",
+    "item_id": "1042728502817",
     "item_name": "【日日鲜】中润黄皮鸭约1000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "6933190920336",
-    "item_name": "蓝田锅烧香豆腐400g",
-    "store_id": "1262004557",
-    "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000761",
+    "item_id": "1042977551697",
     "item_name": "猪肚约450gzy",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201001051",
+    "item_id": "1043030515442",
     "item_name": "【日日鲜】日日鲜精选猪肉麋 猪肉馅(肥瘦比约2:8、包饺子)前腿肉约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201002611",
+    "item_id": "1043096302527",
     "item_name": "中排约400gzy",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110100018",
+    "item_id": "1043264809962",
     "item_name": "【新鲜】(外卖)皇冠梨4个装约1100g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110400224",
+    "item_id": "1043264869882",
     "item_name": "【新鲜】(外卖)玲珑小番茄约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110300037",
+    "item_id": "1043265005783",
     "item_name": "【新鲜】(外卖)晓蜜蜜瓜单果约2000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110600029",
+    "item_id": "1043265029752",
     "item_name": "【软糯香甜】(外卖)佳农皇帝蕉约500-550g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110300008",
+    "item_id": "1043265117551",
     "item_name": "【值得冲】(外卖)甘美西瓜（战神）单果约5500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110100017",
+    "item_id": "1043265129520",
     "item_name": "【甘肃】(外卖)花牛苹果约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110400017",
+    "item_id": "1043265173495",
     "item_name": "【新鲜】(外卖)黄千禧果约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "110300211",
-    "item_name": "【果香浓郁】(外卖)蜜园脆瓜一个约400g",
-    "store_id": "1262004557",
-    "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110100044",
+    "item_id": "1043265313331",
     "item_name": "【新鲜】(外卖)新疆香梨约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1007000031",
+    "item_id": "1043536745760",
     "item_name": "【新鲜】茭白约400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1002000421",
+    "item_id": "1043541281720",
     "item_name": "【新鲜】新鲜 带刺黄瓜约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1002000231",
+    "item_id": "1043541805970",
     "item_name": "【新鲜】青线椒约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1001000481",
+    "item_id": "1043541877172",
     "item_name": "【新鲜】韭黄约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1002000391",
+    "item_id": "1043542337326",
     "item_name": "【新鲜】青尖椒约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202001831",
+    "item_id": "1043681081937",
     "item_name": "【日日鲜】中润鲜排腿约320g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201004881",
+    "item_id": "1043681341455",
     "item_name": "【冰鲜】新西兰冰鲜牛上脑约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202001851",
+    "item_id": "1043681501453",
     "item_name": "【日日鲜】中润鲜鸡胗约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202001211",
+    "item_id": "1043681517449",
     "item_name": "【日日鲜】湘佳鲜鸡小腿约500gzs",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202001241",
+    "item_id": "1043681541411",
     "item_name": "【日日鲜】湘佳鲜鸡翅中约360gzs",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201002551",
+    "item_id": "1043681553622",
     "item_name": "牛里脊约250gWLF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201003161",
+    "item_id": "1043681585552",
     "item_name": "【日日鲜】本香肉排约500gzs",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202001221",
+    "item_id": "1043681817009",
     "item_name": "【0激素/无抗】湘佳鲜鸡胸肉约300gzs",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1204000271",
+    "item_id": "1043681989010",
     "item_name": "马蹄鱼虾滑约170gWLF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2002869",
+    "item_id": "1043711542221",
     "item_name": "王牌盐冻虾1500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1506000071",
+    "item_id": "1043713134579",
     "item_name": "(外卖)白腐竹约200gZSF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201004871",
+    "item_id": "1043713498154",
     "item_name": "羊杂约200gWLF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000021",
+    "item_id": "1043713538097",
     "item_name": "【日日鲜】鲜切精品牛里脊约150gWLF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2070621",
+    "item_id": "1043790014829",
     "item_name": "【菌菇星球】口蘑/白蘑菇(份)230",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201001121",
+    "item_id": "1044054017973",
     "item_name": "精排约400gzy",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201002961",
+    "item_id": "1044054525177",
     "item_name": "【日日鲜】本香前腿肉约500gzs",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1103000411",
+    "item_id": "1044068727466",
     "item_name": "【新鲜】羊角蜜瓜 约1000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110300021",
+    "item_id": "1044132568742",
     "item_name": "【新鲜】(外卖)玫珑瓜单果约1600g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110600028",
+    "item_id": "1044132656548",
     "item_name": "【新鲜】(外卖)红心火龙果2个装约1000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110200049",
+    "item_id": "1044132844190",
     "item_name": "【新鲜】(外卖)香水柠檬约200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110600009",
+    "item_id": "1044132928098",
     "item_name": "【新鲜】(外卖)白心火龙果2个装约1000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110400040",
+    "item_id": "1044132996097",
     "item_name": "【新鲜】(外卖)青提约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1002000621",
+    "item_id": "1044410536629",
     "item_name": "【新鲜】贝贝南瓜2个装约800g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1002000371",
+    "item_id": "1044410728830",
     "item_name": "【新鲜】螺丝椒 约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1001000031",
+    "item_id": "1044410912825",
     "item_name": "【新鲜】紫甘蓝约900-1000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "1002000481",
-    "item_name": "【新鲜】红线椒约300g",
-    "store_id": "1262004557",
-    "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1003000271",
+    "item_id": "1044410992081",
     "item_name": "【新鲜】六鳌蜜薯约1500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1002000041",
+    "item_id": "1044410992786",
     "item_name": "【新鲜】圆椒约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "1006000051",
-    "item_name": "【新鲜】小黄姜约250g",
-    "store_id": "1262004557",
-    "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1002000031",
+    "item_id": "1044411100459",
     "item_name": "【新鲜】圆茄子约450-500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1002000431",
+    "item_id": "1044411136157",
     "item_name": "【新鲜】红黄彩椒约600g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "1003000101",
-    "item_name": "【新鲜】象牙萝卜(长白萝卜)约1000g",
-    "store_id": "1262004557",
-    "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1003000231",
+    "item_id": "1044411168448",
     "item_name": "【新鲜】垆土山药约1kg",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1001000301",
+    "item_id": "1044411380113",
     "item_name": "【新鲜】球生菜约800g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202001341",
+    "item_id": "1044551908726",
     "item_name": "【日日鲜】湘佳鸡大腿约350gzs",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202001251",
+    "item_id": "1044551972891",
     "item_name": "【日日鲜】湘佳鲜鸡胗约300gzs",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201003131",
+    "item_id": "1044551976921",
     "item_name": "【日日鲜】本香精品肋排约500gzs",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000771",
+    "item_id": "1044552224612",
     "item_name": "猪大肠约300gzy",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202001941",
+    "item_id": "1044552336122",
     "item_name": "【日日鲜】中润乌鸡约1500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201003111",
+    "item_id": "1044552428340",
     "item_name": "【日日鲜】本香龙骨约500gzs",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202001881",
+    "item_id": "1044552432055",
     "item_name": "【日日鲜】中润土公鸡约2000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201003121",
+    "item_id": "1044552500285",
     "item_name": "【日日鲜】本香猪小排(前排)约500gzs",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202001281",
+    "item_id": "1044554500969",
     "item_name": "【日日鲜】湘佳麻鸡约800gzs",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6970519133947",
+    "item_id": "1044668925467",
     "item_name": "【当日分切】优选黑猪去皮五花肉片约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000301",
+    "item_id": "1044670573853",
     "item_name": "【日日鲜】番茄牛排约120gWLF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202001231",
+    "item_id": "1044671053315",
     "item_name": "【日日鲜】湘佳鲜鸡翅根约350gzs",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000751",
+    "item_id": "1044671081353",
     "item_name": "猪肝约500gzy",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1001000311",
+    "item_id": "1044779597722",
     "item_name": "【新鲜】日日鲜 莴笋约1500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1506000211",
+    "item_id": "1044832140588",
     "item_name": "(外卖)火箭鱿鱼约200gZSF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1507000101",
+    "item_id": "1044832308215",
     "item_name": "(外卖)豆筋约500gZSF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1303000481",
+    "item_id": "1044980655205",
     "item_name": "【活鱼现杀】活鱼现杀 日日鲜 黑鱼约1500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1303000501",
+    "item_id": "1044982775003",
     "item_name": "【活鱼现杀】活鱼现杀 日日鲜 鲤鱼约2000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1303000351",
+    "item_id": "1044984027593",
     "item_name": "【活鱼现杀】活鱼现杀 日日鲜罗非鱼约1000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1303001741",
+    "item_id": "1044994231880",
     "item_name": "【鲜活】鲜活血蛤约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1303000161",
+    "item_id": "1044994923332",
     "item_name": "【现捞】鲜活蛏子约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "1102000261",
-    "item_name": "【时令必买】伦晚橙子(两个装)约550g",
-    "store_id": "1262004557",
-    "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2097117",
+    "item_id": "1045024483295",
     "item_name": "【鲜活】乳山生蚝6＋(个)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1303001061",
+    "item_id": "1045204935200",
     "item_name": "【鲜活】罗氏沼虾约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6935488308901",
+    "item_id": "1045205323740",
     "item_name": "农夫好牛安格斯原切谷饲牛腩块1000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6974755668249",
+    "item_id": "1045206915022",
     "item_name": "北纬47度低水果玉米1.4千克*5-提手袋",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1303000711",
+    "item_id": "1045235687472",
     "item_name": "【活鱼现杀】活鱼现杀 花鲢约2000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6933037100884",
+    "item_id": "1045427498543",
     "item_name": "正大 叶黄素鲜鸡蛋 750g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6972798450098",
+    "item_id": "1045545568670",
     "item_name": "高源方笋约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6934136001010",
+    "item_id": "1045545748100",
     "item_name": "天丰祥竹韵豆皮150g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000781",
+    "item_id": "1045546912536",
     "item_name": "猪板油约500gzy",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201001161",
+    "item_id": "1045623696993",
     "item_name": "【冰鲜】冰鲜 猪精肉丝 约200g(日日鲜)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2066011",
+    "item_id": "1045633200730",
     "item_name": "【有机】氧心园芦笋约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1003000272",
+    "item_id": "1045653234650",
     "item_name": "【新鲜】六鳌蜜薯约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6978018890774",
+    "item_id": "1045656374116",
     "item_name": "成山农场荠菜猪肉大馄饨400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6975539181534",
+    "item_id": "1045664570050",
     "item_name": "好福抽肠黑虎虾仁300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6933037101232",
+    "item_id": "1045731630377",
     "item_name": "正大玉米谷香蛋30枚1.35kg/盒",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "1102000262",
-    "item_name": "【时令必买】伦晚橙子约1000g",
-    "store_id": "1262004557",
-    "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1202001842",
+    "item_id": "1045762946424",
     "item_name": "【日日鲜】中润鲜鸡大胸（鸡胸肉）约360g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2002976",
+    "item_id": "1045766854793",
     "item_name": "【鲜活】乳山4+生蚝(个)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201000011",
+    "item_id": "1045769010810",
     "item_name": "【日日鲜】鲜切三拼牛肉片约420g份WLF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1201004921",
+    "item_id": "1045775750063",
     "item_name": "【日日鲜】新西兰大黄瓜条约180g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2002974",
+    "item_id": "1045942834705",
     "item_name": "【鲜活】鲜活15头小鲍鱼一只",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1303000832",
+    "item_id": "1045982254833",
     "item_name": "【鲜活】鲜活海瓜子约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2066252",
+    "item_id": "1046419429368",
     "item_name": "七彩山鸡蛋8枚",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2066159",
+    "item_id": "1046476184383",
     "item_name": "【有机】氧心园薄皮辣椒约200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1303000191",
+    "item_id": "1046696413396",
     "item_name": "【现捞】鲜活美贝约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110100044aa",
+    "item_id": "1046709777824",
     "item_name": "【新鲜】新疆香梨约1000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1303000201",
+    "item_id": "1046908897877",
     "item_name": "鲜活毛蛤500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6970679756611",
+    "item_id": "1046909637873",
     "item_name": "皓达火锅海带嫩苗约200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6972118645869",
+    "item_id": "1046910413274",
     "item_name": "陇浆源浆水菜约600g（赵华）",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1303000491",
+    "item_id": "1047014222107",
     "item_name": "【日日鲜】日日鲜 黄辣丁 约1000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1303000192",
+    "item_id": "1047016294062",
     "item_name": "【现捞】鲜活美贝约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110200051a",
+    "item_id": "1047092714566",
     "item_name": "【皮超薄】小糖丸西瓜约2.5kg",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6933154600182",
+    "item_id": "1047521696582",
     "item_name": "一品爽 生干虾皮 约80g/袋",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1303000461",
+    "item_id": "1047568808409",
     "item_name": "【活鱼现杀】活鱼现杀 日日鲜 江团约2000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6974386090969",
+    "item_id": "1047578684311",
     "item_name": "【闭眼入】黄马甲鲜鸡蛋30枚",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1303000162",
+    "item_id": "1047580500615",
     "item_name": "【现捞】鲜活蛏子约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1303000831",
+    "item_id": "1047792032810",
     "item_name": "【鲜活】鲜活海瓜子约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1303000601",
+    "item_id": "1047792188432",
     "item_name": "【现捞】鲜活文哈约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6974755663947",
+    "item_id": "1047793720754",
     "item_name": "北纬47度白甜糯玉米1.约5kg*5手提袋",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2099972",
+    "item_id": "1047966423566",
     "item_name": "【新鲜】六鳌蜜薯(袋)约1000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120100093a",
+    "item_id": "1048217301166",
     "item_name": "冰鲜 猪五花肉 约300g(日日鲜)zy",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "2070183",
-    "item_name": "【鲜果切】菠萝 去皮 (份)约450g",
-    "store_id": "1262004557",
-    "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2099672",
+    "item_id": "1048308121415",
     "item_name": "【新鲜】青小贝 贝贝南瓜单枚约400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "130300081B",
+    "item_id": "1048389646122",
     "item_name": "鲜活小龙虾1.5kg(4-6钱)(淘宝闪购专属价)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6933664902257",
+    "item_id": "1048413482810",
     "item_name": "长安花高原小粒小榨浓香菜籽油6.19L",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2099967",
+    "item_id": "1048718398397",
     "item_name": "【新鲜】糖心烟薯(袋)约1000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1303000602",
+    "item_id": "1048863684012",
     "item_name": "【现捞】鲜活文哈约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1304000431",
+    "item_id": "1048988334660",
     "item_name": "【水产】海蜇皮 约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120100019B",
+    "item_id": "1049082230100",
     "item_name": "【不打水】新鲜黄牛 牛肉（牛霖）约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110600018A",
+    "item_id": "1049350155818",
     "item_name": "【新鲜】干尧榴莲约2000g保2房",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2097687",
+    "item_id": "1049685437792",
     "item_name": "【新鲜】板栗蜜薯(袋)约1000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110500089A",
+    "item_id": "1049698051227",
     "item_name": "【新鲜】精选新鲜黄杏约800g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110500014A",
+    "item_id": "1049698475530",
     "item_name": "【软糯】黄金水蜜桃约550g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1003000171",
+    "item_id": "1049951717054",
     "item_name": "【水果菜】水果萝卜 约1000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2000533",
+    "item_id": "1049960495831",
     "item_name": "【新鲜】杨桃单枚约150g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2066344",
+    "item_id": "1049996057308",
     "item_name": "【活鱼现杀】活鱼现杀鲜活多宝鱼(条)约650g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "100300001A",
+    "item_id": "1050002891589",
     "item_name": "【炖煮季】紫薯约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "100300009A",
+    "item_id": "1050135087885",
     "item_name": "【新鲜】小白嘴山药约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6975539181572",
+    "item_id": "1050141599927",
     "item_name": "好福脆口鱿鱼须500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2063590",
+    "item_id": "1050202267607",
     "item_name": "【当日现做】(外卖)小面筋约200-250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2063620",
+    "item_id": "1050202631197",
     "item_name": "【新鲜现配】(外卖)白豆腐干约160g-180g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2063614",
+    "item_id": "1050202727376",
     "item_name": "【新鲜现配】(外卖)红干约190-200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2063610",
+    "item_id": "1050202951327",
     "item_name": "【新鲜现配】(外卖)熏干约190-200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2063597",
+    "item_id": "1050350191495",
     "item_name": "【水产】海蜇头 约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2063606",
+    "item_id": "1050350227209",
     "item_name": "【新鲜现配】(外卖)鲜米线约400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2070210",
+    "item_id": "1050404603841",
     "item_name": "【新鲜】(外卖)柠檬单果约180g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110500051A",
+    "item_id": "1050457130713",
     "item_name": "【新鲜】三华李约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2099974",
+    "item_id": "1050576164101",
     "item_name": "【新鲜】哈密冰蜜薯(袋)约1000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "2090063",
-    "item_name": "毛芋头(袋)",
-    "store_id": "1262004557",
-    "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120100120A",
+    "item_id": "1050714019287",
     "item_name": "【日日鲜】黑毛猪黑猪五花肉约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120100536A",
+    "item_id": "1050714191019",
     "item_name": "新西兰牛霖约160gWLF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "100300013A",
+    "item_id": "1050733611386",
     "item_name": "【新鲜】西瓜红蜜薯约1000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120100019A",
+    "item_id": "1050940316046",
     "item_name": "【不打水】新鲜黄牛牛肉(牛霖)约500gWLF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2063617",
+    "item_id": "1050963254604",
     "item_name": "【新鲜现配】(外卖)红豆腐干约190g-200g方块",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2063613",
+    "item_id": "1050963682053",
     "item_name": "【新鲜现配】(外卖)牛皮干约150g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2065521",
+    "item_id": "1051198975872",
     "item_name": "【日日鲜】日日鲜 吊水 鲫鱼约350g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120400020A",
+    "item_id": "1051476486522",
     "item_name": "鲜切牛肉馅约450gWLF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110400246A",
+    "item_id": "1051495602785",
     "item_name": "【新鲜】青口蜜番茄约800g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110200341A",
+    "item_id": "1051496082756",
     "item_name": "【超值】泰国金柚约1000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6926733530079",
+    "item_id": "1051680523420",
     "item_name": "家普生大号双面牛油果砧板38*30*1.3cm",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120100103A",
+    "item_id": "1051866677698",
     "item_name": "冰鲜 猪肋排(带软骨) 约700g(日日鲜)zy",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110100048A",
+    "item_id": "1051867442582",
     "item_name": "【新鲜】新疆贡梨约800g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6976822740049",
+    "item_id": "1051873057813",
     "item_name": "舟山带鱼段500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2060012",
+    "item_id": "1051885781058",
     "item_name": "【新鲜】怡颗莓草莓(盒)约280g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2063618",
+    "item_id": "1051934229446",
     "item_name": "【日日鲜】(外卖)白素鸡约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2063615",
+    "item_id": "1051934237840",
     "item_name": "【新鲜现配】(外卖)细豆腐约400-450g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110300024A",
+    "item_id": "1051937507674",
     "item_name": "【现切】慕田佳宝麒麟瓜(称重退差) (四分之一个)约2kg",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110500017A",
+    "item_id": "1052327092164",
     "item_name": "【脆甜】黄金油桃约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110400008A",
+    "item_id": "1052327196482",
     "item_name": "【新鲜】红提约600g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120200137A",
+    "item_id": "1052449837709",
     "item_name": "鲜切羊上脑约120gWLF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120100135A",
+    "item_id": "1052450229176",
     "item_name": "【日日鲜】带皮里脊约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6971577413873",
+    "item_id": "1052550119338",
     "item_name": "虎邦香辣小龙虾酱200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2000950",
+    "item_id": "1052591608292",
     "item_name": "佳沛金奇异果450g/盒",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2099474",
+    "item_id": "1052591624265",
     "item_name": "【新鲜】草莓红心芭乐(4粒装)约800g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2000146",
+    "item_id": "1052596903561",
     "item_name": "天美甜瓜",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120100099A",
+    "item_id": "1052767296745",
     "item_name": "冰鲜 精品猪前后腿肉约500g(日日鲜)zy",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2063593",
+    "item_id": "1052769152512",
     "item_name": "【水产】海蜇头 约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2063600",
+    "item_id": "1052769316036",
     "item_name": "【新鲜现配】(外卖)散称鞭炮笋约200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2063607",
+    "item_id": "1052770044529",
     "item_name": "【新鲜现配】(外卖)脆豆腐约200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2060387",
+    "item_id": "1052791008993",
     "item_name": "【新鲜】桥头地瓜(袋)约1000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2000190",
+    "item_id": "1052818798608",
     "item_name": "【新鲜】(外卖)黑莓一盒约125g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2090309",
+    "item_id": "1052857394855",
     "item_name": "果切蜂蜜凤梨(盒)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "2064217",
-    "item_name": "【熟食】小油馕(个)*1ly",
-    "store_id": "1262004557",
-    "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120100124A",
+    "item_id": "1053351896889",
     "item_name": "【日日鲜】黑毛猪/黑猪排骨约400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120100013A",
+    "item_id": "1053352100515",
     "item_name": "【日日鲜】牛上脑约400gWLF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120100370A",
+    "item_id": "1053352148355",
     "item_name": "鲜切牛舌约120gWLF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120100106A",
+    "item_id": "1053352196420",
     "item_name": "【日日鲜】精瘦肉约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120100107A",
+    "item_id": "1053352276298",
     "item_name": "【日日鲜】精品五花肉约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "100100039A",
+    "item_id": "1053352300284",
     "item_name": "【新鲜】木耳菜约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2031388",
+    "item_id": "1053665147351",
     "item_name": "鹿茸菇",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2000704",
+    "item_id": "1053669463628",
     "item_name": "【新鲜】独头蒜约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2099670",
+    "item_id": "1053788329521",
     "item_name": "【新鲜】(外卖)枇杷果约210g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6977180631406",
+    "item_id": "1054584625883",
     "item_name": "普啦啦土豆芝士香草味冰淇淋75g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110300024B",
+    "item_id": "1054592928801",
     "item_name": "【现切】慕田佳宝麒麟瓜(称重退差) (半个)约4kg",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "100200011A",
-    "item_name": "【新鲜】小冬瓜约1500g",
-    "store_id": "1262004557",
-    "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "100300017B",
+    "item_id": "1055112347208",
     "item_name": "【水果菜】水果萝卜 约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2000080",
+    "item_id": "1055120843963",
     "item_name": "【1袋】海鲜菇（白雪菇）约200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2002832",
+    "item_id": "1055121823028",
     "item_name": "【新鲜】黑牛肝菌约170g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2004675",
+    "item_id": "1055413529690",
     "item_name": "五谷乳鸽一只约320gWLF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2065461",
+    "item_id": "1055416065237",
     "item_name": "【去壳3分之1露出果肉】椰子蛋*1",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110400056B",
+    "item_id": "1055422077262",
     "item_name": "【时令水果】阳光玫瑰约700g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "130300106A",
+    "item_id": "1055427437059",
     "item_name": "【鲜活】罗氏沼虾约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6933190900116",
+    "item_id": "1055500988638",
     "item_name": "永和千层豆腐干220g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6949224302191",
+    "item_id": "1055724572901",
     "item_name": "【成山自营】成山农场安格斯厚切眼肉牛排约459g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110100011A",
+    "item_id": "1055795308127",
     "item_name": "【脆爽甘甜】南非小苹果约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2000088",
+    "item_id": "1055892562072",
     "item_name": "【1袋】白玉菇约180g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "100100062A",
+    "item_id": "1055905970118",
     "item_name": "【新鲜】红薯叶约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2003023",
+    "item_id": "1055959259404",
     "item_name": "【新鲜】玉米笋约200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2099529",
+    "item_id": "1055974343751",
     "item_name": "【新鲜】珊瑚菌约120g（盒）",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6975539181527",
+    "item_id": "1056029779344",
     "item_name": "好福青虾仁300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2002927",
+    "item_id": "1056037399323",
     "item_name": "【鲜活】8头鲍鱼",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2061071",
+    "item_id": "1056088607011",
     "item_name": "【日日鲜】本香手工肉馅约500gzs",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110600028A",
+    "item_id": "1056188215170",
     "item_name": "【新鲜】(外卖)越南红心火龙果1个装约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110100023B",
+    "item_id": "1056204423657",
     "item_name": "【脆甜爽口】静宁苹果约800g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120200182A",
+    "item_id": "1056224419509",
     "item_name": "【日日鲜】中润鲜琵琶腿约350g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2064894A",
+    "item_id": "1056224531699",
     "item_name": "【日日鲜】中润鲜鸡心约350g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120100097B",
+    "item_id": "1056225495779",
     "item_name": "【日日鲜】带皮前后腿肉约700g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120100123B",
+    "item_id": "1056228075208",
     "item_name": "【日日鲜】黑毛猪黑猪前腿肉约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2000877",
+    "item_id": "1056315774824",
     "item_name": "【新鲜】黄金针菇约200g(盒)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2070873",
+    "item_id": "1056337328044",
     "item_name": "【日日鲜】鸡枞菌约120g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2060384",
+    "item_id": "1056342440842",
     "item_name": "【新鲜】即食牛油果约300g（盒)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2065949",
+    "item_id": "1056544566219",
     "item_name": "【鲜果切】黑钻凤梨(盒)约400g(淘宝闪购专属价)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2000103",
+    "item_id": "1056720034291",
     "item_name": "【新鲜】苋菜约400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2062796",
+    "item_id": "1056770034314",
     "item_name": "【有机】氧心园水果甘蓝约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2060986",
+    "item_id": "1056815470098",
     "item_name": "【鲜活】白蛤约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110700012A",
+    "item_id": "1056835592856",
     "item_name": "【现剥】泰国金枕榴莲肉(精选)约200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "100200063A",
+    "item_id": "1056878681049",
     "item_name": "【新鲜】板栗南瓜约1000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110500067A",
+    "item_id": "1056922719914",
     "item_name": "【香甜】水蜜桃(精选)约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110500137A",
+    "item_id": "1056964319952",
     "item_name": "【香甜】龙泉驿水蜜桃(精选) 约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "110500117A",
-    "item_name": "【新鲜】肉杏(精选)约500g",
-    "store_id": "1262004557",
-    "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110500101A",
+    "item_id": "1056964931326",
     "item_name": "【新鲜】黄肉油桃(精选)约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "110400136A",
-    "item_name": "【新鲜】蓝莓葡萄(精选)约500g",
-    "store_id": "1262004557",
-    "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "110600053B",
-    "item_name": "【软糯香甜】(外卖)国产香蕉2根约350g",
-    "store_id": "1262004557",
-    "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110100018A",
+    "item_id": "1056969234255",
     "item_name": "【新鲜】(外卖)皇冠梨2个装约550g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110100048B",
+    "item_id": "1056971234869",
     "item_name": "【新鲜】新疆贡梨约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "100100207A",
+    "item_id": "1057085207164",
     "item_name": "【新鲜】韭菜(精选)约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2002092",
+    "item_id": "1057317557421",
     "item_name": "【新鲜】乃白菜约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2099471",
+    "item_id": "1057684530893",
     "item_name": "【软糯香甜】佳农有机超甜蕉约650g（袋）",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120100109A",
+    "item_id": "1057684958104",
     "item_name": "【当日现做】精包五花肉约250g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2061824",
+    "item_id": "1057690246289",
     "item_name": "【新鲜】新疆小白杏约360g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2000072",
+    "item_id": "1057706589109",
     "item_name": "【新鲜】鲜银耳约120g/盒",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "110300018A",
-    "item_name": "【新鲜】王品蜜瓜约1000g",
-    "store_id": "1262004557",
-    "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110600025A",
+    "item_id": "1057749970589",
     "item_name": "【时令水果】佳农金菠萝 约1500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "110500342A",
-    "item_name": "【新鲜】白心油桃(精选)约500g",
-    "store_id": "1262004557",
-    "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120100129A",
+    "item_id": "1057751042171",
     "item_name": "【日日鲜】黑毛猪棒骨约800g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120100125A",
+    "item_id": "1057751150041",
     "item_name": "【日日鲜】黑毛猪龙骨约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2070872",
+    "item_id": "1057757045728",
     "item_name": "【新鲜】绣球菌约150g/盒",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6947330702164",
+    "item_id": "1057803173196",
     "item_name": "有机海带苗约200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2098991",
+    "item_id": "1057806228578",
     "item_name": "【1袋】冰果西芹约240g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2063953",
+    "item_id": "1057807147584",
     "item_name": "千层南瓜条200g ly",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2061057",
+    "item_id": "1057857793570",
     "item_name": "【日日鲜】本香肉丝约250gzs",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2061056",
+    "item_id": "1057859653905",
     "item_name": "【日日鲜】本香猪肝约250gzs",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "110600032A",
-    "item_name": "【新鲜】金枕榴莲(称重退差) 约3斤",
-    "store_id": "1262004557",
-    "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "110300004A",
-    "item_name": "【新鲜】玻璃脆甜瓜约600g",
-    "store_id": "1262004557",
-    "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110600032C",
+    "item_id": "1057916605220",
     "item_name": "【新鲜】金枕榴莲(称重退差) 约5斤",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2063819",
+    "item_id": "1057922613315",
     "item_name": "【鲜果切】芭乐果切1盒约350g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2000147",
+    "item_id": "1057925961316",
     "item_name": "【整个售卖】青帝蜜瓜约1000g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110600009A",
+    "item_id": "1057958349308",
     "item_name": "【新鲜】(外卖)白心火龙果1个装约550g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2003255",
+    "item_id": "1057959497858",
     "item_name": "【当季水果】黄蟠桃约550g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
-    "priority": "P1"
-  },
-  {
-    "barcode": "6933276200277",
-    "item_name": "春蕾鸡变蛋6枚",
-    "store_id": "1262004557",
-    "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120400020B",
+    "item_id": "1057991541810",
     "item_name": "鲜切牛肉馅约200gWLF",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6933276212102",
+    "item_id": "1057996997063",
     "item_name": "春蕾白壳鸡蛋30枚1.6kg",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120100120B",
+    "item_id": "1057997133212",
     "item_name": "【日日鲜】黑毛猪黑猪五花肉约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "150200654A",
+    "item_id": "1058002649321",
     "item_name": "【熟食】成山猪肝约g150zlly",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2061070",
+    "item_id": "1058130627180",
     "item_name": "本香前腿肉馅zs500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2070105",
+    "item_id": "1058221676788",
     "item_name": "【新鲜】花生芽约200g(盒)*1",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2061158",
+    "item_id": "1058228740914",
     "item_name": "【新鲜】滑子菇约250g(份)*1",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2099528",
+    "item_id": "1058235304891",
     "item_name": "【新鲜】金耳约150g（盒）*1",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2065823",
+    "item_id": "1058289197167",
     "item_name": "【新鲜】蒜苔（白帽）约450g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2003492",
+    "item_id": "1058689073814",
     "item_name": "【新鲜】一颗大串红约198g(纸盒装)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2063428",
+    "item_id": "1058697321661",
     "item_name": "【新鲜】一颗大红樱桃番茄约350g(杯装)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6947330702188",
+    "item_id": "1058723488902",
     "item_name": "海之宝 海带头 约200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6933276200598",
+    "item_id": "1058785420157",
     "item_name": "春蕾咸鸭蛋6枚390g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6949224302207",
+    "item_id": "1058802670681",
     "item_name": "【成山自营】成山农场安格斯厚切上脑牛排约459g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110100023A",
+    "item_id": "1058844588096",
     "item_name": "【脆甜爽口】静宁苹果约400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110400021A",
+    "item_id": "1058856652895",
     "item_name": "【佳沛】佳沛金果4粒装",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "100100057A",
+    "item_id": "1058864437665",
     "item_name": "【新鲜】黄芽菜约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "100200270A",
+    "item_id": "1058864465816",
     "item_name": "【基地直采】皱皮辣椒约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110300028B",
+    "item_id": "1058885420861",
     "item_name": "【新鲜】麒麟瓜(1个)(称重退差) 约6kg",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110600023A",
+    "item_id": "1058886260330",
     "item_name": "【新鲜】(外卖)国产红心火龙果1个装约350g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110600050A",
+    "item_id": "1058887056287",
     "item_name": "【新鲜】(外卖)山竹约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110500015B",
+    "item_id": "1058887968864",
     "item_name": "【新鲜】精选新鲜黄杏约400g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110300041A",
+    "item_id": "1058888800578",
     "item_name": "【新鲜】羊角蜜瓜1粒装约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110500024A",
+    "item_id": "1058897430846",
     "item_name": "红梅杏300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2099738A",
+    "item_id": "1058917028388",
     "item_name": "【日日鲜】新鲜羊腿肉约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120100088A",
+    "item_id": "1058925856558",
     "item_name": "小里脊约200gzy",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "100200051B",
+    "item_id": "1059569365661",
     "item_name": "红螺丝椒300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "120100091A",
+    "item_id": "1059605640675",
     "item_name": "【当日现分】精包五花肉片约230g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110500252A",
+    "item_id": "1059670364653",
     "item_name": "【新鲜】白心油桃约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110500121A",
+    "item_id": "1059670588322",
     "item_name": "【新鲜】黄金水蜜桃(精选)约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110300054A",
+    "item_id": "1059670748066",
     "item_name": "【新鲜】绿宝瓜(精选)约750g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110500028A",
+    "item_id": "1059670772069",
     "item_name": "【新鲜】青脆李 约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "100200035A",
+    "item_id": "1059790560642",
     "item_name": "【新鲜】（鲜）麻椒约200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "100600019A",
+    "item_id": "1059790724437",
     "item_name": "【新鲜】洋葱(精选)约800",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "100100143A",
+    "item_id": "1059790772273",
     "item_name": "【新鲜】菜心(精选)约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "100200051A",
+    "item_id": "1059790864464",
     "item_name": "【基地直采】红螺丝椒约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110300020A",
+    "item_id": "1059838493992",
     "item_name": "绿宝瓜500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6934559358197",
+    "item_id": "1060002601976",
     "item_name": "正大食品 鸡大胸 500g/袋",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6971115470610",
+    "item_id": "1060009101098",
     "item_name": "绿意老姜黑糖200g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2067382",
+    "item_id": "1060038742424",
     "item_name": "新疆吊干杏360g(盒)",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110200002A",
+    "item_id": "1060203479388",
     "item_name": "埃及橙约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "1004000101",
+    "item_id": "1060494904214",
     "item_name": "【新鲜现配】四季豆约300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110500024B",
+    "item_id": "1060826168954",
     "item_name": "红梅杏500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "2010636",
+    "item_id": "1060851144450",
     "item_name": "精包瘦肉片300g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6975765351190",
+    "item_id": "1061549045735",
     "item_name": "哈喽玉米哥有机黄糯玉米家庭装1700g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110500048A",
+    "item_id": "1062006081705",
     "item_name": "江苏水蜜桃约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "110600034B",
+    "item_id": "1062384012965",
     "item_name": "佳农 九分甜进口香蕉约500g",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   },
   {
     "barcode": "6978382718810",
+    "item_id": "1062726324396",
     "item_name": "【闭眼入】成山农场鲜鸡蛋1.5kg（淘宝闪购专属价）",
     "store_id": "1262004557",
+    "store_name": "成山农场(龙湖天街店)",
     "brand": "成山农场",
+    "xiaoer": "林辰",
     "priority": "P1"
   }
 ]
