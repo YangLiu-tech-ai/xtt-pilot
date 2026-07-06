@@ -24,6 +24,23 @@
           "whaleShopId": "191413243541909"
         }
       ]
+    },
+    "txp-lh": {
+      "brandName": "淘小胖超市",
+      "kunlunCredKey": "csnc-kunlun",
+      "credentialKey": "txp-whale",
+      "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=b92c7d5f0c3a4447294f310afbaa99ce09ae3ce1b15a470e029dd8f38a60fa86",
+      "dingtalkKeyword": "推送",
+      "monitorFile": "monitor-barcodes-txplh.json",
+      "stores": [
+        {
+          "name": "淘小胖超市(龙湖店)",
+          "wid": "1284510785",
+          "storeId": "20031125139",
+          "sellerId": "1919996480451",
+          "whaleShopId": "189897189504213"
+        }
+      ]
     }
   }
 }

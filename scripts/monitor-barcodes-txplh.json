@@ -1,0 +1,2432 @@
+[
+  {
+    "barcode": "6977170231678",
+    "item_id": "937603745004",
+    "item_name": "淘小胖谷饲鸡蛋30枚",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905076",
+    "item_id": "1033705297163",
+    "item_name": "【日日鲜】黄瓜约400-450g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905130",
+    "item_id": "1031478566134",
+    "item_name": "千禧约450g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905254",
+    "item_id": "1030792239484",
+    "item_name": "芹菜约500g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905103",
+    "item_id": "1033212997386",
+    "item_name": "【日日鲜】西红柿(柿子) 约600-700g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2926224",
+    "item_id": "1031473898622",
+    "item_name": "越南超甜香蕉500g±50g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905124",
+    "item_id": "1031475074029",
+    "item_name": "【日日鲜】螺丝椒 250g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "29065731",
+    "item_id": "1041434169823",
+    "item_name": "【鲜活】活海虾约250g（保证活虾发货，运输无法保证活度）",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2902138",
+    "item_id": "1033217536664",
+    "item_name": "【散称】牛奶西瓜约1.5kg",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905831",
+    "item_id": "1045605383602",
+    "item_name": "鲜面条（细面条） 约500-600g /盒",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170232118",
+    "item_id": "1031757599382",
+    "item_name": "淘小胖比利时风味小麦啤酒330ml",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6901236334201",
+    "item_id": "1055223192817",
+    "item_name": "维达超韧卷纸4.5kg*24卷装",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905094",
+    "item_id": "1031478326664",
+    "item_name": "【日日鲜】西葫芦约400g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905327",
+    "item_id": "1052750451107",
+    "item_name": "【日日鲜】红葱头 约450-500g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "29053121001",
+    "item_id": "1054754672270",
+    "item_name": "【日日鲜】大葱 约250g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2904009",
+    "item_id": "1040992288808",
+    "item_name": "【淘小胖】精品五花肉450g±50g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905244",
+    "item_id": "1043623099296",
+    "item_name": "新土豆 约0.95-1kg/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6979260430176",
+    "item_id": "1049452901323",
+    "item_name": "淘小胖供港生菜 约300g/袋",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905834",
+    "item_id": "1033217720421",
+    "item_name": "【日日鲜】老豆腐约450g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6956064031228",
+    "item_id": "937603713049",
+    "item_name": "雪天 加碘精纯盐 400克/袋",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "290213201",
+    "item_id": "1043515852243",
+    "item_name": "【送勺子】麒麟西瓜半个 约3.5kg--4kg",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905087",
+    "item_id": "1034036700105",
+    "item_name": "【日日鲜】冬瓜 600g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2906573",
+    "item_id": "1037715722038",
+    "item_name": "【鲜活】活海虾约450g（保证活虾发货，运输无法保证活度）",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905214",
+    "item_id": "1031478546284",
+    "item_name": "土红萝卜约600g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "29051671001",
+    "item_id": "1053842973474",
+    "item_name": "长豆角 约500g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6921168509256",
+    "item_id": "938119540498",
+    "item_name": "农夫山泉天然水550ml",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6904417011045",
+    "item_id": "1042214571954",
+    "item_name": "南街村南德麻辣方便面 52g/袋",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2904211",
+    "item_id": "1033221060568",
+    "item_name": "冰鲜 琵琶腿约550g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905089",
+    "item_id": "1030792343478",
+    "item_name": "【日日鲜】丝瓜约600-650g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905051",
+    "item_id": "1030792335486",
+    "item_name": "【日日鲜】西兰花约400g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6921168598427",
+    "item_id": "937603845435",
+    "item_name": "东方树叶茉莉味900ml",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170231784",
+    "item_id": "941707692493",
+    "item_name": "淘小胖香氛洗衣液3kg",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905662",
+    "item_id": "1032395709075",
+    "item_name": "金针菇（盒）约190g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905013",
+    "item_id": "1045823548898",
+    "item_name": "荆芥 约200g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "290507611",
+    "item_id": "1053893792534",
+    "item_name": "【日日鲜】黄瓜约950-1000g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "290510311",
+    "item_id": "1053870296961",
+    "item_name": "【日日鲜】西红柿(柿子) 1000g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2929101",
+    "item_id": "1053208432788",
+    "item_name": "烤鸡翅根 约230g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2901739",
+    "item_id": "1050815731770",
+    "item_name": "菜角 约280g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905061",
+    "item_id": "1035688818569",
+    "item_name": "【日日鲜】娃娃菜 500g-600g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2906604",
+    "item_id": "1037715950557",
+    "item_name": "【鲜活】花蛤 约500g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905539",
+    "item_id": "1039170478062",
+    "item_name": "小香葱约100g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905050",
+    "item_id": "1030789139043",
+    "item_name": "【日日鲜】青梗花菜 500g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6974366502611",
+    "item_id": "940108391228",
+    "item_name": "金豆芽金银花柚子汁100ml",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2900875",
+    "item_id": "1051801495946",
+    "item_name": "杂粮馒头四个",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6902083881405",
+    "item_id": "936599539387",
+    "item_name": "娃哈哈饮用纯净水596ml",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905054",
+    "item_id": "1031480498289",
+    "item_name": "【日日鲜】包菜约 650g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2923030",
+    "item_id": "1054769657363",
+    "item_name": "牛肉金丝卷 约80-100g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2904017",
+    "item_id": "1036373147716",
+    "item_name": "精品中排（带脊骨）500g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6952291700074",
+    "item_id": "1031478254756",
+    "item_name": "新农村内脂豆腐300g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170237786",
+    "item_id": "1035625856275",
+    "item_name": "千张250g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170235706",
+    "item_id": "1041780966272",
+    "item_name": "淘小胖A2β-酪蛋白纯牛奶125ml*4",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6920189008472",
+    "item_id": "1030790231603",
+    "item_name": "豫竹 油炸型酸甜番茄味脆司令香脆面 53g/袋",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905085",
+    "item_id": "1032285162663",
+    "item_name": "【日日鲜】南瓜 约600-700g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2904467",
+    "item_id": "1040572682357",
+    "item_name": "双汇精品后腿肉 约400-450g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6904417120778",
+    "item_id": "1032395725923",
+    "item_name": "南德调料120g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170231524",
+    "item_id": "940540742143",
+    "item_name": "淘小胖精酿白啤酒1L",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2955082",
+    "item_id": "1032399785798",
+    "item_name": "黄心小土豆1000g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2902036",
+    "item_id": "1031478478320",
+    "item_name": "皇冠梨约450-500g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6917790979109",
+    "item_id": "937022102667",
+    "item_name": "安琪酵母13g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2922841",
+    "item_id": "1048053796512",
+    "item_name": "臧营桥五香牛肉 约200-250g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2904010",
+    "item_id": "1040521554314",
+    "item_name": "纯里脊 约200g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6925303713058",
+    "item_id": "939226394029",
+    "item_name": "小浣熊 销魂香辣蟹味油炸型方便面 35g/袋",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6972025393013",
+    "item_id": "1032395841205",
+    "item_name": "多福多热馒头4个/袋",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6979260430060",
+    "item_id": "1047735927916",
+    "item_name": "淘小胖供港小白菜 约300g/袋",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905075",
+    "item_id": "1030792335490",
+    "item_name": "旱黄瓜约350g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2922506",
+    "item_id": "1051318350445",
+    "item_name": "酱肉包110g/个",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905340",
+    "item_id": "1033217728429",
+    "item_name": "【日日鲜】大蒜 250g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2902392",
+    "item_id": "1033666501104",
+    "item_name": "佳农易开椰800g/个",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2900869",
+    "item_id": "1056864453137",
+    "item_name": "手工白面方馒头约350g/袋（4个）",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6922577730378",
+    "item_id": "937603833171",
+    "item_name": "君乐宝简醇 0添加蔗糖风味酸牛奶 900g(150g*6包)/袋",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2923161",
+    "item_id": "1055876530621",
+    "item_name": "手工凉皮约250g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905146",
+    "item_id": "1034982099610",
+    "item_name": "【日日鲜】紫长茄 400g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170231739",
+    "item_id": "940576862088",
+    "item_name": "淘小胖70抽多功能洁面柔巾70抽",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6971483741046",
+    "item_id": "1032950414021",
+    "item_name": "德佑 湿厕纸 小包便携装 10抽/包",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905132",
+    "item_id": "1032400001481",
+    "item_name": "青茄子约1000g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170235140",
+    "item_id": "1032395621436",
+    "item_name": "淘小胖鲜牛奶900ml",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905805",
+    "item_id": "1030788951336",
+    "item_name": "【日日鲜】新农村嫩豆腐约480g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170233221",
+    "item_id": "940582198938",
+    "item_name": "淘小胖鸡蛋龙须挂面800g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2904215",
+    "item_id": "1032400001462",
+    "item_name": "鸡大胸约750/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2902309",
+    "item_id": "1034986244814",
+    "item_name": "台农芒果约450g/盒",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170231906",
+    "item_id": "1045495398810",
+    "item_name": "淘小胖饮用泉水 5L/桶",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2944030",
+    "item_id": "1041906416899",
+    "item_name": "【中粮】猪肉丝300g±50g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977704805009",
+    "item_id": "1033222792109",
+    "item_name": "淘小胖控油蓬松洗发水 500g/瓶",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2955062",
+    "item_id": "1034369154378",
+    "item_name": "水果玉米约650g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2900889",
+    "item_id": "1050556423244",
+    "item_name": "酸菜包子110g/个",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2902409",
+    "item_id": "1034017006059",
+    "item_name": "油桃约250g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2901901",
+    "item_id": "1050739023267",
+    "item_name": "琵琶腿 约110g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "29024091",
+    "item_id": "1055321425935",
+    "item_name": "油桃约500g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2922987",
+    "item_id": "1050532531418",
+    "item_name": "臧营桥酱香琵琶腿 3个",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2922813",
+    "item_id": "1050558875640",
+    "item_name": "煌上煌甜辣鸭脖 2根",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6920189007604",
+    "item_id": "1044777644832",
+    "item_name": "豫竹香辣牛肉面袋装 70g/袋",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170231869",
+    "item_id": "1041681112842",
+    "item_name": "淘小胖果蔬餐具洗洁精（青柠）",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905171",
+    "item_id": "1033221028685",
+    "item_name": "烟薯约500g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905259",
+    "item_id": "1031478562221",
+    "item_name": "【日日鲜】新蒜苔约450-500g /份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2900785",
+    "item_id": "1040705627786",
+    "item_name": "辣花卷100g/个",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "29563911001",
+    "item_id": "1052097811038",
+    "item_name": "宝菜净姜 约300g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2900809",
+    "item_id": "1041435658639",
+    "item_name": "糖糕70g/个",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2900021",
+    "item_id": "1045680633930",
+    "item_name": "【当日现做】自制香辣小龙虾（6-8钱）1kg/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "29052441",
+    "item_id": "1059025768340",
+    "item_name": "新土豆 约450-500g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905291",
+    "item_id": "1041905832951",
+    "item_name": "黄色金针菇 约190g/盒",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2901746",
+    "item_id": "1051353782648",
+    "item_name": "味聚卤猪肝 约200g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2901922",
+    "item_id": "1056175113183",
+    "item_name": "中式汉堡约190g/个",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6906303888885",
+    "item_id": "937603565214",
+    "item_name": "王守义十三香45g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170233283",
+    "item_id": "950342245107",
+    "item_name": "淘小胖原味手抓饼990g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6925303773106",
+    "item_id": "1034932031719",
+    "item_name": "统一 老坛酸菜牛肉面 120g/桶",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2904209",
+    "item_id": "1030792095698",
+    "item_name": "鸡排腿约650g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6921168559244",
+    "item_id": "936599103298",
+    "item_name": "农夫水溶C青皮桔味复合果汁饮料445ml",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2923565",
+    "item_id": "1044054263431",
+    "item_name": "中雪素锅贴250g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6903252012903",
+    "item_id": "1032402337133",
+    "item_name": "康师傅 香葱鸡味香爆脆干脆面油炸方便面 45g/袋",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2902017",
+    "item_id": "1032400109167",
+    "item_name": "灵宝苹果约550g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2901904",
+    "item_id": "1052461397050",
+    "item_name": "大脸鸡排 约220g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905828",
+    "item_id": "1030794127934",
+    "item_name": "【散称】凉皮约450g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2902160",
+    "item_id": "1033221144432",
+    "item_name": "羊角蜜甜瓜1000g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6979260430169",
+    "item_id": "1047734023052",
+    "item_name": "淘小胖供港上海青苗 约250g/袋",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6979260430350",
+    "item_id": "1050377440890",
+    "item_name": "淘小胖供港空心菜 约190-200g/袋",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2923649",
+    "item_id": "1050582407522",
+    "item_name": "煌上煌酱辣鸭腿 约150g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905276",
+    "item_id": "1035689174087",
+    "item_name": "【日日鲜】杏鲍菇芽 约450-500g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170233788",
+    "item_id": "1045440483220",
+    "item_name": "淘小胖有机纯牛奶200ml*12",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6979260430107",
+    "item_id": "1047740171132",
+    "item_name": "淘小胖供港香菜 约100g/袋",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2902700",
+    "item_id": "1033217100285",
+    "item_name": "【鲜果切】鲜切西瓜杯约350-400g/杯",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170238660",
+    "item_id": "1050627102037",
+    "item_name": "淘小胖量大日用卫生巾 280mm*8片/包",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2923360",
+    "item_id": "1042389905774",
+    "item_name": "自制青椒饼约180g_220g/1个",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6907992108407",
+    "item_id": "1004102171773",
+    "item_name": "宫酪呼伦贝尔奶皮子酸奶原味风味酸乳138g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6923555212749",
+    "item_id": "1033856317365",
+    "item_name": "汇源100%桃汁1L",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6907592001245",
+    "item_id": "936598787767",
+    "item_name": "王致和精致料酒500ml",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905126",
+    "item_id": "1031478494292",
+    "item_name": "【日日鲜】菜椒约270g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2922306",
+    "item_id": "1047309189260",
+    "item_name": "妙味奇大鸭腿 约180g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170232156",
+    "item_id": "940150559271",
+    "item_name": "淘小胖长粒香大米5kg",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6979260430022",
+    "item_id": "1050341968311",
+    "item_name": "淘小胖供港菜心 约350g/袋",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905063",
+    "item_id": "1034981823970",
+    "item_name": "【日日鲜】紫甘蓝约 800g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170233795",
+    "item_id": "1031480146069",
+    "item_name": "淘小胖有机纯牛奶1L",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905057",
+    "item_id": "1033534268962",
+    "item_name": "高山娃娃菜约600g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905058",
+    "item_id": "1030788775533",
+    "item_name": "【日日鲜】生菜球约300g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170231982",
+    "item_id": "1034791598704",
+    "item_name": "淘小胖100%水蜜桃汁1kg/瓶",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170231951",
+    "item_id": "940108011684",
+    "item_name": "淘小胖100%芒果混合果汁1kg",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905286",
+    "item_id": "1030787715984",
+    "item_name": "香菇 约190g/袋",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2900767",
+    "item_id": "1055189754723",
+    "item_name": "烙馍约540g/袋",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6932365576149",
+    "item_id": "938215327165",
+    "item_name": "兰格格草原乌日莫奶皮子酸奶140g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2957018",
+    "item_id": "1031478250648",
+    "item_name": "青贵妃番茄(盒)约450-500g/盒",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2902388",
+    "item_id": "1041909776895",
+    "item_name": "【散称】香水柠檬约380g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2901481",
+    "item_id": "1053455544508",
+    "item_name": "肉馅饼",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "29021322",
+    "item_id": "1050727082183",
+    "item_name": "【送勺子】麒麟西瓜1/4装 1.25kg--1.5kg/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6902265752714",
+    "item_id": "1033384930268",
+    "item_name": "海天特级金标生抽(PET瓶)750mL/瓶",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6902890221241",
+    "item_id": "1032933618776",
+    "item_name": "双汇马可波罗火腿肠250g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2900811",
+    "item_id": "1057789644471",
+    "item_name": "大芝麻球约50g/个",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2956198",
+    "item_id": "1050436207688",
+    "item_name": "黄皮椒350g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905840",
+    "item_id": "1040099702738",
+    "item_name": "烩面片约360g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2911198",
+    "item_id": "1033221204257",
+    "item_name": "【鲜活】吊水鲫鱼1条 约350±50g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2902517",
+    "item_id": "1031478450270",
+    "item_name": "红心火龙果约950-1000g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2904214",
+    "item_id": "1031478254721",
+    "item_name": "【品质生鲜】冰鲜 鸡翅中约500/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6979260430183",
+    "item_id": "1049455409816",
+    "item_name": "淘小胖供港茼蒿 约300g/袋",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6901404300854",
+    "item_id": "1032478526957",
+    "item_name": "上海硫磺皂85g/块",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170232897",
+    "item_id": "1030788015480",
+    "item_name": "淘小胖除菌除螨洗衣凝珠360g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2120304008149",
+    "item_id": "1040571802623",
+    "item_name": "辣条烤肠一根",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6925303761851",
+    "item_id": "1011833538913",
+    "item_name": "统一阿萨姆茉莉奶绿低糖500ml/瓶",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170231937",
+    "item_id": "940108211623",
+    "item_name": "淘小胖100%葡萄汁1kg",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170238004",
+    "item_id": "1031474278156",
+    "item_name": "淘小胖陈皮白茶500ml",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "290657311",
+    "item_id": "1053895456337",
+    "item_name": "【鲜活】活海虾约350g（保证活虾发货，运输无法保证活度）",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6940211889602",
+    "item_id": "1034640532069",
+    "item_name": "养乐多活菌型乳酸菌100ml*5/组",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2922547",
+    "item_id": "1041435982357",
+    "item_name": "牛肉锅贴250g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905265",
+    "item_id": "1034986020903",
+    "item_name": "【日日鲜】平菇 约500g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2900787",
+    "item_id": "1042229510965",
+    "item_name": "芝麻花卷100g/个",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6925303774202",
+    "item_id": "939819617194",
+    "item_name": "小浣熊 奥尔良烤翅味油炸方便面 35g/袋",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905261",
+    "item_id": "1035119254212",
+    "item_name": "【日日鲜】莴笋约 1000g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905060",
+    "item_id": "1031104107853",
+    "item_name": "【日日鲜】大白菜 约2.4-2.6kg/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "29026584",
+    "item_id": "1049439190809",
+    "item_name": "泰国 A果金枕榴莲2.5kg±250g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170238684",
+    "item_id": "1033887178370",
+    "item_name": "淘小胖女性卫生裤M-L码3p/包",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170231517",
+    "item_id": "1033216932951",
+    "item_name": "淘小胖精酿原浆啤酒1L/瓶",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2906576",
+    "item_id": "1033220976675",
+    "item_name": "【时令鲜活】小龙虾 约500g/份（保证活虾发货，运输无法保证鲜活）",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170231876",
+    "item_id": "1039874346455",
+    "item_name": "淘小胖果蔬餐具洗洁精（白桃）",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170237922",
+    "item_id": "1030787815951",
+    "item_name": "淘小胖风味发酵乳950g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6928804010220",
+    "item_id": "937603229758",
+    "item_name": "雪碧柠檬味汽水500ml/瓶",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905069",
+    "item_id": "1032739478191",
+    "item_name": "板栗南瓜 1500g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2904006",
+    "item_id": "1037045005380",
+    "item_name": "【淘小胖】精品带皮里脊肉500g±50g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2922515",
+    "item_id": "1044049271964",
+    "item_name": "葱油饼约250g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6921555598931",
+    "item_id": "1031474382623",
+    "item_name": "今麦郎清真香锅地道辣面130g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2901147",
+    "item_id": "1030791971937",
+    "item_name": "鲜活生蚝2个",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905366",
+    "item_id": "1031131663847",
+    "item_name": "【日日鲜】净莲藕 约450-500g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6921168598649",
+    "item_id": "938119012968",
+    "item_name": "东方树叶青柑普洱900ml",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6902890022497",
+    "item_id": "1033856773053",
+    "item_name": "双汇王中王火腿肠40g*10",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6923800535289",
+    "item_id": "1032200679299",
+    "item_name": "光明 乐在新鲜原味益生菌风味发酵乳 1.25kg/桶",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6904417011434",
+    "item_id": "937022810067",
+    "item_name": "南街村北京麻辣方便面美味7连包490g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6956416200029",
+    "item_id": "936598931646",
+    "item_name": "可口可乐 美汁源 果粒橙饮料 1250ml/瓶",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6902538005141",
+    "item_id": "937603413343",
+    "item_name": "脉动维生素饮料水蜜桃味600ml",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2900019",
+    "item_id": "1043985423237",
+    "item_name": "【当日现做】自制蒜香小龙虾（6-8钱）1kg/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170233214",
+    "item_id": "940150343811",
+    "item_name": "淘小胖鸡蛋挂面800g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170235645",
+    "item_id": "1033221120348",
+    "item_name": "淘小胖猪肉大葱水饺1.25kg",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2924067",
+    "item_id": "1050559807216",
+    "item_name": "煌上煌鸭翅中 5个",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905992",
+    "item_id": "1040167365205",
+    "item_name": "芦笋约290g/盒",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6921168560189",
+    "item_id": "1037412532775",
+    "item_name": "水溶C100 血橙味复合果汁饮料 445ml/瓶",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6921555542774",
+    "item_id": "1042948934564",
+    "item_name": "今麦郎清真卤香牛肉板面桶 143g/桶",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2902195",
+    "item_id": "1030792203596",
+    "item_name": "红提800g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2944563",
+    "item_id": "1031914350560",
+    "item_name": "【牛伊哥】牛吊龙约150g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6926892521086",
+    "item_id": "940340744234",
+    "item_name": "银鹭莲子八宝粥360g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2900833",
+    "item_id": "1042390157163",
+    "item_name": "酸奶麻花100g/个",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170233429",
+    "item_id": "941177737548",
+    "item_name": "淘小胖牌提挂式洁面柔巾180抽",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905257",
+    "item_id": "1036620913211",
+    "item_name": "【日日鲜】西芹 750g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6979260430046",
+    "item_id": "1048486606538",
+    "item_name": "淘小胖供港菠菜苗 约250g/袋",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6923644237936",
+    "item_id": "1035639018916",
+    "item_name": "蒙牛纯牛奶全脂苗条装 200ml/盒",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2922609",
+    "item_id": "1040591578838",
+    "item_name": "凉菜素拼500g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905829",
+    "item_id": "1032400101264",
+    "item_name": "米皮约500g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2904034",
+    "item_id": "1040518582024",
+    "item_name": "五花肉馅 约350g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905211",
+    "item_id": "1031478182861",
+    "item_name": "水果萝卜约400g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2929100",
+    "item_id": "1051284198253",
+    "item_name": "烤琵琶腿 约180g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "8859015703152",
+    "item_id": "938119236393",
+    "item_name": "IF椰子水100%1L",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2902425",
+    "item_id": "1055480215882",
+    "item_name": "红李子约450g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6909493107002",
+    "item_id": "1044777784720",
+    "item_name": "和路雪可丽波橘子汁棒冰 70g/支",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6973279800173",
+    "item_id": "939226406045",
+    "item_name": "满小饱袋装肥汁米线310g/袋",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2120304008132",
+    "item_id": "1042385676805",
+    "item_name": "黑椒烤肠一根",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2900585",
+    "item_id": "1042389613973",
+    "item_name": "水煎包约90g/1个",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2901403",
+    "item_id": "1051578874731",
+    "item_name": "地锅馍 约200g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6970618571299",
+    "item_id": "937603557613",
+    "item_name": "简爱轻食酸奶0%蔗糖400g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170237861",
+    "item_id": "1031480238743",
+    "item_name": "淘小胖家庭装黑椒菲力牛排650g/盒",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2924854",
+    "item_id": "1043252472626",
+    "item_name": "千味玉米烙饼110g/个",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170230107",
+    "item_id": "1042299581422",
+    "item_name": "淘小胖精酿原浆啤酒1L*6罐",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6935270639473",
+    "item_id": "937022686333",
+    "item_name": "白象韩式火鸡拌面五合一112g*5/袋",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2904050",
+    "item_id": "1040992376782",
+    "item_name": "【淘小胖】精品瘦肉450g±50g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2900795",
+    "item_id": "1055686592239",
+    "item_name": "枣花馍约250g/2个",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170232965",
+    "item_id": "1033217172291",
+    "item_name": "淘小胖茉莉花茶无糖茶饮料500ml",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905877",
+    "item_id": "1030792483150",
+    "item_name": "米线约250g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6956553400283",
+    "item_id": "937022238894",
+    "item_name": "百事可乐可乐型汽水 500ml/瓶（新老包装随机）",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2902132",
+    "item_id": "1041013004696",
+    "item_name": "麒麟西瓜整个 约4.5-5kg",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905578",
+    "item_id": "1033217060283",
+    "item_name": "绣球菌 约140g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2955783",
+    "item_id": "1032395761031",
+    "item_name": "垆土铁棍山药 约450g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2902739",
+    "item_id": "1035145454159",
+    "item_name": "迷你小青桔约240g/盒",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6901377002007",
+    "item_id": "937022362911",
+    "item_name": "莲花味精200g",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6956416200425",
+    "item_id": "1033222220976",
+    "item_name": "酷儿橙味450ml",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6972591361010",
+    "item_id": "1056243408415",
+    "item_name": "吕师傅溏心变蛋8枚装",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2900793",
+    "item_id": "1044056799162",
+    "item_name": "酱饼250g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6935270641988",
+    "item_id": "1036571733069",
+    "item_name": "白象汤好喝 老母鸡汤面 106.5g*5包/包",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6902083910037",
+    "item_id": "940107875852",
+    "item_name": "娃哈哈 饮用纯净水 550ml/瓶（新老包装随机",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2955055",
+    "item_id": "1044002910044",
+    "item_name": "青线椒 250g±50g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2926185",
+    "item_id": "1037631237297",
+    "item_name": "佳农蓝莓250g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905946",
+    "item_id": "1033221344254",
+    "item_name": "世通香豆干约300g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2905822",
+    "item_id": "1030792379366",
+    "item_name": "精品面筋约200g/份",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2906614",
+    "item_id": "1030791947996",
+    "item_name": "15头鲍鱼 约30g-40g/只",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6971738659911",
+    "item_id": "1031474510995",
+    "item_name": "开花肉丸100g/袋",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "6977170238677",
+    "item_id": "1049865827076",
+    "item_name": "淘小胖夜用卫生巾 360mm*5片/包",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "29112011",
+    "item_id": "1053420500398",
+    "item_name": "【鲜活】吊水鲈鱼约400g--500g（默认不宰杀）",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2911201",
+    "item_id": "1050781411998",
+    "item_name": "【鲜活】吊水鲈鱼约650g--700g（默认不宰杀）",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2926180",
+    "item_id": "1047634459556",
+    "item_name": "黄桃 约300g/盒",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "2902410",
+    "item_id": "1039873063291",
+    "item_name": "【早期尝鲜】黄油桃 约350g/盒",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  },
+  {
+    "barcode": "29024111",
+    "item_id": "1048952926722",
+    "item_name": "水蜜桃 约750-800g/盒",
+    "store_id": "1284510785",
+    "store_name": "淘小胖超市(龙湖店)",
+    "brand": "淘小胖",
+    "xiaoer": "霏菲",
+    "priority": "P1"
+  }
+]
