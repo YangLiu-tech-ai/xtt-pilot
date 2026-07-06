@@ -38,9 +38,8 @@ const WHALE_REFRESH_TOKEN = process.env.WHALE_REFRESH_TOKEN || '';
 const WHALE_SHOP_ID = process.env.WHALE_SHOP_ID || '1579337942525061';
 const BASIC_AUTH = 'Basic d2hhbGU6d2hhbGU='; // whale:whale
 
-// Token 缓存（进程内）
-let _cachedToken = null;
-let _tokenExpiresAt = 0;
+// Token 缓存（按 refresh_token 前缀分桶，支持多品牌多凭证）
+const _tokenCache = new Map(); // key: refreshToken前16字符 → {token, expiresAt}
 
 function todayLocal() {
   const d = new Date(Date.now() + 8 * 3600 * 1000);
@@ -111,17 +110,19 @@ function httpRequest(url, options, body) {
 
 /* === Token 管理 === */
 
-async function getAccessToken() {
-  // 缓存有效则直接返回（提前 5 分钟刷新）
-  if (_cachedToken && Date.now() < _tokenExpiresAt - 300000) {
-    return _cachedToken;
-  }
-
-  if (!WHALE_REFRESH_TOKEN) {
+async function getAccessToken(refreshToken) {
+  const rt = refreshToken || WHALE_REFRESH_TOKEN;
+  if (!rt) {
     throw new Error('WHALE_REFRESH_TOKEN 未配置，api 模式无法运行');
   }
 
-  const url = `${WHALE_BASE_URL}/api/auth/oauth/token?refresh_token=${encodeURIComponent(WHALE_REFRESH_TOKEN)}&grant_type=refresh_token&scope=server`;
+  const cacheKey = rt.slice(0, 16);
+  const cached = _tokenCache.get(cacheKey);
+  if (cached && Date.now() < cached.expiresAt - 300000) {
+    return cached.token;
+  }
+
+  const url = `${WHALE_BASE_URL}/api/auth/oauth/token?refresh_token=${encodeURIComponent(rt)}&grant_type=refresh_token&scope=server`;
   const resp = await httpRequest(url, {
     method: 'POST',
     headers: { 'Authorization': BASIC_AUTH },
@@ -131,10 +132,12 @@ async function getAccessToken() {
     throw new Error(`Token 刷新失败: ${JSON.stringify(resp.data)}`);
   }
 
-  _cachedToken = resp.data.access_token;
-  _tokenExpiresAt = Date.now() + (resp.data.expires_in || 604799) * 1000;
-  console.log(`[whaleAdapter:api] token refreshed, expires in ${resp.data.expires_in}s`);
-  return _cachedToken;
+  _tokenCache.set(cacheKey, {
+    token: resp.data.access_token,
+    expiresAt: Date.now() + (resp.data.expires_in || 604799) * 1000,
+  });
+  console.log(`[whaleAdapter:api] token refreshed (${cacheKey}...), expires in ${resp.data.expires_in}s`);
+  return resp.data.access_token;
 }
 
 /* === API 核心操作 === */
@@ -219,6 +222,48 @@ async function apiOffSale(token, storeSkuId) {
   return { ok: true, data: resp.data.data };
 }
 
+/* === 库存 API === */
+
+async function apiQueryStock(token, barcode, organizationId) {
+  // 按 barcode + organizationId 查询库存记录，返回库存记录ID和当前离线库存
+  const url = `${WHALE_BASE_URL}/api/web/gms/b2c/store-goods/stocks/page?size=20&current=1&isBarcodeFuzzy=0&barcode=${encodeURIComponent(barcode)}&organizationIds=${encodeURIComponent(organizationId)}`;
+  const resp = await httpRequest(url, {
+    method: 'GET',
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+
+  if (!resp.data || resp.data.code !== 0 || !resp.data.data) {
+    return null; // 查询失败不阻断，返回 null
+  }
+
+  const records = resp.data.data.records || [];
+  if (records.length === 0) return null;
+
+  const rec = records[0];
+  return {
+    stockRecordId: rec.id,
+    offlineStock: parseInt(rec.offlineStock) || 0,
+    goodsName: rec.goodsName,
+  };
+}
+
+async function apiSetStock(token, stockRecordId, newStock) {
+  // 更新离线库存
+  const url = `${WHALE_BASE_URL}/api/web/gms/b2c/store-goods/stocks/store-sku/stocks`;
+  const resp = await httpRequest(url, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  }, JSON.stringify({ id: stockRecordId, offlineStock: String(newStock) }));
+
+  if (!resp.data || resp.data.code !== 0) {
+    throw new Error(`补库存失败: ${JSON.stringify(resp.data)}`);
+  }
+  return { ok: true, newStock };
+}
+
 /* === 模式实现 === */
 
 async function executeDry(task) {
@@ -284,15 +329,17 @@ async function executePreview(task) {
   return { ok: true, mode: 'preview', batchFile: file, planFile, plan };
 }
 
-async function executeApi(task) {
-  const shopId = WHALE_SHOP_ID;
+async function executeApi(task, opts = {}) {
+  const refreshToken = opts.refreshToken || null;
+  const shopId = opts.whaleShopId || WHALE_SHOP_ID;
+  const organizationId = opts.organizationId || shopId;
   const barcode = task.barcode;
   const action = task.action || 'shelf';
 
   console.log(`[whaleAdapter:api] executing ${action} for barcode=${barcode} store=${shopId}`);
 
-  // 1. 获取 token
-  const token = await getAccessToken();
+  // 1. 获取 token（支持多凭证）
+  const token = await getAccessToken(refreshToken);
 
   // 2. 查找 storeSkuId
   const skuInfo = await apiFindStoreSkuId(token, barcode, shopId);
@@ -304,7 +351,7 @@ async function executeApi(task) {
     };
   }
 
-  console.log(`[whaleAdapter:api] found storeSkuId=${skuInfo.storeSkuId} name=${skuInfo.goodsName} currentStatus=${skuInfo.currentSaleStatus} price=${skuInfo.currentPrice}`);
+  console.log(`[whaleAdapter:api] found storeSkuId=${skuInfo.storeSkuId} name=${skuInfo.goodsName} status=${skuInfo.currentSaleStatus} price=${skuInfo.currentPrice}`);
 
   // 3. 记录批次日志
   const { file, entry } = writeBatchRow(task, 'api');
@@ -313,19 +360,35 @@ async function executeApi(task) {
   // 4. 执行操作
   let apiResult = {};
   if (action === 'shelf') {
-    // 改价（如果课长设置了价格）
+    // 4a. 库存检查：仅当 task 标记 stock=0 时补 5 件再上架
+    if (task.stock === 0 || task.stock === '0') {
+      try {
+        const stockInfo = await apiQueryStock(token, barcode, organizationId);
+        if (stockInfo && stockInfo.offlineStock === 0) {
+          const stockResult = await apiSetStock(token, stockInfo.stockRecordId, 5);
+          apiResult.stockReplenish = { before: 0, after: 5, stockRecordId: stockInfo.stockRecordId };
+          console.log(`[whaleAdapter:api] stock replenished: 0 → 5`);
+        } else if (stockInfo) {
+          console.log(`[whaleAdapter:api] stock=${stockInfo.offlineStock}, skip replenish`);
+        }
+      } catch (e) {
+        console.warn(`[whaleAdapter:api] stock check/replenish failed (non-fatal): ${e.message}`);
+      }
+    }
+
+    // 4b. 改价（如果课长设置了价格）
     if (task.actual_price && task.actual_price > 0) {
       const priceResult = await apiSetPrice(token, skuInfo.storeSkuId, task.actual_price);
       apiResult.price = priceResult;
       console.log(`[whaleAdapter:api] price set to ¥${task.actual_price}`);
     }
-    // 上架
+
+    // 4c. 上架
     const saleResult = await apiOnSale(token, skuInfo.storeSkuId);
     apiResult.onSale = saleResult;
     console.log(`[whaleAdapter:api] on-sale success`);
 
   } else if (action === 'off_shelf') {
-    // 下架
     const offResult = await apiOffSale(token, skuInfo.storeSkuId);
     apiResult.offSale = offResult;
     console.log(`[whaleAdapter:api] off-sale success`);
@@ -351,11 +414,11 @@ async function executeReal(task) {
   );
 }
 
-async function executeOnWhale(task) {
+async function executeOnWhale(task, opts) {
   switch (MODE) {
     case 'simulate': return executeSimulate(task);
     case 'preview':  return executePreview(task);
-    case 'api':      return executeApi(task);
+    case 'api':      return executeApi(task, opts);
     case 'real':     return executeReal(task);
     case 'dry':
     default:         return executeDry(task);
@@ -364,4 +427,4 @@ async function executeOnWhale(task) {
 
 console.log(`[whaleAdapter] mode=${MODE} batchDir=${BATCH_DIR}`);
 
-module.exports = { executeOnWhale, getAccessToken, apiFindStoreSkuId, apiOnSale, apiOffSale, apiSetPrice, MODE, BATCH_DIR, PREVIEW_DIR };
+module.exports = { executeOnWhale, getAccessToken, apiFindStoreSkuId, apiOnSale, apiOffSale, apiSetPrice, apiQueryStock, apiSetStock, MODE, BATCH_DIR, PREVIEW_DIR };

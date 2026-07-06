@@ -1,13 +1,15 @@
 /**
  * 本地 Worker · 5min 轮询 EXECUTING 任务
  *
- * 当前 MVP 阶段：执行逻辑用「模拟」占位（80% 成功 / 20% 失败）
- * 真正接入 whale-batch-shelf-upload 在 D2 完成，已留好对接点：executeOnWhale()
+ * api 模式：通过鲸品云 REST API 完成上架（含库存=0自动补5）
+ * dry 模式（默认）：仅记录批次 JSONL，不触达真实鲸品云
  *
  * 失败累计 3 次 → 调 notifier.escalateToManager() @ 课长
  */
 const http = require('http');
 const https = require('https');
+const fs = require('fs');
+const path = require('path');
 // 不直接连 DB：node-sqlite3-wasm 不支持多进程，store 信息由 server 的 report 接口随 escalateInfo 返回
 const { escalateToManager } = require('../backend/notifier');
 const { executeOnWhale, MODE: WHALE_MODE, BATCH_DIR } = require('../backend/whaleAdapter');
@@ -15,6 +17,32 @@ const { executeOnWhale, MODE: WHALE_MODE, BATCH_DIR } = require('../backend/whal
 const API = process.env.MVP_API || 'https://xtt-pilot.onrender.com';
 const INTERNAL_KEY = process.env.MVP_INTERNAL_KEY || 'worker-key-2026-prod';
 const INTERVAL_MS = parseInt(process.env.WORKER_INTERVAL || '15000', 10);
+
+// ============ 凭证池加载 ============
+const CREDS_PATH = path.join(__dirname, '..', 'scripts', 'whale-credentials.json');
+let _whaleCreds = null;
+function loadWhaleCreds() {
+  if (_whaleCreds) return _whaleCreds;
+  try {
+    _whaleCreds = JSON.parse(fs.readFileSync(CREDS_PATH, 'utf8'));
+    console.log(`[worker] loaded whale credentials: ${Object.keys(_whaleCreds.credentials || {}).join(', ')}`);
+  } catch (e) {
+    console.warn(`[worker] whale-credentials.json not found or invalid: ${e.message}`);
+    _whaleCreds = { credentials: {} };
+  }
+  return _whaleCreds;
+}
+
+function getCredentialForTask(credentialKey) {
+  if (!credentialKey) return { refreshToken: null, whaleShopId: null };
+  const creds = loadWhaleCreds();
+  const cred = creds.credentials?.[credentialKey];
+  if (!cred) return { refreshToken: null, whaleShopId: null };
+  return {
+    refreshToken: cred.refreshToken || null,
+    whaleShopId: null, // whaleShopId comes from the task claim response
+  };
+}
 
 function call(path, body) {
   return new Promise((resolve, reject) => {
@@ -49,7 +77,16 @@ async function tick() {
 
   for (const t of tasks) {
     console.log(`  ▶ ${t.id}/${t.sku} ${t.item_name} (retry=${t.retry_count})`);
-    const r = await executeOnWhale(t);
+
+    // 加载该任务的品牌凭证（refreshToken），whaleShopId 来自任务本身
+    const cred = getCredentialForTask(t.credential_key);
+    const opts = {
+      refreshToken: cred.refreshToken || null,
+      whaleShopId: t.whale_shop_id || null,
+      organizationId: t.whale_shop_id || null,
+    };
+
+    const r = await executeOnWhale(t, opts);
     const report = await call('/v1/internal/worker/report', {
       taskId: t.id, success: r.ok, errorMsg: r.error || null,
     });

@@ -71,7 +71,7 @@ app.get('/v1/tasks', authMiddleware, (req, res) => {
            source, assigned_by, assigned_at,
            shortage_reason, shortage_reason_detail
     FROM tasks
-    WHERE store_id = ? AND status NOT IN ('VERIFIED')
+    WHERE store_id = ? AND status NOT IN ('VERIFIED', 'ARCHIVED')
       AND (status = 'PENDING' OR action IS NOT NULL)
     ORDER BY
       CASE WHEN source = 'hq_assigned' THEN 0 ELSE 1 END,
@@ -150,7 +150,7 @@ app.post('/v1/internal/worker/claim', internalOnly, (req, res) => {
   // 拿一批 EXECUTING 状态 + retry_count < 3 的任务（含鲸品云隔离字段）
   const rows = db.prepare(`
     SELECT id, store_id, sku, barcode, item_name, action, substitute_sku, actual_price, retry_count,
-           whale_shop_id, credential_key
+           whale_shop_id, credential_key, stock
     FROM tasks
     WHERE status='EXECUTING' AND retry_count < 3
     ORDER BY updated_at LIMIT 20
@@ -234,10 +234,12 @@ app.post('/v1/internal/sync-tasks', internalOnly, (req, res) => {
     return res.status(400).json({ ok: false, err: 'batchId, storeId, items[] required' });
   }
 
-  // 幂等：清除该门店所有未操作的 PENDING（含旧 batch），保证每次 sync 以最新一批为准
+  // 归档该门店旧批次的 PENDING（含旧 batch），保留数据供日报统计
   // 不动 EXECUTING/DONE/SHORTAGE 等已推进状态，店长正在操作中的任务不受影响
-  const deleted = db.prepare(
-    `DELETE FROM tasks WHERE store_id=? AND status='PENDING'`
+  // ARCHIVED 任务对 /v1/tasks（课长视图）和 worker/claim 不可见，仅在 report 接口可见
+  const archived = db.prepare(
+    `UPDATE tasks SET status='ARCHIVED', updated_at=datetime('now','+8 hours')
+     WHERE store_id=? AND status='PENDING'`
   ).run([storeId]);
 
   // 确保门店存在
@@ -277,8 +279,8 @@ app.post('/v1/internal/sync-tasks', internalOnly, (req, res) => {
     created++;
   }
 
-  console.log(`[sync-tasks] batch=${batchId} store=${storeId} whale=${whaleShopId||'N/A'} cred=${credentialKey||'N/A'} deleted=${deleted.changes} created=${created}`);
-  res.json({ ok: true, batchId, storeId, deleted: deleted.changes, created });
+  console.log(`[sync-tasks] batch=${batchId} store=${storeId} whale=${whaleShopId||'N/A'} cred=${credentialKey||'N/A'} archived=${archived.changes} created=${created}`);
+  res.json({ ok: true, batchId, storeId, archived: archived.changes, created });
 });
 
 // ============ 只读审计 API（门店操作记录查询） ============
