@@ -114,6 +114,7 @@ async function main() {
       stdio: 'inherit',
       env: {
         ...process.env,
+        WHALE_MODE: 'api',
         WHALE_REFRESH_TOKEN: token,
         WHALE_SHOP_ID: shopId,
         NODE_TLS_REJECT_UNAUTHORIZED: '0',
