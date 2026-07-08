@@ -29,7 +29,7 @@
       "brandName": "淘小胖超市",
       "kunlunCredKey": "csnc-kunlun",
       "credentialKey": "txp-whale",
-      "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=b92c7d5f0c3a4447294f310afbaa99ce09ae3ce1b15a470e029dd8f38a60fa86",
+      "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=11d63cf966449eb9855985fb0dc63898fedd459ddf0cec31bb0d35389fa6ac83",
       "dingtalkKeyword": "推送",
       "monitorFile": "monitor-barcodes-txplh.json",
       "stores": [
@@ -39,6 +39,30 @@
           "storeId": "20015142365",
           "sellerId": "1919996480451",
           "whaleShopId": "189897189504213"
+        }
+      ]
+    },
+    "xq": {
+      "brandName": "兴勤超市",
+      "kunlunCredKey": "xq-kunlun",
+      "credentialKey": "xq-whale",
+      "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=dea2c2b2174b9018e9a70efab3ce8ec049ebdc4fb0e515ce933491314f2a3a49",
+      "dingtalkKeyword": "推送",
+      "monitorFile": "monitor-barcodes-xq.json",
+      "stores": [
+        {
+          "name": "兴勤超市(陈江店)",
+          "wid": "1137486501",
+          "storeId": "1069036428",
+          "sellerId": "2215344798382",
+          "whaleShopId": "1590061291159621"
+        },
+        {
+          "name": "兴勤超市(港惠店)",
+          "wid": "1328460101",
+          "storeId": "20035008325",
+          "sellerId": "2215344798382",
+          "whaleShopId": "190507638909397"
         }
       ]
     }
