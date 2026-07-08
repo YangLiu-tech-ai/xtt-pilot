@@ -226,7 +226,8 @@ async function apiOffSale(token, storeSkuId) {
 
 async function apiQueryStock(token, barcode, organizationId) {
   // 按 barcode + organizationId 查询库存记录，返回库存记录ID和当前离线库存
-  const url = `${WHALE_BASE_URL}/api/web/gms/b2c/store-goods/stocks/page?size=20&current=1&isBarcodeFuzzy=0&barcode=${encodeURIComponent(barcode)}&organizationIds=${encodeURIComponent(organizationId)}`;
+  // 注意：库存数据在 record.storeSkuStockList[0] 中，不在 record 顶层
+  const url = `${WHALE_BASE_URL}/api/web/gms/b2c/store-goods/stocks/page?size=20&current=1&isSkuCodeFuzzy=0&isBarcodeFuzzy=0&barcode=${encodeURIComponent(barcode)}&organizationIds=${encodeURIComponent(organizationId)}`;
   const resp = await httpRequest(url, {
     method: 'GET',
     headers: { 'Authorization': `Bearer ${token}` },
@@ -240,9 +241,12 @@ async function apiQueryStock(token, barcode, organizationId) {
   if (records.length === 0) return null;
 
   const rec = records[0];
+  const stock = (rec.storeSkuStockList || [])[0];
+  if (!stock) return { skipped: true, reason: 'sku stock not found', goodsName: rec.goodsName };
+
   return {
-    stockRecordId: rec.id,
-    offlineStock: parseInt(rec.offlineStock) || 0,
+    stockRecordId: stock.id,
+    offlineStock: Number(stock.offlineStock) || 0,
     goodsName: rec.goodsName,
   };
 }
