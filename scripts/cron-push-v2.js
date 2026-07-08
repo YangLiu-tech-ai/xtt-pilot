@@ -139,13 +139,20 @@ async function main() {
   const rawData = JSON.parse(fs.readFileSync(itemsPath, 'utf8'));
   const monitorList = JSON.parse(fs.readFileSync(monitorPath, 'utf8'));
 
-  // 2. 构建监控索引
+  // 2. 构建监控索引（复合键 storeId:barcode 严格门店隔离）
   const monitorMap = new Map();
   for (const m of monitorList) {
     const bc = normalizeBarcode(m.barcode);
-    if (bc) monitorMap.set(bc, m);
+    if (!bc) continue;
+    const sid = m.store_id || '';
+    monitorMap.set(`${sid}:${bc}`, m);
   }
-  console.log(`[cron-push-v2] 监控清单: ${monitorMap.size} 个条形码`);
+  // 辅助函数：先查当前门店，再查无门店绑定的通配条目
+  function getMonitorEntry(bc, storeId) {
+    return monitorMap.get(`${storeId}:${bc}`) || monitorMap.get(`:${bc}`);
+  }
+  const uniqueBarcodes = new Set(monitorList.map(m => normalizeBarcode(m.barcode)).filter(Boolean));
+  console.log(`[cron-push-v2] 监控清单: ${uniqueBarcodes.size} 个条形码 (${monitorMap.size} 条门店绑定)`);
 
   // 3. 遍历门店（兼容 dict 和 array）
   let stores;
@@ -180,9 +187,9 @@ async function main() {
     const unattended = [];
     for (const item of items) {
       const bc = normalizeBarcode(item.barCode || item.barcode);
-      if (!monitorMap.has(bc)) continue;
+      const info = getMonitorEntry(bc, storeId);
+      if (!info) continue;
       if (!isUnattended(item)) continue;
-      const info = monitorMap.get(bc);
       unattended.push({
         barcode: bc,
         itemName: item.title || info.item_name,
@@ -198,11 +205,12 @@ async function main() {
       });
     }
 
-    // 不在 API 中的监控品
+    // 不在 API 中的监控品（复合键：只查当前门店绑定和无门店绑定的条目）
     const apiBarcodes = new Set(items.map(i => normalizeBarcode(i.barCode || i.barcode)));
-    for (const [bc, info] of monitorMap.entries()) {
+    for (const [key, info] of monitorMap.entries()) {
+      const [sid, bc] = [key.substring(0, key.indexOf(':')), key.substring(key.indexOf(':') + 1)];
+      if (sid && sid !== storeId) continue;  // 跳过其他门店的条目
       if (apiBarcodes.has(bc)) continue;
-      if (info.store_id && info.store_id !== storeId) continue;
       unattended.push({
         barcode: bc,
         itemName: info.item_name || '',
@@ -219,9 +227,10 @@ async function main() {
     console.log(`[cron-push-v2] 未出勤: ${unattended.length} 件`);
 
     // ⛔ 防护2：未出勤占比超过 80% = 数据异常（正常情况下不会几乎全部缺货）
-    const storeMonitorCount = Array.from(monitorMap.values()).filter(
-      m => !m.store_id || m.store_id === storeId
-    ).length;
+    const storeMonitorCount = Array.from(monitorMap.entries()).filter(([key, m]) => {
+      const sid = key.substring(0, key.indexOf(':'));
+      return !sid || sid === storeId;
+    }).length;
     if (storeMonitorCount > 0 && unattended.length > storeMonitorCount * 0.8) {
       console.error(`[cron-push-v2] ⛔ 数据异常: ${storeName}(${storeId}) 未出勤 ${unattended.length}/${storeMonitorCount} (${(unattended.length / storeMonitorCount * 100).toFixed(1)}% > 80%)，疑似数据不完整，跳过推送`);
       continue;
