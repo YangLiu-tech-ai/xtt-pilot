@@ -143,8 +143,8 @@ async function getAccessToken(refreshToken) {
 /* === API 核心操作 === */
 
 async function apiFindStoreSkuId(token, barcode, shopId) {
-  // 通过 store-goods/page 按 barcode 查询，找到指定门店的 storeSkuId
-  const url = `${WHALE_BASE_URL}/api/web/gms/b2c/store-goods/page?current=1&size=20&barcode=${encodeURIComponent(barcode)}`;
+  // 通过 store-goods/page 按 barcode + organizationIds 查询，精确定位到指定门店的 storeSkuId
+  const url = `${WHALE_BASE_URL}/api/web/gms/b2c/store-goods/page?current=1&size=20&barcode=${encodeURIComponent(barcode)}&organizationIds=${encodeURIComponent(shopId)}`;
   const resp = await httpRequest(url, {
     method: 'GET',
     headers: { 'Authorization': `Bearer ${token}` },

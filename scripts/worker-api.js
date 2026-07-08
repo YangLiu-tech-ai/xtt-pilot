@@ -39,9 +39,10 @@ const FALLBACK_TOKEN_FILE = path.join(__dirname, '..', 'token.tmp');
 // === 凭证池加载 ===
 const CREDENTIALS_PATH = path.join(__dirname, 'whale-credentials.json');
 let credentialsPool = {};
+let credentialsRaw = {};
 try {
-  const raw = JSON.parse(fs.readFileSync(CREDENTIALS_PATH, 'utf8'));
-  credentialsPool = raw.credentials || {};
+  credentialsRaw = JSON.parse(fs.readFileSync(CREDENTIALS_PATH, 'utf8'));
+  credentialsPool = credentialsRaw.credentials || {};
   console.log(`[worker] credentials pool loaded: ${Object.keys(credentialsPool).length} credential(s)`);
 } catch (e) {
   console.warn(`[worker] whale-credentials.json not found or invalid, using env fallback: ${e.message}`);
@@ -120,6 +121,16 @@ async function getTokenForCredential(credentialKey) {
     if (data?.access_token) {
       const entry = { token: data.access_token, exp: Date.now() + (data.expires_in || 604799) * 1000, baseUrl };
       tokenCache.set(credentialKey, entry);
+      // 持久化旋转后的 refresh_token，防止 token 丢失
+      if (data.refresh_token && data.refresh_token !== refreshToken) {
+        if (cred) {
+          cred.refreshToken = data.refresh_token;
+          try {
+            fs.writeFileSync(CREDENTIALS_PATH, JSON.stringify({ _comment: credentialsRaw._comment, credentials: credentialsPool }, null, 2), 'utf8');
+          } catch (e) { /* ignore write errors */ }
+        }
+        try { fs.writeFileSync(path.resolve(__dirname, tokenFile), data.refresh_token, 'utf8'); } catch (e) { /* ignore */ }
+      }
       console.log(`[worker] [${credentialKey}] token refreshed, expires ${data.expires_in}s`);
       return entry;
     }
@@ -149,7 +160,7 @@ async function getTokenForCredential(credentialKey) {
 
 // === 鲸品云操作（参数化 baseUrl + shopId） ===
 async function findStoreSkuId(baseUrl, token, barcode, shopId) {
-  const url = `${baseUrl}/api/web/gms/b2c/store-goods/page?current=1&size=20&barcode=${encodeURIComponent(barcode)}`;
+  const url = `${baseUrl}/api/web/gms/b2c/store-goods/page?current=1&size=20&barcode=${encodeURIComponent(barcode)}&organizationIds=${encodeURIComponent(shopId)}`;
   const r = await request(url, { method: 'GET', headers: { 'Authorization': `Bearer ${token}` } });
   if (!r.data || r.data.code !== 0) throw new Error(`查询失败: ${JSON.stringify(r.data)}`);
 
