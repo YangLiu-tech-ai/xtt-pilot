@@ -29,7 +29,7 @@
       "brandName": "淘小胖超市",
       "kunlunCredKey": "csnc-kunlun",
       "credentialKey": "txp-whale",
-      "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=11d63cf966449eb9855985fb0dc63898fedd459ddf0cec31bb0d35389fa6ac83",
+      "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=2621291065d444f209cfbe7126bb483aea0373c33a335f38860122991d16c3c9",
       "dingtalkKeyword": "推送",
       "monitorFile": "monitor-barcodes-txplh.json",
       "stores": [
