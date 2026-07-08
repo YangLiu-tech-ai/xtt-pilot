@@ -46,7 +46,7 @@
       "brandName": "兴勤超市",
       "kunlunCredKey": "xq-kunlun",
       "credentialKey": "xq-whale",
-      "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=dea2c2b2174b9018e9a70efab3ce8ec049ebdc4fb0e515ce933491314f2a3a49",
+      "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=e9a9bd61642e1d0163d09c7d7bae761aff989a578cc2bd3e7f7d785c0d374a59",
       "dingtalkKeyword": "推送",
       "monitorFile": "monitor-barcodes-xq.json",
       "stores": [
