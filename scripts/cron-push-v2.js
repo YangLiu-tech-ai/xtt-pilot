@@ -145,6 +145,28 @@ function saveDedupState(state) {
   fs.writeFileSync(DEDUP_PATH, JSON.stringify(state, null, 2), 'utf8');
 }
 
+// ============ 本地批次备份（按日期 + 批次归档，永不覆盖） ============
+const BACKUP_ROOT = path.join(__dirname, 'backups');
+
+function saveBatchBackup({ storeId, storeName, batchId, kept, filteredOut }) {
+  const dateStr = batchId.slice(0, 4) + '-' + batchId.slice(4, 6) + '-' + batchId.slice(6, 8);
+  const dir = path.join(BACKUP_ROOT, dateStr);
+  fs.mkdirSync(dir, { recursive: true });
+  const file = path.join(dir, `${storeId}_batch-${batchId}.json`);
+  const payload = {
+    storeId,
+    storeName,
+    batchId,
+    pushedAt: new Date().toISOString(),
+    keptCount: kept.length,
+    filteredOutCount: filteredOut.length,
+    kept,
+    filteredOut,
+  };
+  fs.writeFileSync(file, JSON.stringify(payload, null, 2), 'utf8');
+  console.log(`[cron-push-v2] 💾 本地备份: ${file}`);
+}
+
 // ============ 主流程 ============
 async function main() {
   const now = new Date(Date.now() + 8 * 3600 * 1000);
@@ -305,6 +327,8 @@ async function main() {
           kept: [],
           filteredOut: filteredOutByShortage,
         });
+        // 本地批次备份
+        saveBatchBackup({ storeId, storeName, batchId, kept: [], filteredOut: filteredOutByShortage });
         continue;
       }
     }
@@ -318,6 +342,8 @@ async function main() {
       // 仍然保存结果文件，方便排查
       const outFile = path.join(__dirname, `unattended-${storeId}.json`);
       fs.writeFileSync(outFile, JSON.stringify(unattended, null, 2), 'utf8');
+      // 本地批次备份（去重跳过也留档）
+      saveBatchBackup({ storeId, storeName, batchId, kept: unattended, filteredOut: filteredOutByShortage });
       continue;
     }
 
@@ -459,6 +485,9 @@ async function main() {
       kept: unattended,
       filteredOut: filteredOutByShortage,
     });
+
+    // 13. 本地批次备份（按日期+批次归档，永不覆盖）
+    saveBatchBackup({ storeId, storeName, batchId, kept: unattended, filteredOut: filteredOutByShortage });
   }
 
   console.log(`[cron-push-v2] 🏁 完成`);
