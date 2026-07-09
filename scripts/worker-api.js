@@ -93,20 +93,22 @@ function recoverTokenFromFile(tokenFilePath) {
   }
 }
 
-// === Token 刷新 ===
-async function refreshWithToken(baseUrl, refreshToken) {
-  const url = `${baseUrl}/api/auth/oauth/token?refresh_token=${encodeURIComponent(refreshToken)}&grant_type=refresh_token&scope=server`;
+// === Token 刷新（支持租户隔离） ===
+async function refreshWithToken(baseUrl, refreshToken, shopId) {
+  let url = `${baseUrl}/api/auth/oauth/token?refresh_token=${encodeURIComponent(refreshToken)}&grant_type=refresh_token&scope=server`;
+  if (shopId) url += `&organizationIds=${encodeURIComponent(shopId)}`;
   const r = await request(url, { method: 'POST', headers: { 'Authorization': BASIC_AUTH } });
   return r.data;
 }
 
 /**
- * 获取指定 credentialKey 的 access_token
- * 隔离缓存，互不干扰
+ * 获取指定 credentialKey + shopId 的 access_token
+ * 缓存按 (credentialKey, shopId) 隔离，确保租户上下文正确
  */
-async function getTokenForCredential(credentialKey) {
-  // 1. 检查缓存
-  const cached = tokenCache.get(credentialKey);
+async function getTokenForCredential(credentialKey, shopId) {
+  // 1. 检查缓存（按 credentialKey:shopId 隔离）
+  const cacheKey = `${credentialKey}:${shopId}`;
+  const cached = tokenCache.get(cacheKey);
   if (cached && Date.now() < cached.exp - 300000) return cached;
 
   // 2. 解析凭证信息
@@ -115,12 +117,12 @@ async function getTokenForCredential(credentialKey) {
   const refreshToken = cred?.refreshToken || FALLBACK_REFRESH_TOKEN;
   const tokenFile = cred?.tokenFile || FALLBACK_TOKEN_FILE;
 
-  // 策略1: 用凭证池中的 refreshToken
+  // 策略1: 用凭证池中的 refreshToken（带 shopId 实现租户隔离）
   if (refreshToken) {
-    const data = await refreshWithToken(baseUrl, refreshToken);
+    const data = await refreshWithToken(baseUrl, refreshToken, shopId);
     if (data?.access_token) {
       const entry = { token: data.access_token, exp: Date.now() + (data.expires_in || 604799) * 1000, baseUrl };
-      tokenCache.set(credentialKey, entry);
+      tokenCache.set(cacheKey, entry);
       // 持久化旋转后的 refresh_token，防止 token 丢失
       if (data.refresh_token && data.refresh_token !== refreshToken) {
         if (cred) {
@@ -131,7 +133,7 @@ async function getTokenForCredential(credentialKey) {
         }
         try { fs.writeFileSync(path.resolve(__dirname, tokenFile), data.refresh_token, 'utf8'); } catch (e) { /* ignore */ }
       }
-      console.log(`[worker] [${credentialKey}] token refreshed, expires ${data.expires_in}s`);
+      console.log(`[worker] [${credentialKey}] token refreshed for shop=${shopId}, expires ${data.expires_in}s`);
       return entry;
     }
     console.warn(`[worker] [${credentialKey}] pool token failed: ${JSON.stringify(data)}`);
@@ -141,10 +143,10 @@ async function getTokenForCredential(credentialKey) {
   const fileToken = recoverTokenFromFile(tokenFile);
   if (fileToken && fileToken !== refreshToken) {
     console.log(`[worker] [${credentialKey}] trying token from file: ${tokenFile}`);
-    const data = await refreshWithToken(baseUrl, fileToken);
+    const data = await refreshWithToken(baseUrl, fileToken, shopId);
     if (data?.access_token) {
       const entry = { token: data.access_token, exp: Date.now() + (data.expires_in || 604799) * 1000, baseUrl };
-      tokenCache.set(credentialKey, entry);
+      tokenCache.set(cacheKey, entry);
       console.log(`[worker] [${credentialKey}] token recovered from file, expires ${data.expires_in}s`);
       return entry;
     }
@@ -232,8 +234,8 @@ async function processTask(task) {
     return { ok: false, error: `暂不支持操作: ${action}` };
   }
 
-  // 获取对应凭证的 token
-  const { token, baseUrl } = await getTokenForCredential(credKey);
+  // 获取对应凭证的 token（带租户隔离）
+  const { token, baseUrl } = await getTokenForCredential(credKey, shopId);
 
   // 查找 storeSkuId（按门店级 shopId 精确匹配）
   const sku = await findStoreSkuId(baseUrl, token, barcode, shopId);
