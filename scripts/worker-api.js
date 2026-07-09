@@ -188,7 +188,18 @@ async function findStoreSkuId(baseUrl, token, barcode, shopId) {
 
   for (const rec of (r.data.data?.records || [])) {
     if (String(rec.shopId) === String(shopId) && rec.skuList?.length > 0) {
-      return { storeSkuId: rec.skuList[0].id, currentStatus: rec.skuList[0].saleStatus, currentPrice: rec.skuList[0].salePrice };
+      const sku = rec.skuList[0];
+      return {
+        storeSkuId: sku.id,
+        currentStatus: sku.saleStatus,
+        currentPrice: sku.salePrice,
+        // 库存双轨字段（用于判断走线上还是线下补货）
+        isReceiveStock: sku.isReceiveStock,     // 1=接收线下库存(线上自动跟随) 0=独立管理线上库存
+        currentStock: Number(sku.currentStock) || 0,   // 线上库存
+        safeStock: Number(sku.safeStock) || 0,         // 安全库存
+        availableStock: Number(sku.availableStock) || 0, // 可用库存 = currentStock - safeStock
+        offlineStock: Number(sku.offlineStock) || 0,   // 线下库存
+      };
     }
   }
   return null;
@@ -203,7 +214,21 @@ async function onSale(baseUrl, token, storeSkuId, shopId) {
   return r.data;
 }
 
-const DEFAULT_OFFLINE_STOCK = 5;
+const DEFAULT_ONLINE_STOCK = 20;   // 线上库存目标值（保证 - safeStock > 0）
+const DEFAULT_OFFLINE_STOCK = 20;  // 线下库存目标值（原5太小，安全库存扣完可用库存=0会导致渠道不上架）
+
+/**
+ * 直接补线上库存（当 isReceiveStock=0 时使用）
+ * 用 UI 抓包的 API: POST /skus/stocks + {storeSkuId, currentStock}
+ */
+async function ensureOnlineStock(baseUrl, token, storeSkuId, targetStock = DEFAULT_ONLINE_STOCK) {
+  const url = `${baseUrl}/api/web/gms/b2c/store-goods/skus/stocks`;
+  const r = await request(url, { method: 'POST', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' } },
+    JSON.stringify({ storeSkuId, currentStock: targetStock }));
+  if (r.data?.code !== 0) throw new Error(`补线上库存失败: ${JSON.stringify(r.data)}`);
+  return { ok: true, to: targetStock };
+}
+
 async function ensureOfflineStock(baseUrl, token, barcode, shopId) {
   const qUrl = `${baseUrl}/api/web/gms/b2c/store-goods/stocks/page?size=20&current=1&isSkuCodeFuzzy=0&isBarcodeFuzzy=0&barcode=${encodeURIComponent(barcode)}&organizationIds=${encodeURIComponent(shopId)}`;
   const q = await request(qUrl, { method: 'GET', headers: { 'Authorization': `Bearer ${token}` } });
@@ -270,12 +295,23 @@ async function processTask(task) {
     return { ok: true, skipped: true, reason: 'already_on_sale' };
   }
 
-  // 先补线下库存
-  const stockResult = await ensureOfflineStock(baseUrl, token, barcode, shopId);
-  if (stockResult.ok) {
-    console.log(`[worker] task#${id} stock seeded: ${stockResult.from} → ${stockResult.to}`);
-  } else if (stockResult.skipped) {
-    console.log(`[worker] task#${id} stock skipped: ${stockResult.reason}${stockResult.current!=null?' ('+stockResult.current+')':''}`);
+  // 补库存策略（鲸品云双轨制）：
+  //   isReceiveStock=1 → 线上库存自动跟随线下，补线下即可
+  //   isReceiveStock=0 → 线上库存独立管理，须直接补线上
+  // 关键约束：availableStock = currentStock - safeStock，只有 > 0 时渠道才能真正上架
+  if (sku.availableStock <= 0) {
+    if (sku.isReceiveStock === 0) {
+      // 独立管理线上库存：直接 POST /skus/stocks
+      const r = await ensureOnlineStock(baseUrl, token, sku.storeSkuId);
+      console.log(`[worker] task#${id} online-stock seeded: ${sku.currentStock} → ${r.to} (safe=${sku.safeStock})`);
+    } else {
+      // 接收线下库存：补线下，线上自动跟随
+      const r = await ensureOfflineStock(baseUrl, token, barcode, shopId);
+      if (r.ok) console.log(`[worker] task#${id} offline-stock seeded: ${r.from} → ${r.to}`);
+      else if (r.skipped) console.log(`[worker] task#${id} offline-stock skipped: ${r.reason}${r.current!=null?' ('+r.current+')':''}`);
+    }
+  } else {
+    console.log(`[worker] task#${id} stock sufficient: available=${sku.availableStock} (isReceive=${sku.isReceiveStock})`);
   }
 
   // 上架

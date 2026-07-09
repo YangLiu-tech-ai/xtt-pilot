@@ -117,10 +117,27 @@ async function findStoreSkuId(baseUrl, token, barcode, shopId) {
   if (!r.data || r.data.code !== 0) throw new Error(`查询失败: ${JSON.stringify(r.data)}`);
   for (const rec of (r.data.data?.records || [])) {
     if (String(rec.shopId) === String(shopId) && rec.skuList?.length > 0) {
-      return { storeSkuId: rec.skuList[0].id, currentStatus: rec.skuList[0].saleStatus };
+      const sku = rec.skuList[0];
+      return {
+        storeSkuId: sku.id,
+        currentStatus: sku.saleStatus,
+        isReceiveStock: sku.isReceiveStock,
+        currentStock: Number(sku.currentStock) || 0,
+        safeStock: Number(sku.safeStock) || 0,
+        availableStock: Number(sku.availableStock) || 0,
+        offlineStock: Number(sku.offlineStock) || 0,
+      };
     }
   }
   return null;
+}
+
+async function ensureOnlineStock(baseUrl, token, storeSkuId, targetStock = 20) {
+  const url = `${baseUrl}/api/web/gms/b2c/store-goods/skus/stocks`;
+  const r = await request(url, { method: 'POST', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' } },
+    JSON.stringify({ storeSkuId, currentStock: targetStock }));
+  if (r.data?.code !== 0) throw new Error(`补线上库存失败: ${JSON.stringify(r.data)}`);
+  return { ok: true, to: targetStock };
 }
 
 async function ensureOfflineStock(baseUrl, token, barcode, shopId) {
@@ -132,11 +149,11 @@ async function ensureOfflineStock(baseUrl, token, barcode, shopId) {
   const stock = (rec.storeSkuStockList || [])[0];
   if (!stock) return { skipped: true, reason: 'no stock' };
   const current = Number(stock.offlineStock) || 0;
-  if (current >= 5) return { skipped: true, reason: 'sufficient', current };
+  if (current >= 20) return { skipped: true, reason: 'sufficient', current };
   const pUrl = `${baseUrl}/api/web/gms/b2c/store-goods/stocks/store-sku/stocks`;
   await request(pUrl, { method: 'PUT', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' } },
-    JSON.stringify({ id: stock.id, offlineStock: '5' }));
-  return { ok: true, from: current, to: 5 };
+    JSON.stringify({ id: stock.id, offlineStock: '20' }));
+  return { ok: true, from: current, to: 20 };
 }
 
 async function onSale(baseUrl, token, storeSkuId, shopId) {
@@ -196,8 +213,16 @@ async function main() {
         continue;
       }
 
-      const stockResult = await ensureOfflineStock(baseUrl, token, task.barcode, shopId);
-      if (stockResult.ok) console.log(`    stock: ${stockResult.from}->${stockResult.to}`);
+      // 双轨补货：isReceiveStock=0 补线上，=1 补线下
+      if (sku.availableStock <= 0) {
+        if (sku.isReceiveStock === 0) {
+          const r = await ensureOnlineStock(baseUrl, token, sku.storeSkuId);
+          console.log(`    online-stock: ${sku.currentStock}->${r.to} (safe=${sku.safeStock})`);
+        } else {
+          const r = await ensureOfflineStock(baseUrl, token, task.barcode, shopId);
+          if (r.ok) console.log(`    offline-stock: ${r.from}->${r.to}`);
+        }
+      }
 
       await onSale(baseUrl, token, sku.storeSkuId, shopId);
       await reportResult(task.id, true, undefined, 'operated');
