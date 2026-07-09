@@ -200,16 +200,6 @@
     "priority": "P1"
   },
   {
-    "barcode": "290213201",
-    "item_id": "1043515852243",
-    "item_name": "【送勺子】麒麟西瓜半个 约3.5kg--4kg",
-    "store_id": "1284510785",
-    "store_name": "淘小胖超市(龙湖店)",
-    "brand": "淘小胖",
-    "xiaoer": "霏菲",
-    "priority": "P1"
-  },
-  {
     "barcode": "2905087",
     "item_id": "1034036700105",
     "item_name": "【日日鲜】冬瓜 600g",
@@ -303,16 +293,6 @@
     "barcode": "6921168598427",
     "item_id": "937603845435",
     "item_name": "东方树叶茉莉味900ml",
-    "store_id": "1284510785",
-    "store_name": "淘小胖超市(龙湖店)",
-    "brand": "淘小胖",
-    "xiaoer": "霏菲",
-    "priority": "P1"
-  },
-  {
-    "barcode": "6977170231784",
-    "item_id": "941707692493",
-    "item_name": "淘小胖香氛洗衣液3kg",
     "store_id": "1284510785",
     "store_name": "淘小胖超市(龙湖店)",
     "brand": "淘小胖",
@@ -790,16 +770,6 @@
     "priority": "P1"
   },
   {
-    "barcode": "2902309",
-    "item_id": "1034986244814",
-    "item_name": "台农芒果约450g/盒",
-    "store_id": "1284510785",
-    "store_name": "淘小胖超市(龙湖店)",
-    "brand": "淘小胖",
-    "xiaoer": "霏菲",
-    "priority": "P1"
-  },
-  {
     "barcode": "6977170231906",
     "item_id": "1045495398810",
     "item_name": "淘小胖饮用泉水 5L/桶",
@@ -850,29 +820,9 @@
     "priority": "P1"
   },
   {
-    "barcode": "2902409",
-    "item_id": "1034017006059",
-    "item_name": "油桃约250g",
-    "store_id": "1284510785",
-    "store_name": "淘小胖超市(龙湖店)",
-    "brand": "淘小胖",
-    "xiaoer": "霏菲",
-    "priority": "P1"
-  },
-  {
     "barcode": "2901901",
     "item_id": "1050739023267",
     "item_name": "琵琶腿 约110g/份",
-    "store_id": "1284510785",
-    "store_name": "淘小胖超市(龙湖店)",
-    "brand": "淘小胖",
-    "xiaoer": "霏菲",
-    "priority": "P1"
-  },
-  {
-    "barcode": "29024091",
-    "item_id": "1055321425935",
-    "item_name": "油桃约500g/份",
     "store_id": "1284510785",
     "store_name": "淘小胖超市(龙湖店)",
     "brand": "淘小胖",
@@ -913,16 +863,6 @@
     "barcode": "6977170231869",
     "item_id": "1041681112842",
     "item_name": "淘小胖果蔬餐具洗洁精（青柠）",
-    "store_id": "1284510785",
-    "store_name": "淘小胖超市(龙湖店)",
-    "brand": "淘小胖",
-    "xiaoer": "霏菲",
-    "priority": "P1"
-  },
-  {
-    "barcode": "2905171",
-    "item_id": "1033221028685",
-    "item_name": "烟薯约500g/份",
     "store_id": "1284510785",
     "store_name": "淘小胖超市(龙湖店)",
     "brand": "淘小胖",
@@ -1083,16 +1023,6 @@
     "barcode": "6903252012903",
     "item_id": "1032402337133",
     "item_name": "康师傅 香葱鸡味香爆脆干脆面油炸方便面 45g/袋",
-    "store_id": "1284510785",
-    "store_name": "淘小胖超市(龙湖店)",
-    "brand": "淘小胖",
-    "xiaoer": "霏菲",
-    "priority": "P1"
-  },
-  {
-    "barcode": "2902017",
-    "item_id": "1032400109167",
-    "item_name": "灵宝苹果约550g/份",
     "store_id": "1284510785",
     "store_name": "淘小胖超市(龙湖店)",
     "brand": "淘小胖",
@@ -1403,16 +1333,6 @@
     "barcode": "2901481",
     "item_id": "1053455544508",
     "item_name": "肉馅饼",
-    "store_id": "1284510785",
-    "store_name": "淘小胖超市(龙湖店)",
-    "brand": "淘小胖",
-    "xiaoer": "霏菲",
-    "priority": "P1"
-  },
-  {
-    "barcode": "29021322",
-    "item_id": "1050727082183",
-    "item_name": "【送勺子】麒麟西瓜1/4装 1.25kg--1.5kg/份",
     "store_id": "1284510785",
     "store_name": "淘小胖超市(龙湖店)",
     "brand": "淘小胖",
@@ -2393,26 +2313,6 @@
     "barcode": "2911201",
     "item_id": "1050781411998",
     "item_name": "【鲜活】吊水鲈鱼约650g--700g（默认不宰杀）",
-    "store_id": "1284510785",
-    "store_name": "淘小胖超市(龙湖店)",
-    "brand": "淘小胖",
-    "xiaoer": "霏菲",
-    "priority": "P1"
-  },
-  {
-    "barcode": "2926180",
-    "item_id": "1047634459556",
-    "item_name": "黄桃 约300g/盒",
-    "store_id": "1284510785",
-    "store_name": "淘小胖超市(龙湖店)",
-    "brand": "淘小胖",
-    "xiaoer": "霏菲",
-    "priority": "P1"
-  },
-  {
-    "barcode": "2902410",
-    "item_id": "1039873063291",
-    "item_name": "【早期尝鲜】黄油桃 约350g/盒",
     "store_id": "1284510785",
     "store_name": "淘小胖超市(龙湖店)",
     "brand": "淘小胖",
