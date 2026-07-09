@@ -147,15 +147,20 @@ app.get('/v1/tasks/:id/status', authMiddleware, (req, res) => {
 
 // ============ Worker 内部 API ============
 app.post('/v1/internal/worker/claim', internalOnly, (req, res) => {
-  // 拿一批 EXECUTING 状态 + retry_count < 3 的任务（含鲸品云隔离字段）
-  const rows = db.prepare(`
-    SELECT id, store_id, sku, barcode, item_name, action, substitute_sku, actual_price, retry_count,
-           whale_shop_id, credential_key, stock
-    FROM tasks
-    WHERE status='EXECUTING' AND retry_count < 3
-    ORDER BY updated_at LIMIT 20
-  `).all();
-  res.json({ ok: true, tasks: rows });
+  // 乐观锁：先原子性标记一批任务为 claimed，再返回
+  // 防止并发 worker claim 到同一批任务导致重复执行
+  const now = new Date().toISOString();
+  const claimed = db.prepare(`
+    UPDATE tasks SET updated_at=?
+    WHERE id IN (
+      SELECT id FROM tasks
+      WHERE status='EXECUTING' AND retry_count < 3
+      ORDER BY updated_at LIMIT 20
+    )
+    RETURNING id, store_id, sku, barcode, item_name, action, substitute_sku, actual_price, retry_count,
+              whale_shop_id, credential_key, stock
+  `).all(now);
+  res.json({ ok: true, tasks: claimed });
 });
 
 app.post('/v1/internal/worker/report', internalOnly, (req, res) => {
@@ -163,21 +168,25 @@ app.post('/v1/internal/worker/report', internalOnly, (req, res) => {
   const task = db.prepare(`SELECT * FROM tasks WHERE id=?`).get([taskId]);
   if (!task) return res.status(404).json({ ok: false, err: 'NOT_FOUND' });
 
+  // 幂等保护：如果任务已经不是 EXECUTING 状态，跳过处理
+  if (task.status !== 'EXECUTING') {
+    return res.json({ ok: true, next: task.status, skipped: true, reason: `task already ${task.status}` });
+  }
+
   if (success) {
     db.prepare(`UPDATE tasks SET status='DONE', error_msg=NULL,
       operation_type=?,
-      updated_at=datetime('now','+8 hours') WHERE id=?`).run([operationType || 'operated', taskId]);
+      updated_at=datetime('now','+8 hours') WHERE id=? AND status='EXECUTING'`).run([operationType || 'operated', taskId]);
     logEvent(taskId, 'done', { success, operationType: operationType || 'operated' });
     return res.json({ ok: true, next: 'DONE' });
   }
 
-  // 失败：累加 retry_count
+  // 失败：累加 retry_count（仅当状态仍为 EXECUTING 时）
   const retry = task.retry_count + 1;
   if (retry >= 3) {
     db.prepare(`UPDATE tasks SET status='FAILED', retry_count=?, error_msg=?,
-      updated_at=datetime('now','+8 hours') WHERE id=?`).run([retry, errorMsg || 'unknown', taskId]);
+      updated_at=datetime('now','+8 hours') WHERE id=? AND status='EXECUTING'`).run([retry, errorMsg || 'unknown', taskId]);
     logEvent(taskId, 'escalated', { retry, errorMsg });
-    // 把课长信息一并返回，避免 worker 二次访问 DB（WASM 不支持多进程）
     const store = db.prepare(`SELECT store_id, store_name, manager_name, manager_dingtalk_id
       FROM stores WHERE store_id=?`).get([task.store_id]);
     return res.json({
@@ -192,9 +201,8 @@ app.post('/v1/internal/worker/report', internalOnly, (req, res) => {
       },
     });
   } else {
-    // 回到 EXECUTING 等下轮
     db.prepare(`UPDATE tasks SET retry_count=?, error_msg=?, status='EXECUTING',
-      updated_at=datetime('now','+8 hours') WHERE id=?`).run([retry, errorMsg || '', taskId]);
+      updated_at=datetime('now','+8 hours') WHERE id=? AND status='EXECUTING'`).run([retry, errorMsg || '', taskId]);
     logEvent(taskId, 'retry', { retry, errorMsg });
     return res.json({ ok: true, next: 'EXECUTING', retry });
   }

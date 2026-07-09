@@ -48,8 +48,9 @@ try {
   console.warn(`[worker] whale-credentials.json not found or invalid, using env fallback: ${e.message}`);
 }
 
-// === Token 缓存（按 credentialKey 隔离） ===
-const tokenCache = new Map(); // key → { token, exp }
+// === Token 缓存（按 credentialKey:shopId 隔离） ===
+const tokenCache = new Map(); // cacheKey → { token, exp }
+const refreshInFlight = new Map(); // cacheKey → Promise (并发锁，防止同一 cacheKey 的多个并发刷新导致 token rotation race)
 
 function request(url, opts, body) {
   return new Promise((resolve, reject) => {
@@ -102,20 +103,14 @@ async function refreshWithToken(baseUrl, refreshToken, shopId) {
 }
 
 /**
- * 获取指定 credentialKey + shopId 的 access_token
- * 缓存按 (credentialKey, shopId) 隔离，确保租户上下文正确
+ * 实际执行 token 刷新（内部函数，由并发锁保护）
  */
-async function getTokenForCredential(credentialKey, shopId) {
-  // 1. 检查缓存（按 credentialKey:shopId 隔离）
-  const cacheKey = `${credentialKey}:${shopId}`;
-  const cached = tokenCache.get(cacheKey);
-  if (cached && Date.now() < cached.exp - 300000) return cached;
-
-  // 2. 解析凭证信息
+async function _doRefresh(credentialKey, shopId) {
   const cred = credentialsPool[credentialKey];
   const baseUrl = cred?.baseUrl || FALLBACK_BASE_URL;
   const refreshToken = cred?.refreshToken || FALLBACK_REFRESH_TOKEN;
   const tokenFile = cred?.tokenFile || FALLBACK_TOKEN_FILE;
+  const cacheKey = `${credentialKey}:${shopId}`;
 
   // 策略1: 用凭证池中的 refreshToken（带 shopId 实现租户隔离）
   if (refreshToken) {
@@ -160,6 +155,31 @@ async function getTokenForCredential(credentialKey, shopId) {
   throw err;
 }
 
+/**
+ * 获取指定 credentialKey + shopId 的 access_token
+ * 缓存按 (credentialKey, shopId) 隔离，确保租户上下文正确
+ * 并发安全：同一 cacheKey 的多个请求共享同一个 Promise，避免 token rotation race
+ */
+async function getTokenForCredential(credentialKey, shopId) {
+  // 1. 检查缓存（按 credentialKey:shopId 隔离）
+  const cacheKey = `${credentialKey}:${shopId}`;
+  const cached = tokenCache.get(cacheKey);
+  if (cached && Date.now() < cached.exp - 300000) return cached;
+
+  // 2. 并发锁：如果已有同 cacheKey 的刷新在进行中，等待它
+  if (refreshInFlight.has(cacheKey)) {
+    console.log(`[worker] [${credentialKey}] refresh already in-flight for shop=${shopId}, waiting...`);
+    return refreshInFlight.get(cacheKey);
+  }
+
+  // 3. 发起刷新并注册 Promise
+  const promise = _doRefresh(credentialKey, shopId).finally(() => {
+    refreshInFlight.delete(cacheKey);
+  });
+  refreshInFlight.set(cacheKey, promise);
+  return promise;
+}
+
 // === 鲸品云操作（参数化 baseUrl + shopId） ===
 async function findStoreSkuId(baseUrl, token, barcode, shopId) {
   const url = `${baseUrl}/api/web/gms/b2c/store-goods/page?current=1&size=20&barcode=${encodeURIComponent(barcode)}&organizationIds=${encodeURIComponent(shopId)}`;
@@ -174,8 +194,9 @@ async function findStoreSkuId(baseUrl, token, barcode, shopId) {
   return null;
 }
 
-async function onSale(baseUrl, token, storeSkuId) {
-  const url = `${baseUrl}/api/web/gms/b2c/store-goods/skus/sale-status/on-sale/batch`;
+async function onSale(baseUrl, token, storeSkuId, shopId) {
+  let url = `${baseUrl}/api/web/gms/b2c/store-goods/skus/sale-status/on-sale/batch`;
+  if (shopId) url += `?organizationIds=${encodeURIComponent(shopId)}`;
   const r = await request(url, { method: 'PUT', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' } },
     JSON.stringify({ storeSkuIds: [storeSkuId], saleStatus: 1 }));
   if (r.data?.code !== 0) throw new Error(`上架失败: ${JSON.stringify(r.data)}`);
@@ -258,7 +279,7 @@ async function processTask(task) {
   }
 
   // 上架
-  await onSale(baseUrl, token, sku.storeSkuId);
+  await onSale(baseUrl, token, sku.storeSkuId, shopId);
   console.log(`[worker] task#${id} on-sale ✓ (shop=${shopId})`);
 
   return { ok: true, storeSkuId: sku.storeSkuId, shopId };

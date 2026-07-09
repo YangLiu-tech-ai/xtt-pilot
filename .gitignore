@@ -16,3 +16,14 @@ scripts/kunlun-credentials.json
 scripts/items_*.json
 scripts/stores_*.json
 scripts/unattended-*.json
+# 调试/验证脚本（一次性使用）
+scripts/debug-*.js
+scripts/verify-*.js
+scripts/direct-shelf.js
+scripts/e2e-verify.js
+scripts/cookie_fresh.txt
+# 鲸品云批量操作输出
+whale-batches/
+# 诊断输出
+db_check.txt
+db_err.txt
