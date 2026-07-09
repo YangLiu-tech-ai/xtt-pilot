@@ -2,15 +2,17 @@
 /**
  * prev-shortage-filter.js
  * ----------------------------------------------------------------
- * 分小时推送去重：排除上一时段店长已经"选择线下缺货"（SHORTAGE）
- * 且当前仍然缺货、无需再次提醒的商品。
+ * 分小时推送去重：排除今天店长在 H5 已经"处理过"的商品。
  *
- * 判定口径（与用户对齐 2026-07-09）：
- *   - 上一时段 status = SHORTAGE  → 视为"已反馈"，本轮排除
- *   - 上一时段 status = DONE      → 已成功上架；若本轮 unattended 又捞到
- *                                    该 barcode，说明"上架后又下架"，
- *                                    继续推送，不排除
- *   - 其它状态（PENDING/EXECUTING/FAILED/ARCHIVED）→ 不排除，继续推送
+ * 判定口径（与用户对齐 2026-07-09 二次澄清）：
+ *   - 今天该 barcode 存在任一记录 action != null（店长点过 H5 按钮，
+ *     无论 shortage/shelf/substitute）→ 视为"已处理"，本轮排除
+ *   - action = null（今天从未在 H5 点过按钮）→ 继续推送
+ *
+ * 说明：sync-tasks 会把上一轮未处理的 PENDING 归档为 ARCHIVED；
+ *   ARCHIVED + action=null 表示店长在上一轮完全没响应 → 本轮继续推
+ *   ARCHIVED + action=shortage/shelf/substitute → 店长已处理 → 本轮排除
+ *   SHORTAGE / DONE / FAILED 等推进状态一律带 action，都会命中排除。
  *
  * 数据源（authoritative）：
  *   GET {API}/v1/internal/report/tasks-by-store?storeId=&date=YYYY-MM-DD
@@ -69,10 +71,8 @@ function getJSON(urlStr, headers = {}) {
 
 /**
  * 拉取当天该门店的历史任务，返回"应本轮排除"的 barcode 集合。
- *
- * batchId 形如 "202607091340"（YYYYMMDDHHmm），字符串比较即时间比较；
- * 只考虑本轮之前的记录，对每个 barcode 取 created_at 最新的一条。
- * status === 'SHORTAGE' 视为已反馈，加入排除集。
+ * 判定：只要今天任意一条记录 action != null，该 barcode 就加入排除集。
+ * 排除同一 barcode 在本轮及之后批次(currentBatchId)已经产生的记录。
  */
 async function loadFeedbackedBarcodes({
   apiBase,
@@ -106,34 +106,39 @@ async function loadFeedbackedBarcodes({
     return excluded;
   }
 
-  const latestByBarcode = new Map();
+  const actionBreakdown = { shortage: 0, shelf: 0, substitute: 0, other: 0 };
   for (const t of tasks) {
     const bc = normalizeBarcode(t.barcode);
     if (!bc) continue;
     const tBatch = t.batch_id || '';
-    // 只考虑本轮之前的批次
+    // 跳过本轮及之后的批次（本轮 sync-tasks 还没执行时理应为空，冗余保护）
     if (currentBatchId && tBatch && tBatch >= currentBatchId) continue;
 
-    const createdAt = t.created_at || '';
-    const prev = latestByBarcode.get(bc);
-    if (!prev || createdAt > (prev.created_at || '')) {
-      latestByBarcode.set(bc, t);
+    if (t.action) {
+      if (!excluded.has(bc)) {
+        excluded.add(bc);
+        if (t.action === 'shortage') actionBreakdown.shortage++;
+        else if (t.action === 'shelf') actionBreakdown.shelf++;
+        else if (t.action === 'substitute') actionBreakdown.substitute++;
+        else actionBreakdown.other++;
+      }
     }
   }
 
-  let shortageCount = 0;
-  for (const [bc, t] of latestByBarcode.entries()) {
-    if (t.status === 'SHORTAGE') {
-      excluded.add(bc);
-      shortageCount++;
-    }
-  }
   logger.log(
     '[prev-shortage-filter] storeId=' +
       storeId +
-      ' 上一时段 SHORTAGE 反馈 ' +
-      shortageCount +
-      ' 条，将被本轮排除'
+      ' 今日已处理 ' +
+      excluded.size +
+      ' 条 (shortage=' +
+      actionBreakdown.shortage +
+      ' shelf=' +
+      actionBreakdown.shelf +
+      ' substitute=' +
+      actionBreakdown.substitute +
+      ' other=' +
+      actionBreakdown.other +
+      ')，将被本轮排除'
   );
   return excluded;
 }
@@ -159,7 +164,7 @@ function saveLastPush({ storeId, storeName, batchId, kept, filteredOut }) {
         barcode: u.barcode,
         itemName: u.itemName,
         reason: u.reason,
-        excludedBy: 'SHORTAGE',
+        excludedBy: u.excludedBy || 'H5_ACTION',
       })),
     };
     fs.writeFileSync(outPath, JSON.stringify(snapshot, null, 2), 'utf8');

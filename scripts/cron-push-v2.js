@@ -325,12 +325,12 @@ async function main() {
     if (syncRender) {
       console.log(`[cron-push-v2] → sync-render (batch=${batchId})`);
       try {
-        // 5.1 双保险：先显式清除该门店所有未操作 PENDING（含旧 batch）
-        //     即使后端 sync-tasks 已做幂等清理，这里仍保留以防回滚或后端逻辑变更
+        // 5.1 归档该门店所有 PENDING 任务（含旧 batch），保留数据供日报统计
+        //     sync-tasks 也会归档，这里是双保险；改为 ARCHIVE 而非 DELETE 防止数据丢失
         const cleanupRes = await post(`${API}/v1/internal/cleanup-pending`, {
           storeId, where: 'all',
         }, { 'X-Internal-Key': INTERNAL_KEY });
-        console.log(`[cron-push-v2] cleanup-pending: deleted=${cleanupRes.deleted || 0}`);
+        console.log(`[cron-push-v2] cleanup-pending: archived=${cleanupRes.archived || cleanupRes.deleted || 0}`);
       } catch (e) {
         console.warn(`[cron-push-v2] cleanup-pending 失败 (非致命): ${e.message}`);
       }

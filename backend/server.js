@@ -223,17 +223,18 @@ app.post('/v1/internal/force-status', internalOnly, (req, res) => {
   res.json({ ok: true, taskId, status });
 });
 
-// ============ 清理脏 PENDING（category 为空，按 storeId） ============
+// ============ 归档脏 PENDING（category 为空，按 storeId） ============
+// v2026.07.09: DELETE → ARCHIVE，保留历史数据供日报统计
 app.post('/v1/internal/cleanup-pending', internalOnly, (req, res) => {
   const { storeId, where } = req.body || {};
   if (!storeId) return res.status(400).json({ ok: false, err: 'storeId required' });
-  // 默认只清 category 为空的 PENDING；where=all 时清所有 PENDING
+  // 默认只归档 category 为空的 PENDING；where=all 时归档所有 PENDING
   const sql = where === 'all'
-    ? `DELETE FROM tasks WHERE store_id=? AND status='PENDING'`
-    : `DELETE FROM tasks WHERE store_id=? AND status='PENDING' AND (category IS NULL OR category='')`;
+    ? `UPDATE tasks SET status='ARCHIVED', updated_at=datetime('now','+8 hours') WHERE store_id=? AND status='PENDING'`
+    : `UPDATE tasks SET status='ARCHIVED', updated_at=datetime('now','+8 hours') WHERE store_id=? AND status='PENDING' AND (category IS NULL OR category='')`;
   const r = db.prepare(sql).run([storeId]);
-  console.log(`[cleanup-pending] store=${storeId} where=${where||'empty-category'} deleted=${r.changes}`);
-  res.json({ ok: true, storeId, deleted: r.changes });
+  console.log(`[cleanup-pending] store=${storeId} where=${where||'empty-category'} archived=${r.changes}`);
+  res.json({ ok: true, storeId, archived: r.changes });
 });
 
 // ============ Kunlun 实时同步 API ============
