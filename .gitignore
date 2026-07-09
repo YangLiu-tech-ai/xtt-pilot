@@ -16,6 +16,9 @@ scripts/kunlun-credentials.json
 scripts/items_*.json
 scripts/stores_*.json
 scripts/unattended-*.json
+# 分小时推送去重的运行时产物（审计快照 + 去重状态），本地生成，无需入库
+scripts/state/
+scripts/.push-dedup.json
 # 调试/验证脚本（一次性使用）
 scripts/debug-*.js
 scripts/verify-*.js

@@ -20,11 +20,20 @@
  *   DING_WEBHOOK       - 钉钉群 webhook
  *   MVP_API            - Render 后端（仅 --sync-render 时使用）
  *   MVP_INTERNAL_KEY   - 内部密钥（仅 --sync-render 时使用）
+ *   PUSH_COOLDOWN_MIN  - 推送去重冷却窗口（分钟），默认 30。同一门店在此窗口内不重复推送
  */
 const fs = require('fs');
 const https = require('https');
 const http = require('http');
 const path = require('path');
+const {
+  loadFeedbackedBarcodes,
+  saveLastPush,
+} = require('./prev-shortage-filter');
+
+// 是否启用"上一时段线下缺货即排除"过滤（默认开启，可用 SKIP_PREV_SHORTAGE=off 关闭）
+const SKIP_PREV_SHORTAGE =
+  (process.env.SKIP_PREV_SHORTAGE || 'on').toLowerCase() !== 'off';
 
 const WEBHOOK = process.env.DING_WEBHOOK
   || 'https://oapi.dingtalk.com/robot/send?access_token=86ff44c61d0eb7877f9db3bef374ab387480e7193764dfc3a98c125711cc48b2';
@@ -121,6 +130,19 @@ function post(urlStr, body, headers = {}) {
     req.write(data);
     req.end();
   });
+}
+
+// ============ 推送去重 ============
+const DEDUP_PATH = path.join(__dirname, '.push-dedup.json');
+const COOLDOWN_MS = (parseInt(process.env.PUSH_COOLDOWN_MIN) || 30) * 60 * 1000;
+
+function readDedupState() {
+  try { return JSON.parse(fs.readFileSync(DEDUP_PATH, 'utf8')); }
+  catch { return {}; }
+}
+
+function saveDedupState(state) {
+  fs.writeFileSync(DEDUP_PATH, JSON.stringify(state, null, 2), 'utf8');
 }
 
 // ============ 主流程 ============
@@ -241,9 +263,66 @@ async function main() {
       continue;
     }
 
-    // 5. 可选：同步到 Render
+    // 5. 生成 batchId（推送 + 去重共用）
+    const batchId = now.toISOString().slice(0, 16).replace(/[-T:]/g, '').slice(0, 12);
+
+    // 5.1 排除"上一时段店长已选择线下缺货"的商品（SHORTAGE 视为已反馈）
+    //     上架成功(DONE)后又被下架的商品仍然会出现在本轮 unattended，继续推送
+    let filteredOutByShortage = [];
+    if (SKIP_PREV_SHORTAGE) {
+      const dateStr = now.toISOString().slice(0, 10); // YYYY-MM-DD (CST)
+      const feedbackedSet = await loadFeedbackedBarcodes({
+        apiBase: API,
+        internalKey: INTERNAL_KEY,
+        storeId,
+        dateStr,
+        currentBatchId: batchId,
+      });
+      if (feedbackedSet.size > 0) {
+        const keep = [];
+        for (const u of unattended) {
+          if (feedbackedSet.has(u.barcode)) {
+            filteredOutByShortage.push(u);
+          } else {
+            keep.push(u);
+          }
+        }
+        console.log(
+          `[cron-push-v2] 上一时段线下缺货反馈已过滤 ${filteredOutByShortage.length} 件，剩余 ${keep.length} 件待推送`
+        );
+        unattended.length = 0;
+        for (const u of keep) unattended.push(u);
+      }
+      if (unattended.length === 0) {
+        console.log(
+          `[cron-push-v2] ✅ ${storeName} 剩余商品均已在上一时段反馈，跳过推送`
+        );
+        // 落审计快照（本轮全部被排除）
+        saveLastPush({
+          storeId,
+          storeName,
+          batchId,
+          kept: [],
+          filteredOut: filteredOutByShortage,
+        });
+        continue;
+      }
+    }
+
+    // 6. 去重检查：同一门店在冷却窗口内不重复推送（无论 batchId 是否相同）
+    const dedupState = readDedupState();
+    const lastPush = dedupState[storeId];
+    if (lastPush && (Date.now() - lastPush.timestamp) < COOLDOWN_MS) {
+      const minsAgo = ((Date.now() - lastPush.timestamp) / 60000).toFixed(1);
+      console.log(`[cron-push-v2] ⏭️ 去重跳过: ${storeName} 已于 ${minsAgo} 分钟前推送 (lastBatch=${lastPush.batchId}, currentBatch=${batchId})`);
+      // 仍然保存结果文件，方便排查
+      const outFile = path.join(__dirname, `unattended-${storeId}.json`);
+      fs.writeFileSync(outFile, JSON.stringify(unattended, null, 2), 'utf8');
+      continue;
+    }
+
+    // 7. 可选：同步到 Render
     if (syncRender) {
-      const batchId = now.toISOString().slice(0, 16).replace(/[-T:]/g, '').slice(0, 12);
       console.log(`[cron-push-v2] → sync-render (batch=${batchId})`);
       try {
         // 5.1 双保险：先显式清除该门店所有未操作 PENDING（含旧 batch）
@@ -270,7 +349,7 @@ async function main() {
       }
     }
 
-    // 6. 构建钉钉卡片
+    // 8. 构建钉钉卡片
     const offline = unattended.filter(u => u.reason === '不可售' || u.reason === '下架');
     const zeroStock = unattended.filter(u => u.reason === '库存为0');
     const notExist = unattended.filter(u => u.reason === '商品不存在');
@@ -308,7 +387,7 @@ async function main() {
       continue;
     }
 
-    // 7. 签发 token + 推送钉钉
+    // 9. 签发 token + 推送钉钉
     let h5Url = `${API}/h5/preview.html`;
     try {
       const tokenRes = await post(`${API}/v1/auth/issue`, { storeId, dingId: 'push' });
@@ -319,7 +398,7 @@ async function main() {
       console.warn(`[cron-push-v2] token签发失败(非致命): ${e.message}`);
     }
 
-    // 7.1 HQ Magic Link (P2)：为 7 店之一签发对应品牌的 magic-link
+    // 9.1 HQ Magic Link (P2)：为 7 店之一签发对应品牌的 magic-link
     let hqUrl = null;
     const brand = SHOP_TO_BRAND[String(storeId)];
     if (HQ_BUTTON_ENABLED && brand) {
@@ -360,14 +439,26 @@ async function main() {
     const resp = await post(WEBHOOK, cardBody);
     if (resp.errcode === 0) {
       console.log(`[cron-push-v2] ✅ 推送成功: ${unattended.length} 件`);
+      // 10. 保存去重状态
+      dedupState[storeId] = { timestamp: Date.now(), batchId, count: unattended.length };
+      saveDedupState(dedupState);
     } else {
       console.error(`[cron-push-v2] ❌ 推送失败:`, resp);
     }
 
-    // 8. 保存结果
+    // 11. 保存结果
     const outFile = path.join(__dirname, `unattended-${storeId}.json`);
     fs.writeFileSync(outFile, JSON.stringify(unattended, null, 2), 'utf8');
     console.log(`[cron-push-v2] 结果已保存: ${outFile}`);
+
+    // 12. 落审计快照（记录本轮推送 + 被上一时段反馈过滤掉的清单）
+    saveLastPush({
+      storeId,
+      storeName,
+      batchId,
+      kept: unattended,
+      filteredOut: filteredOutByShortage,
+    });
   }
 
   console.log(`[cron-push-v2] 🏁 完成`);
