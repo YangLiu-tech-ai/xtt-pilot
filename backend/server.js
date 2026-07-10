@@ -326,7 +326,7 @@ app.get('/v1/internal/report/tasks-by-store', internalOnly, (req, res) => {
     SELECT id, batch_id, store_id, store_name, sku, barcode, item_name, category,
            priority, suggest_price, actual_price, substitute_sku,
            status, action, operator, retry_count, error_msg,
-           shortage_reason, shortage_reason_detail,
+           shortage_reason, shortage_reason_detail, operation_type,
            whale_shop_id, credential_key,
            created_at, pushed_at, acted_at, updated_at
     FROM tasks
