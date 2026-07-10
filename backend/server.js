@@ -149,17 +149,22 @@ app.get('/v1/tasks/:id/status', authMiddleware, (req, res) => {
 app.post('/v1/internal/worker/claim', internalOnly, (req, res) => {
   // 乐观锁：先原子性标记一批任务为 claimed，再返回
   // 防止并发 worker claim 到同一批任务导致重复执行
+  // 可选 credentialKey：只 claim 指定租户的任务（浏览器半自动 worker 按当前会话租户拉取，
+  //   避免跨租户任务挤占 20 条名额）
+  const { credentialKey } = req.body || {};
   const now = new Date().toISOString();
-  const claimed = db.prepare(`
+  const credFilter = credentialKey ? `AND credential_key = ?` : ``;
+  const stmt = db.prepare(`
     UPDATE tasks SET updated_at=?
     WHERE id IN (
       SELECT id FROM tasks
-      WHERE status='EXECUTING' AND retry_count < 3
+      WHERE status='EXECUTING' AND retry_count < 3 ${credFilter}
       ORDER BY updated_at LIMIT 20
     )
     RETURNING id, store_id, sku, barcode, item_name, action, substitute_sku, actual_price, retry_count,
               whale_shop_id, credential_key, stock
-  `).all(now);
+  `);
+  const claimed = credentialKey ? stmt.all(now, credentialKey) : stmt.all(now);
   res.json({ ok: true, tasks: claimed });
 });
 
