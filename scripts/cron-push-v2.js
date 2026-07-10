@@ -132,6 +132,27 @@ function post(urlStr, body, headers = {}) {
   });
 }
 
+function getJSON(urlStr, headers = {}) {
+  return new Promise((resolve, reject) => {
+    const url = new URL(urlStr);
+    const mod = url.protocol === 'https:' ? https : http;
+    const req = mod.request({
+      method: 'GET',
+      hostname: url.hostname,
+      path: url.pathname + url.search,
+      headers,
+      timeout: 30000,
+    }, res => {
+      let buf = '';
+      res.on('data', c => buf += c);
+      res.on('end', () => { try { resolve(JSON.parse(buf)); } catch { resolve(buf); } });
+    });
+    req.on('error', reject);
+    req.on('timeout', () => req.destroy(new Error('GET timeout')));
+    req.end();
+  });
+}
+
 // ============ 推送去重 ============
 const DEDUP_PATH = path.join(__dirname, '.push-dedup.json');
 const COOLDOWN_MS = (parseInt(process.env.PUSH_COOLDOWN_MIN) || 30) * 60 * 1000;
@@ -160,11 +181,80 @@ function saveBatchBackup({ storeId, storeName, batchId, kept, filteredOut }) {
     pushedAt: new Date().toISOString(),
     keptCount: kept.length,
     filteredOutCount: filteredOut.length,
-    kept,
-    filteredOut,
+    kept: kept.map(u => ({ ...u, batchId })),
+    filteredOut: filteredOut.map(u => ({ ...u, batchId })),
   };
   fs.writeFileSync(file, JSON.stringify(payload, null, 2), 'utf8');
   console.log(`[cron-push-v2] 💾 本地备份: ${file}`);
+}
+
+// ============ 状态回写：拉服务端最新处理状态，更新本地备份文件 ============
+async function syncBatchStatuses({ apiBase, internalKey, storeId, dateStr }) {
+  try {
+    const url = `${apiBase}/v1/internal/report/tasks-by-store?storeId=${storeId}&date=${dateStr}`;
+    const data = await getJSON(url, { 'x-internal-key': internalKey });
+    const tasks = (data && data.tasks) || [];
+    if (!tasks.length) {
+      console.log(`[cron-push-v2] 🔄 状态同步: ${storeId} 当天暂无任务`);
+      return;
+    }
+
+    // barcode + batchId → { status, action, operator, shortage_reason }
+    const statusMap = new Map();
+    for (const t of tasks) {
+      const key = `${normalizeBarcode(t.barcode)}|${t.batch_id || ''}`;
+      statusMap.set(key, {
+        status: t.status || null,
+        action: t.action || null,
+        operator: t.operator || null,
+        shortageReason: t.shortage_reason || null,
+        shortageReasonDetail: t.shortage_reason_detail || null,
+      });
+    }
+
+    const dir = path.join(BACKUP_ROOT, dateStr);
+    if (!fs.existsSync(dir)) return;
+
+    const files = fs.readdirSync(dir).filter(
+      f => f.startsWith(`${storeId}_batch-`) && f.endsWith('.json')
+    );
+
+    let updatedCount = 0;
+    for (const file of files) {
+      const filePath = path.join(dir, file);
+      const raw = fs.readFileSync(filePath, 'utf8');
+      const backup = JSON.parse(raw);
+      let changed = false;
+
+      const enrichItem = (item) => {
+        const bc = normalizeBarcode(item.barcode);
+        const bid = item.batchId || backup.batchId || '';
+        const key = `${bc}|${bid}`;
+        const s = statusMap.get(key);
+        if (s) {
+          item.status = s.status;
+          item.action = s.action;
+          if (s.operator) item.operator = s.operator;
+          if (s.shortageReason) item.shortageReason = s.shortageReason;
+          if (s.shortageReasonDetail) item.shortageReasonDetail = s.shortageReasonDetail;
+          changed = true;
+        }
+      };
+
+      (backup.kept || []).forEach(enrichItem);
+      (backup.filteredOut || []).forEach(enrichItem);
+
+      if (changed) {
+        backup.lastSyncedAt = new Date().toISOString();
+        fs.writeFileSync(filePath, JSON.stringify(backup, null, 2), 'utf8');
+        updatedCount++;
+      }
+    }
+
+    console.log(`[cron-push-v2] 🔄 状态同步: ${storeId} ${dateStr} 更新了 ${updatedCount}/${files.length} 个备份文件`);
+  } catch (e) {
+    console.warn(`[cron-push-v2] 🔄 状态同步失败(非致命): ${e.message}`);
+  }
 }
 
 // ============ 主流程 ============
@@ -282,11 +372,20 @@ async function main() {
 
     if (unattended.length === 0) {
       console.log(`[cron-push-v2] ✅ ${storeName} 全部在架，跳过推送`);
+      // 留档：记录本轮全部在架
+      const emptyBatchId = now.toISOString().slice(0, 16).replace(/[-T:]/g, '').slice(0, 12);
+      try { saveBatchBackup({ storeId, storeName, batchId: emptyBatchId, kept: [], filteredOut: [] }); } catch (e) {
+        console.warn(`[cron-push-v2] 备份失败(非致命): ${e.message}`);
+      }
       continue;
     }
 
     // 5. 生成 batchId（推送 + 去重共用）
     const batchId = now.toISOString().slice(0, 16).replace(/[-T:]/g, '').slice(0, 12);
+
+    // 5.0 状态回写：拉服务端最新处理状态，更新今天所有历史批次的本地备份
+    const syncDateStr = now.toISOString().slice(0, 10); // YYYY-MM-DD (CST)
+    await syncBatchStatuses({ apiBase: API, internalKey: INTERNAL_KEY, storeId, dateStr: syncDateStr });
 
     // 5.1 排除"上一时段店长已选择线下缺货"的商品（SHORTAGE 视为已反馈）
     //     上架成功(DONE)后又被下架的商品仍然会出现在本轮 unattended，继续推送
@@ -320,15 +419,13 @@ async function main() {
           `[cron-push-v2] ✅ ${storeName} 剩余商品均已在上一时段反馈，跳过推送`
         );
         // 落审计快照（本轮全部被排除）
-        saveLastPush({
-          storeId,
-          storeName,
-          batchId,
-          kept: [],
-          filteredOut: filteredOutByShortage,
-        });
+        try { saveLastPush({ storeId, storeName, batchId, kept: [], filteredOut: filteredOutByShortage }); } catch (e) {
+          console.warn(`[cron-push-v2] saveLastPush 失败(非致命): ${e.message}`);
+        }
         // 本地批次备份
-        saveBatchBackup({ storeId, storeName, batchId, kept: [], filteredOut: filteredOutByShortage });
+        try { saveBatchBackup({ storeId, storeName, batchId, kept: [], filteredOut: filteredOutByShortage }); } catch (e) {
+          console.warn(`[cron-push-v2] 备份失败(非致命): ${e.message}`);
+        }
         continue;
       }
     }
@@ -343,7 +440,9 @@ async function main() {
       const outFile = path.join(__dirname, `unattended-${storeId}.json`);
       fs.writeFileSync(outFile, JSON.stringify(unattended, null, 2), 'utf8');
       // 本地批次备份（去重跳过也留档）
-      saveBatchBackup({ storeId, storeName, batchId, kept: unattended, filteredOut: filteredOutByShortage });
+      try { saveBatchBackup({ storeId, storeName, batchId, kept: unattended, filteredOut: filteredOutByShortage }); } catch (e) {
+        console.warn(`[cron-push-v2] 备份失败(非致命): ${e.message}`);
+      }
       continue;
     }
 
@@ -478,16 +577,14 @@ async function main() {
     console.log(`[cron-push-v2] 结果已保存: ${outFile}`);
 
     // 12. 落审计快照（记录本轮推送 + 被上一时段反馈过滤掉的清单）
-    saveLastPush({
-      storeId,
-      storeName,
-      batchId,
-      kept: unattended,
-      filteredOut: filteredOutByShortage,
-    });
+    try { saveLastPush({ storeId, storeName, batchId, kept: unattended, filteredOut: filteredOutByShortage }); } catch (e) {
+      console.warn(`[cron-push-v2] saveLastPush 失败(非致命): ${e.message}`);
+    }
 
     // 13. 本地批次备份（按日期+批次归档，永不覆盖）
-    saveBatchBackup({ storeId, storeName, batchId, kept: unattended, filteredOut: filteredOutByShortage });
+    try { saveBatchBackup({ storeId, storeName, batchId, kept: unattended, filteredOut: filteredOutByShortage }); } catch (e) {
+      console.warn(`[cron-push-v2] 备份失败(非致命): ${e.message}`);
+    }
   }
 
   console.log(`[cron-push-v2] 🏁 完成`);
