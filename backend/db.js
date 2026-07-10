@@ -1,13 +1,19 @@
 /**
  * 新通途·生鲜出勤补品闭环 MVP - 数据库 schema
- * SQLite 单文件零运维 · WAL 模式
+ * SQLite 单文件零运维 · DELETE journal 模式
+ *
+ * ⚠️ 不用 WAL 模式：Render 持久磁盘(/var/data)是网络文件系统，
+ *    WAL 依赖的 -shm 共享内存 mmap 在网络盘上不可靠，会导致启动
+ *    "database is locked" 崩溃。DELETE 模式不产生 -wal/-shm，
+ *    网络盘完全兼容，本项目写入量级下性能无差异。
+ *    历史 -wal 的落库合并在 render-start.js 启动时完成。
  */
 const { Database } = require('node-sqlite3-wasm');
 const path = require('path');
 
 const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'mvp.db');
 const db = new Database(DB_PATH);
-db.exec('PRAGMA journal_mode = WAL');
+db.exec('PRAGMA journal_mode = DELETE');
 db.exec('PRAGMA foreign_keys = ON');
 
 db.exec(`

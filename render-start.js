@@ -2,51 +2,79 @@
 /**
  * Render.com 启动入口
  *
- * 数据持久化在挂载磁盘（DB_PATH，如 /var/data/mvp.db）上。
- * 启动流程：安全恢复 WAL → checkpoint 落库 → seed (仅显式开启时) → 签发 pilot token → 启动 Express
+ * 数据持久化在挂载磁盘（DB_PATH，如 /var/data/MVP.db）上。
  *
- * ⚠️ 重要教训：绝对不能在启动时删除 `-wal` / `-shm` 文件！
- *    WAL 模式下 `-wal` 保存的是「尚未 checkpoint 进主库的真实写入数据」，
- *    删除它 = 丢掉上次未优雅退出前积压的所有写入（这正是历史数据丢失的根因）。
- *    SQLite 打开数据库时会自动 replay/recover `-wal`，无需也不应手动清理。
- *    只有 rollback 模式遗留的 `-journal`（非 WAL）在确认无进程占用时才可安全清理。
+ * ⚠️ 关键背景：Render 持久磁盘是网络文件系统，SQLite WAL 模式依赖的
+ *    -shm 共享内存 mmap 在网络盘上不可靠，会导致启动 "database is locked"。
+ *    因此本项目已改用 DELETE journal 模式（见 backend/db.js），不再产生 -wal/-shm。
+ *
+ * 启动流程：
+ *   1) 若网络盘上存在历史 -wal（上一版 WAL 模式遗留、含未落库数据），
+ *      拷贝三件套到本地临时盘，用 WAL 打开做 checkpoint 落库，
+ *      再切成 DELETE 模式，把合并后的主库拷回网络盘 —— 数据不丢。
+ *   2) 删除网络盘上残留的 -wal / -shm / -journal（此时数据已合并进主库）。
+ *   3) 正常 require db（DELETE 模式打开）。
  */
 
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
+const { execFileSync } = require('child_process');
+
 const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'backend', 'mvp.db');
+const WAL = DB_PATH + '-wal';
+const SHM = DB_PATH + '-shm';
+const JOURNAL = DB_PATH + '-journal';
 
-// 仅清理 rollback 模式遗留的 -journal（WAL 模式不产生该文件；存在通常意味着上次为非 WAL 或异常）。
-// 绝不触碰 -wal / -shm，避免丢失未 checkpoint 的数据。
+// —— 步骤 1：合并历史 -wal（仅当存在且非空时）——
 try {
-  const journal = DB_PATH + '-journal';
-  if (fs.existsSync(journal)) {
-    fs.unlinkSync(journal);
-    console.log(`[render-start] removed stale rollback journal: ${journal}`);
+  if (fs.existsSync(WAL) && fs.statSync(WAL).size > 0) {
+    console.log(`[render-start] 检测到历史 -wal (${fs.statSync(WAL).size} bytes)，在本地盘安全合并...`);
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'xtt-walmerge-'));
+    const tmpDb = path.join(tmpDir, 'merge.db');
+    // 拷贝三件套到本地盘（本地盘 WAL/shm 正常工作）
+    fs.copyFileSync(DB_PATH, tmpDb);
+    fs.copyFileSync(WAL, tmpDb + '-wal');
+    if (fs.existsSync(SHM)) fs.copyFileSync(SHM, tmpDb + '-shm');
+    // 用子进程在本地盘 checkpoint 落库 + 切 DELETE 模式（隔离，避免污染主进程）
+    // 注意：node-sqlite3-wasm 安装在 backend/node_modules，故子进程 cwd 设为 backend。
+    const mergeScript = `
+      const { Database } = require('node-sqlite3-wasm');
+      const db = new Database(${JSON.stringify(tmpDb)});
+      db.exec('PRAGMA journal_mode = WAL');
+      db.exec('PRAGMA wal_checkpoint(TRUNCATE)');
+      db.exec('PRAGMA journal_mode = DELETE');
+      db.close();
+      console.log('[wal-merge] merged & switched to DELETE');
+    `;
+    execFileSync(process.execPath, ['-e', mergeScript], {
+      cwd: path.join(__dirname, 'backend'),
+      stdio: 'inherit',
+    });
+    // 合并后的主库拷回网络盘（此时 tmpDb 已是纯主库，无 -wal/-shm）
+    fs.copyFileSync(tmpDb, DB_PATH);
+    console.log('[render-start] 历史 -wal 已合并进主库并拷回磁盘');
+    // 清理本地临时目录
+    try { fs.rmSync(tmpDir, { recursive: true, force: true }); } catch (_) {}
   }
 } catch (e) {
-  console.warn('[render-start] failed to remove -journal (non-fatal):', e.message);
+  console.warn('[render-start] -wal 合并失败（非致命，继续启动）:', e.message);
 }
 
-// 记录启动时是否存在 -wal（用于日志观测：说明上次退出未 checkpoint，数据靠 WAL 恢复）
-try {
-  if (fs.existsSync(DB_PATH + '-wal')) {
-    const walSize = fs.statSync(DB_PATH + '-wal').size;
-    console.log(`[render-start] found existing -wal (${walSize} bytes) — SQLite will recover it on open`);
+// —— 步骤 2：清理网络盘上残留的 WAL/SHM/journal（数据已合并进主库）——
+for (const f of [WAL, SHM, JOURNAL]) {
+  try {
+    if (fs.existsSync(f)) {
+      fs.unlinkSync(f);
+      console.log(`[render-start] cleaned residual: ${f}`);
+    }
+  } catch (e) {
+    console.warn(`[render-start] failed to clean ${f}:`, e.message);
   }
-} catch (_) {}
+}
 
-// 初始化 DB schema（db.js 导入时自动创建表，并会 replay -wal）
+// —— 步骤 3：初始化 DB schema（db.js 以 DELETE 模式打开）——
 const db = require('./backend/db');
-
-// 打开后立即做一次 checkpoint，把 WAL 中已恢复的数据合并进主库文件，
-// 确保磁盘上的主库 mvp.db 是最新的（截断 WAL）。
-try {
-  db.exec('PRAGMA wal_checkpoint(TRUNCATE)');
-  console.log('[render-start] wal_checkpoint(TRUNCATE) done on startup');
-} catch (e) {
-  console.warn('[render-start] startup checkpoint failed (non-fatal):', e.message);
-}
 
 // 检查是否需要 seed（默认关闭，避免冷启动覆盖真实推送数据；开发/测试环境显式设 SEED_ON_START=1 才跑）
 const count = db.prepare('SELECT COUNT(*) as n FROM tasks').get().n;

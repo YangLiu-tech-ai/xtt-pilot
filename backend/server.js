@@ -591,12 +591,8 @@ function gracefulShutdown(signal) {
   console.log(`[mvp-backend] received ${signal}, shutting down gracefully...`);
 
   const finalize = () => {
-    try {
-      db.exec('PRAGMA wal_checkpoint(TRUNCATE)');
-      console.log('[mvp-backend] wal_checkpoint(TRUNCATE) done before exit');
-    } catch (e) {
-      console.warn('[mvp-backend] checkpoint on shutdown failed:', e.message);
-    }
+    // DELETE journal 模式下无需 checkpoint；每次写入已直接落主库。
+    // 退出前干净关闭数据库，确保 journal 正常收尾、释放文件句柄。
     try {
       db.close();
       console.log('[mvp-backend] database closed cleanly');
