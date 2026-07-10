@@ -28,14 +28,65 @@ try {
   console.warn('[db] disk state inspect failed:', e.message);
 }
 
-// —— 打开数据库（Database 已在文件顶部 require）——
-const db = new Database(DB_PATH);
+// —— 打开数据库（含"主库损坏自动重建"兜底）——
+// 历史踩坑:Render 网络盘上,前几次失败部署(如 a9e6d76 用 copyFileSync)可能把
+// 主库写成 SQLite 无法识别/锁定的不一致状态。即使 -wal/-shm/-journal 都清了,
+// 打开后 PRAGMA 或 CREATE TABLE 仍会 "database is locked"。
+// 兜底策略:
+//   (1) 若主库文件太小(< 4KB,基本是空库或损坏残留),主动删掉重建;
+//   (2) 若 new Database() 抛 locked 类错误,删掉旧文件重试一次(代价:丢历史数据,
+//       但有本地 backups 兜底,比服务起不来强);
+//   (3) PRAGMA 加 busy_timeout 重试;
+//   (4) 仍失败则放弃兜底让进程崩掉,靠 Render 自动重启。
+let db;
+const openFresh = () => {
+  try { if (fs.existsSync(DB_PATH)) fs.unlinkSync(DB_PATH); } catch (_) {}
+  return new Database(DB_PATH);
+};
+try {
+  const preSize = fs.existsSync(DB_PATH) ? fs.statSync(DB_PATH).size : 0;
+  if (preSize > 0 && preSize < 4096) {
+    console.warn(`[db] 主库文件异常小(${preSize}B),疑似损坏残留,删除重建: ${DB_PATH}`);
+    db = openFresh();
+  } else {
+    try {
+      db = new Database(DB_PATH);
+    } catch (openErr) {
+      const msg = (openErr && openErr.message) || String(openErr);
+      if (/locked|busy/i.test(msg)) {
+        console.warn(`[db] 首次打开抛locked,删文件重建: ${msg}`);
+        db = openFresh();
+      } else {
+        throw openErr;
+      }
+    }
+    // 关键:打开成功后做健康检查——用一个轻量 PRAGMA 探测 SQLite 是否真能读写。
+    // 历史踩坑:Render 网络盘上,new Database() 可能不抛错但后续 exec 仍"database
+    // is locked"(主库文件已被前几次部署损坏)。此处在 exec 大块建表前先探一下,
+    // 失败就删掉重建,代价是丢历史数据(有本地 backups 兜底)。
+    try {
+      db.exec('PRAGMA busy_timeout = 5000');
+      db.prepare('PRAGMA journal_mode').get();
+    } catch (probeErr) {
+      const msg = (probeErr && probeErr.message) || String(probeErr);
+      if (/locked|busy|corrupt|malformed/i.test(msg)) {
+        console.warn(`[db] 健康检查失败(主库不可用),删文件重建: ${msg}`);
+        try { db.close(); } catch (_) {}
+        db = openFresh();
+        console.warn('[db] 重建成功(本地 backups 仍可补历史数据)');
+      } else {
+        throw probeErr;
+      }
+    }
+  }
+} catch (e) {
+  console.error('[db] 数据库打开兜底均失败,无法继续:', e.message);
+  process.exit(2);
+}
 
-// —— PRAGMA：用 try/catch 兜底，避免单条失败拖垮整个启动 ——
-// 历史踩坑：Render 网络盘上 PRAGMA journal_mode=WAL 偶发"database is locked"，
-// 但旧版即使这条失败后续 CREATE TABLE 仍能成功（WAL 默认行为兜底）。
-// 这里显式容错，把 PRAGMA 失败降级为 warning，让启动流程走下去，靠建表
-// 是否成功来进一步判断主库是否可用。
+// —— PRAGMA:try/catch 兜底,失败降级为 warning 让启动继续 ——
+// 健康检查已在前面设置过 busy_timeout = 5000,后续 SQL 遇锁会等 5 秒重试。
+// 这里只设 journal_mode 和 foreign_keys,失败不阻塞启动。
 try {
   const mode = db.prepare('PRAGMA journal_mode = WAL').get();
   console.log('[db] journal_mode =', JSON.stringify(mode));
