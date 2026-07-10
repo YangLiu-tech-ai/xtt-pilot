@@ -10,9 +10,35 @@
  */
 const { Database } = require('node-sqlite3-wasm');
 const path = require('path');
+const fs = require('fs');
+
+// —— 关键 monkey-patch:绕过 node-sqlite3-wasm 在 Render 网络盘上必"database is locked" 的 bug ——
+// 根因锁定(Render 日志诊断):node-sqlite3-wasm 用 fs.mkdirSync('xxx.lock') 做 POSIX
+// 兼容文件锁,但 Render 持久磁盘(/var/data)是网络文件系统,对该锁机制支持有问题
+// (即使从零新建的空库 PRAGMA 也立刻 "database is locked"),mkdirSync 在 .lock
+// 目录上总是失败或返回 EEXIST → SQLite 拿到 SQLITE_BUSY → 抛错。
+// 我们是 Render Starter 单实例 (WEB_CONCURRENCY=1),没有并发进程,完全不需要锁。
+// 故在 require Database 后立刻 patch fs.mkdirSync/rmdirSync,把 .lock 目录操作变
+// no-op。这样后续 new Database / PRAGMA / CREATE TABLE 都能正常执行。
+// ⚠️ 仅 patch .lock 后缀路径,不影响其他 mkdirSync/rmdirSync 调用。
+const origMkdirSync = fs.mkdirSync;
+const origRmdirSync = fs.rmdirSync;
+fs.mkdirSync = function patchedMkdirSync(p, ...args) {
+  if (typeof p === 'string' && p.endsWith('.lock')) {
+    // 锁目录:no-op,假装成功(若已存在也无所谓)
+    try { return origMkdirSync.call(fs, p, ...args); } catch (_) { return undefined; }
+  }
+  return origMkdirSync.call(fs, p, ...args);
+};
+fs.rmdirSync = function patchedRmdirSync(p, ...args) {
+  if (typeof p === 'string' && p.endsWith('.lock')) {
+    try { return origRmdirSync.call(fs, p, ...args); } catch (_) { return undefined; }
+  }
+  return origRmdirSync.call(fs, p, ...args);
+};
+console.log('[db] fs.mkdirSync/rmdirSync monkey-patched: .lock 目录操作已被 no-op (Render 网络盘锁兼容)');
 
 const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'mvp.db');
-const fs = require('fs');
 
 // —— 启动前磁盘状态诊断（用于定位 Render 网络盘上数据库锁问题）——
 try {
