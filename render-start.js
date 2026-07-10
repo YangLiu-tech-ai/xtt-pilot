@@ -9,11 +9,13 @@
  *    因此本项目已改用 DELETE journal 模式（见 backend/db.js），不再产生 -wal/-shm。
  *
  * 启动流程：
- *   1) 若网络盘上存在历史 -wal（上一版 WAL 模式遗留、含未落库数据），
- *      拷贝三件套到本地临时盘，用 WAL 打开做 checkpoint 落库，
- *      再切成 DELETE 模式，把合并后的主库拷回网络盘 —— 数据不丢。
- *   2) 删除网络盘上残留的 -wal / -shm / -journal（此时数据已合并进主库）。
- *   3) 正常 require db（DELETE 模式打开）。
+ *   1) 若网络盘上已存在主库文件：把它（连同可能存在的 -wal）拷到本地临时盘，
+ *      在本地盘打开、checkpoint 落库、切换 journal_mode=DELETE，
+ *      再把转换后的主库拷回网络盘 —— 数据不丢，且主库文件头永久变为 DELETE。
+ *      ⚠️ 必须无条件执行（不能只在有 -wal 时才做）：主库文件头一旦是 WAL，
+ *         在网络盘上被 db.js 打开的瞬间就会创建 -shm 并 locked。
+ *   2) 删除网络盘上残留的 -wal / -shm / -journal。
+ *   3) 正常 require db（此时主库已是 DELETE 模式，打开不再需要 -shm）。
  */
 
 const fs = require('fs');
@@ -26,39 +28,42 @@ const WAL = DB_PATH + '-wal';
 const SHM = DB_PATH + '-shm';
 const JOURNAL = DB_PATH + '-journal';
 
-// —— 步骤 1：合并历史 -wal（仅当存在且非空时）——
+// —— 步骤 1：把网络盘主库无条件转换为 DELETE 模式（在本地盘操作，规避网络盘 shm 锁）——
+// 只要主库文件存在就执行：因为主库文件头若为 WAL，一旦在网络盘被打开就会 locked。
 try {
-  if (fs.existsSync(WAL) && fs.statSync(WAL).size > 0) {
-    console.log(`[render-start] 检测到历史 -wal (${fs.statSync(WAL).size} bytes)，在本地盘安全合并...`);
-    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'xtt-walmerge-'));
-    const tmpDb = path.join(tmpDir, 'merge.db');
-    // 拷贝三件套到本地盘（本地盘 WAL/shm 正常工作）
+  if (fs.existsSync(DB_PATH)) {
+    const walSize = fs.existsSync(WAL) ? fs.statSync(WAL).size : 0;
+    console.log(`[render-start] 主库存在，在本地盘转换为 DELETE 模式（-wal ${walSize} bytes）...`);
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'xtt-dbconv-'));
+    const tmpDb = path.join(tmpDir, 'conv.db');
+    // 拷贝主库 + 可能存在的 -wal/-shm 到本地盘（本地盘 WAL/shm 正常工作）
     fs.copyFileSync(DB_PATH, tmpDb);
-    fs.copyFileSync(WAL, tmpDb + '-wal');
+    if (fs.existsSync(WAL)) fs.copyFileSync(WAL, tmpDb + '-wal');
     if (fs.existsSync(SHM)) fs.copyFileSync(SHM, tmpDb + '-shm');
-    // 用子进程在本地盘 checkpoint 落库 + 切 DELETE 模式（隔离，避免污染主进程）
+    // 子进程在本地盘：checkpoint 落库(若原为WAL) + 切 DELETE 模式(写入文件头)
     // 注意：node-sqlite3-wasm 安装在 backend/node_modules，故子进程 cwd 设为 backend。
-    const mergeScript = `
+    const convScript = `
       const { Database } = require('node-sqlite3-wasm');
       const db = new Database(${JSON.stringify(tmpDb)});
-      db.exec('PRAGMA journal_mode = WAL');
-      db.exec('PRAGMA wal_checkpoint(TRUNCATE)');
+      try { db.exec('PRAGMA wal_checkpoint(TRUNCATE)'); } catch (e) { console.warn('[db-conv] checkpoint skip:', e.message); }
       db.exec('PRAGMA journal_mode = DELETE');
+      const m = db.prepare('PRAGMA journal_mode').get();
       db.close();
-      console.log('[wal-merge] merged & switched to DELETE');
+      console.log('[db-conv] journal_mode now = ' + JSON.stringify(m));
     `;
-    execFileSync(process.execPath, ['-e', mergeScript], {
+    execFileSync(process.execPath, ['-e', convScript], {
       cwd: path.join(__dirname, 'backend'),
       stdio: 'inherit',
     });
-    // 合并后的主库拷回网络盘（此时 tmpDb 已是纯主库，无 -wal/-shm）
+    // 转换后的主库拷回网络盘（此时 tmpDb 文件头已是 DELETE，无 -wal/-shm）
     fs.copyFileSync(tmpDb, DB_PATH);
-    console.log('[render-start] 历史 -wal 已合并进主库并拷回磁盘');
-    // 清理本地临时目录
+    console.log('[render-start] 主库已转换为 DELETE 模式并拷回磁盘');
     try { fs.rmSync(tmpDir, { recursive: true, force: true }); } catch (_) {}
+  } else {
+    console.log('[render-start] 主库不存在（全新部署），db.js 将以 DELETE 模式新建');
   }
 } catch (e) {
-  console.warn('[render-start] -wal 合并失败（非致命，继续启动）:', e.message);
+  console.warn('[render-start] DELETE 模式转换失败（非致命，继续启动）:', e.message);
 }
 
 // —— 步骤 2：清理网络盘上残留的 WAL/SHM/journal（数据已合并进主库）——
