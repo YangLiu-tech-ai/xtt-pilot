@@ -566,7 +566,7 @@ app.get('/', (req, res) => {
   res.redirect('/h5/preview.html' + qs);
 });
 
-app.listen(PORT, '0.0.0.0', () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`[mvp-backend] listening on http://0.0.0.0:${PORT}`);
   console.log(`[mvp-backend] health: http://localhost:${PORT}/v1/health`);
   console.log(`[mvp-backend] H5: http://localhost:${PORT}/h5/preview.html`);
@@ -580,3 +580,39 @@ app.listen(PORT, '0.0.0.0', () => {
     }
   }
 });
+
+// ============ 优雅退出：重启/部署前把 WAL 落库并关闭数据库 ============
+// Render 重启/部署时发送 SIGTERM。若不 checkpoint + close，WAL 中未合并的写入
+// 可能在下次启动时丢失（历史数据丢失根因之一）。这里确保退出前数据安全落盘。
+let shuttingDown = false;
+function gracefulShutdown(signal) {
+  if (shuttingDown) return;
+  shuttingDown = true;
+  console.log(`[mvp-backend] received ${signal}, shutting down gracefully...`);
+
+  const finalize = () => {
+    try {
+      db.exec('PRAGMA wal_checkpoint(TRUNCATE)');
+      console.log('[mvp-backend] wal_checkpoint(TRUNCATE) done before exit');
+    } catch (e) {
+      console.warn('[mvp-backend] checkpoint on shutdown failed:', e.message);
+    }
+    try {
+      db.close();
+      console.log('[mvp-backend] database closed cleanly');
+    } catch (e) {
+      console.warn('[mvp-backend] db.close failed:', e.message);
+    }
+    process.exit(0);
+  };
+
+  // 停止接收新连接后落库退出
+  server.close(finalize);
+  // 兜底：若 server.close 迟迟不回调（仍有挂起连接），8s 后强制落库退出
+  setTimeout(() => {
+    console.warn('[mvp-backend] forced shutdown after timeout');
+    finalize();
+  }, 8000).unref();
+}
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));

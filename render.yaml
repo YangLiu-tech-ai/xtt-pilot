@@ -15,7 +15,9 @@ services:
       - key: NODE_ENV
         value: production
       - key: DB_PATH
-        value: /var/data/mvp.db
+        # ⚠️ 大小写必须与 Dashboard 环境变量、磁盘上实际文件名完全一致（Linux 区分大小写）。
+        # 线上现有数据存于 /var/data/MVP.db（大写 MVP），切勿改成 mvp.db 否则会读到空的新库。
+        value: /var/data/MVP.db
       - key: MVP_SECRET
         value: xtt-mvp-prod-secret-2026
       - key: MVP_INTERNAL_KEY
