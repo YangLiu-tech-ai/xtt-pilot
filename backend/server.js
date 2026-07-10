@@ -173,17 +173,26 @@ app.post('/v1/internal/worker/report', internalOnly, (req, res) => {
   const task = db.prepare(`SELECT * FROM tasks WHERE id=?`).get([taskId]);
   if (!task) return res.status(404).json({ ok: false, err: 'NOT_FOUND' });
 
-  // 幂等保护：如果任务已经不是 EXECUTING 状态，跳过处理
-  if (task.status !== 'EXECUTING') {
-    return res.json({ ok: true, next: task.status, skipped: true, reason: `task already ${task.status}` });
+  // 幂等保护：
+  //   成功报告：允许覆盖 EXECUTING 或 FAILED（失败重试后成功仍能正确转为 DONE）
+  //   失败报告：仅接受 EXECUTING，避免 retry_count 被重复累加
+  if (success) {
+    if (!['EXECUTING', 'FAILED'].includes(task.status)) {
+      return res.json({ ok: true, next: task.status, skipped: true, reason: `task already ${task.status}` });
+    }
+    const prev = task.status;
+    const result = db.prepare(`UPDATE tasks SET status='DONE', error_msg=NULL, retry_count=0,
+      operation_type=?,
+      updated_at=datetime('now','+8 hours') WHERE id=? AND status IN ('EXECUTING','FAILED')`).run([operationType || 'operated', taskId]);
+    if (result.changes === 0) {
+      return res.json({ ok: true, next: task.status, skipped: true, reason: 'no state change (race)' });
+    }
+    logEvent(taskId, 'done', { success, operationType: operationType || 'operated', prevStatus: prev, overwrote: prev === 'FAILED' });
+    return res.json({ ok: true, next: 'DONE', overwrote: prev === 'FAILED' });
   }
 
-  if (success) {
-    db.prepare(`UPDATE tasks SET status='DONE', error_msg=NULL,
-      operation_type=?,
-      updated_at=datetime('now','+8 hours') WHERE id=? AND status='EXECUTING'`).run([operationType || 'operated', taskId]);
-    logEvent(taskId, 'done', { success, operationType: operationType || 'operated' });
-    return res.json({ ok: true, next: 'DONE' });
+  if (task.status !== 'EXECUTING') {
+    return res.json({ ok: true, next: task.status, skipped: true, reason: `task already ${task.status}` });
   }
 
   // 失败：累加 retry_count（仅当状态仍为 EXECUTING 时）
