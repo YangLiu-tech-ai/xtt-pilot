@@ -3,8 +3,17 @@
  * Render.com 启动入口
  * 
  * Render 免费版重启时文件系统重置，所以每次冷启动自动 seed。
- * 启动流程：seed (如DB空) → 签发 pilot token → 启动 Express
+ * 启动流程：清理 WAL 锁文件 → seed (如DB空) → 签发 pilot token → 启动 Express
  */
+
+// 清理残留 SQLite WAL/SHM/journal 锁文件，防止 "database is locked" 启动崩溃
+const fs = require('fs');
+const path = require('path');
+const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'backend', 'mvp.db');
+for (const suffix of ['-wal', '-shm', '-journal']) {
+  const f = DB_PATH + suffix;
+  try { if (fs.existsSync(f)) { fs.unlinkSync(f); console.log(`[render-start] cleaned stale lock file: ${f}`); } } catch (e) { console.warn(`[render-start] failed to clean ${f}:`, e.message); }
+}
 
 // 初始化 DB schema（db.js 导入时自动创建表）
 const db = require('./backend/db');
