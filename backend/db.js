@@ -12,9 +12,41 @@ const { Database } = require('node-sqlite3-wasm');
 const path = require('path');
 
 const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'mvp.db');
+const fs = require('fs');
+
+// —— 启动前磁盘状态诊断（用于定位 Render 网络盘上数据库锁问题）——
+try {
+  const mainExists = fs.existsSync(DB_PATH);
+  const walExists = fs.existsSync(DB_PATH + '-wal');
+  const shmExists = fs.existsSync(DB_PATH + '-shm');
+  const journalExists = fs.existsSync(DB_PATH + '-journal');
+  const mainSize = mainExists ? fs.statSync(DB_PATH).size : -1;
+  const walSize = walExists ? fs.statSync(DB_PATH + '-wal').size : -1;
+  console.log(`[db] DB_PATH=${DB_PATH}`);
+  console.log(`[db] 磁盘状态: main=${mainSize}B wal=${walExists?walSize+'B':'absent'} shm=${shmExists?'present':'absent'} journal=${journalExists?'present':'absent'}`);
+} catch (e) {
+  console.warn('[db] disk state inspect failed:', e.message);
+}
+
+// —— 打开数据库（Database 已在文件顶部 require）——
 const db = new Database(DB_PATH);
-db.exec('PRAGMA journal_mode = WAL');
-db.exec('PRAGMA foreign_keys = ON');
+
+// —— PRAGMA：用 try/catch 兜底，避免单条失败拖垮整个启动 ——
+// 历史踩坑：Render 网络盘上 PRAGMA journal_mode=WAL 偶发"database is locked"，
+// 但旧版即使这条失败后续 CREATE TABLE 仍能成功（WAL 默认行为兜底）。
+// 这里显式容错，把 PRAGMA 失败降级为 warning，让启动流程走下去，靠建表
+// 是否成功来进一步判断主库是否可用。
+try {
+  const mode = db.prepare('PRAGMA journal_mode = WAL').get();
+  console.log('[db] journal_mode =', JSON.stringify(mode));
+} catch (e) {
+  console.warn('[db] PRAGMA journal_mode=WAL failed (non-fatal, continuing):', e.message);
+}
+try {
+  db.exec('PRAGMA foreign_keys = ON');
+} catch (e) {
+  console.warn('[db] PRAGMA foreign_keys=ON failed (non-fatal, continuing):', e.message);
+}
 
 db.exec(`
   /* === 门店表：一对一触达的关键，绑课长钉钉 ID === */
