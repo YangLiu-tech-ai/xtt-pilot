@@ -14,6 +14,8 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const fs = require('fs');
+const path = require('path');
 const db = require('./db');
 const { issue, verify } = require('./token');
 
@@ -42,6 +44,40 @@ function internalOnly(req, res, next) {
 function logEvent(taskId, event, detail) {
   db.prepare(`INSERT INTO task_logs (task_id, event, detail) VALUES (?, ?, ?)`)
     .run([taskId, event, typeof detail === 'string' ? detail : JSON.stringify(detail)]);
+}
+
+// ============ 本地审计日志（挂载磁盘持久化,Render DB 丢失时可完整重建历史）============
+// 每次 worker 回写处理结果时,把完整任务上下文 + 状态变化追加到
+// /var/data/task-audit/YYYY-MM-DD.jsonl。一行一条 JSON,可被日报脚本或恢复脚本直接消费。
+// 失败只 warn 不阻塞响应。
+const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'mvp.db');
+const AUDIT_DIR = process.env.AUDIT_DIR || path.join(path.dirname(DB_PATH), 'task-audit');
+function logAudit(task, event, extra) {
+  try {
+    try { fs.mkdirSync(AUDIT_DIR, { recursive: true }); } catch (_) {}
+    const date = new Date(Date.now() + 8 * 3600 * 1000).toISOString().slice(0, 10);
+    const line = JSON.stringify({
+      ts: new Date().toISOString(),
+      taskId: task.id,
+      batchId: task.batch_id || null,
+      storeId: task.store_id,
+      storeName: task.store_name,
+      sku: task.sku,
+      barcode: task.barcode,
+      itemName: task.item_name,
+      category: task.category,
+      monthlySales: task.yesterday_sales,
+      suggestPrice: task.suggest_price,
+      actualPrice: task.actual_price,
+      shortageReason: task.shortage_reason,
+      shortageReasonDetail: task.shortage_reason_detail,
+      event,
+      ...extra,
+    }) + '\n';
+    fs.appendFileSync(path.join(AUDIT_DIR, `${date}.jsonl`), line, 'utf8');
+  } catch (e) {
+    console.warn('[audit] append failed (non-fatal):', e.message);
+  }
 }
 
 // ============ Routes ============
@@ -188,6 +224,7 @@ app.post('/v1/internal/worker/report', internalOnly, (req, res) => {
       return res.json({ ok: true, next: task.status, skipped: true, reason: 'no state change (race)' });
     }
     logEvent(taskId, 'done', { success, operationType: operationType || 'operated', prevStatus: prev, overwrote: prev === 'FAILED' });
+    logAudit(task, 'done', { prevStatus: prev, newStatus: 'DONE', operationType: operationType || 'operated', overwrote: prev === 'FAILED' });
     return res.json({ ok: true, next: 'DONE', overwrote: prev === 'FAILED' });
   }
 
@@ -201,6 +238,7 @@ app.post('/v1/internal/worker/report', internalOnly, (req, res) => {
     db.prepare(`UPDATE tasks SET status='FAILED', retry_count=?, error_msg=?,
       updated_at=datetime('now','+8 hours') WHERE id=? AND status='EXECUTING'`).run([retry, errorMsg || 'unknown', taskId]);
     logEvent(taskId, 'escalated', { retry, errorMsg });
+    logAudit(task, 'escalated', { prevStatus: 'EXECUTING', newStatus: 'FAILED', retry, errorMsg: errorMsg || 'unknown' });
     const store = db.prepare(`SELECT store_id, store_name, manager_name, manager_dingtalk_id
       FROM stores WHERE store_id=?`).get([task.store_id]);
     return res.json({
@@ -218,6 +256,7 @@ app.post('/v1/internal/worker/report', internalOnly, (req, res) => {
     db.prepare(`UPDATE tasks SET retry_count=?, error_msg=?, status='EXECUTING',
       updated_at=datetime('now','+8 hours') WHERE id=? AND status='EXECUTING'`).run([retry, errorMsg || '', taskId]);
     logEvent(taskId, 'retry', { retry, errorMsg });
+    logAudit(task, 'retry', { prevStatus: 'EXECUTING', newStatus: 'EXECUTING', retry, errorMsg: errorMsg || '' });
     return res.json({ ok: true, next: 'EXECUTING', retry });
   }
 });
@@ -538,8 +577,7 @@ try {
 }
 
 // ============ 静态文件: 店长端 H5 + 三品牌 HQ H5 ============
-const path = require('path');
-const fs = require('fs');
+// (path/fs 已在文件顶部 require)
 app.use('/h5', express.static(path.join(__dirname, '..', 'h5')));
 
 // HQ 三品牌：dist/csnc dist/xq dist/txp（hq-h5 build:all 产物）
