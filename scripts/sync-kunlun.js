@@ -35,6 +35,15 @@ const path = require('path');
 const API = process.env.MVP_API || 'https://xtt-pilot.onrender.com';
 const INTERNAL_KEY = process.env.MVP_INTERNAL_KEY || 'worker-key-2026-prod';
 
+// ============ 取数口径模式 ============
+// 默认（全量模式）：items 是门店全量目录，isUnattended 判 status!=0 / itemCanSell=false / qty=0。
+// --on-shelf-mode（在架模式，配合 fetch_store_items.py --on-shelf-only 使用）：
+//   items 只含"在架(status[0,1])"商品，已下架的品根本不在 items 里，
+//   由"监控清单 − 在架集合"的差集兜底捕获（每条监控清单带 store_id=wid，精准到门店）。
+//   此模式下 isUnattended 对在架品只需判"库存=0"，避免因缺少下架品而漏判。
+// 开关默认关闭，不改变任何现有 cron/日报的行为。
+const ON_SHELF_MODE = process.argv.includes('--on-shelf-mode');
+
 // ============ HTTP helper ============
 function request(method, urlStr, body, headers = {}) {
   return new Promise((resolve, reject) => {
@@ -73,8 +82,12 @@ function normalizeBarcode(bc) {
 
 // ============ 判断商品是否不可售 (未出勤) ============
 function isUnattended(item) {
-  // status=0 且 itemCanSell=true 才是可售（在架）
-  // 其他情况均为未出勤
+  // 在架模式：items 已是 status[0,1] 的在架品，下架品由差集兜底捕获，
+  //   这里只需判"库存=0"（在架但零库存=不可售/即将售罄）。
+  if (ON_SHELF_MODE) {
+    return item.quantity === 0 || item.quantity === '0' || item.itemCanSell === false;
+  }
+  // 全量模式（默认）：status=0 且 itemCanSell=true 才是可售（在架），其他均为未出勤
   if (item.itemCanSell === false) return true;
   if (item.status !== 0 && item.status !== '0') return true;
   // 库存为 0 也视为不可售
@@ -84,13 +97,16 @@ function isUnattended(item) {
 
 // ============ 主流程 ============
 async function main() {
-  const args = process.argv.slice(2);
+  // 过滤掉 --flag 形式的参数，只取位置参数（items 文件、monitor 文件）
+  const args = process.argv.slice(2).filter(a => !a.startsWith('--'));
   if (args.length < 2) {
-    console.error('用法: node sync-kunlun.js <items_data.json> <monitor_barcodes.json>');
+    console.error('用法: node sync-kunlun.js <items_data.json> <monitor_barcodes.json> [--on-shelf-mode]');
     console.error('  items_data.json       - fetch_store_items.py 输出');
     console.error('  monitor_barcodes.json - 监控条形码清单');
+    console.error('  --on-shelf-mode       - 配合 fetch --on-shelf-only 使用（items 仅在架，下架品由差集兜底）');
     process.exit(1);
   }
+  if (ON_SHELF_MODE) console.log('[sync-kunlun] 运行模式: 在架模式(--on-shelf-mode)，下架品由"监控清单−在架集合"兜底');
 
   const itemsFile = args[0];
   const monitorFile = args[1];
