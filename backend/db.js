@@ -1,46 +1,25 @@
 /**
  * 新通途·生鲜出勤补品闭环 MVP - 数据库 schema
- * SQLite 单文件 · WAL 模式
+ * SQLite 单文件 · WAL 模式 · better-sqlite3 原生驱动
  *
- * ⚠️ 必须用 WAL 模式：Render 持久磁盘是网络文件系统，DELETE 模式下 CREATE
- *    TABLE 等写操作要直接对主库文件加锁，网络盘对该锁支持不可靠 → "database
- *    is locked"。WAL 模式把写入引到 -wal 文件，规避主库文件锁，反而能正常运行。
- *    残留 -shm(纯派生的共享内存索引)在启动时清理(见 render-start.js)，SQLite
- *    打开时会自动重建；-wal(含未落库数据)在清理前先合并进主库，保证数据不丢。
+ * ⚠️ 驱动说明：本项目从 node-sqlite3-wasm 迁移到 better-sqlite3（原生编译）。
+ *    历史根因：node-sqlite3-wasm 用 fs.mkdirSync('xxx.lock') 做 POSIX 兼容文件锁，
+ *    Render 持久磁盘(/var/data)是网络文件系统，对该锁机制支持不可靠 → "database is
+ *    locked"。为绕过它曾加了一堆 hack（monkey-patch fs.mkdirSync/rmdirSync、"文件<4KB
+ *    删库重建"、"锁错误删库重建"），这些 hack 反而在 WAL 未落库时误删数据，是"每次部署
+ *    删库"的元凶之一。better-sqlite3 是原生驱动，不使用 .lock 目录锁，在网络盘上可正常
+ *    做 WAL checkpoint，故全部删除上述 hack。
+ *
+ * ⚠️ WAL 落库由 render-start.js（启动时 checkpoint TRUNCATE）+ server.js（周期/退出
+ *    PASSIVE checkpoint）负责，本文件不再做任何删库/重建。
  */
-const { Database } = require('node-sqlite3-wasm');
+const Database = require('better-sqlite3');
 const path = require('path');
 const fs = require('fs');
 
-// —— 关键 monkey-patch:绕过 node-sqlite3-wasm 在 Render 网络盘上必"database is locked" 的 bug ——
-// 根因锁定(Render 日志诊断):node-sqlite3-wasm 用 fs.mkdirSync('xxx.lock') 做 POSIX
-// 兼容文件锁,但 Render 持久磁盘(/var/data)是网络文件系统,对该锁机制支持有问题
-// (即使从零新建的空库 PRAGMA 也立刻 "database is locked"),mkdirSync 在 .lock
-// 目录上总是失败或返回 EEXIST → SQLite 拿到 SQLITE_BUSY → 抛错。
-// 我们是 Render Starter 单实例 (WEB_CONCURRENCY=1),没有并发进程,完全不需要锁。
-// 故在 require Database 后立刻 patch fs.mkdirSync/rmdirSync,把 .lock 目录操作变
-// no-op。这样后续 new Database / PRAGMA / CREATE TABLE 都能正常执行。
-// ⚠️ 仅 patch .lock 后缀路径,不影响其他 mkdirSync/rmdirSync 调用。
-const origMkdirSync = fs.mkdirSync;
-const origRmdirSync = fs.rmdirSync;
-fs.mkdirSync = function patchedMkdirSync(p, ...args) {
-  if (typeof p === 'string' && p.endsWith('.lock')) {
-    // 锁目录:no-op,假装成功(若已存在也无所谓)
-    try { return origMkdirSync.call(fs, p, ...args); } catch (_) { return undefined; }
-  }
-  return origMkdirSync.call(fs, p, ...args);
-};
-fs.rmdirSync = function patchedRmdirSync(p, ...args) {
-  if (typeof p === 'string' && p.endsWith('.lock')) {
-    try { return origRmdirSync.call(fs, p, ...args); } catch (_) { return undefined; }
-  }
-  return origRmdirSync.call(fs, p, ...args);
-};
-console.log('[db] fs.mkdirSync/rmdirSync monkey-patched: .lock 目录操作已被 no-op (Render 网络盘锁兼容)');
-
 const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'mvp.db');
 
-// —— 启动前磁盘状态诊断（用于定位 Render 网络盘上数据库锁问题）——
+// —— 启动前磁盘状态诊断（用于定位 Render 网络盘上数据库问题）——
 try {
   const mainExists = fs.existsSync(DB_PATH);
   const walExists = fs.existsSync(DB_PATH + '-wal');
@@ -48,79 +27,31 @@ try {
   const journalExists = fs.existsSync(DB_PATH + '-journal');
   const mainSize = mainExists ? fs.statSync(DB_PATH).size : -1;
   const walSize = walExists ? fs.statSync(DB_PATH + '-wal').size : -1;
-  console.log(`[db] DB_PATH=${DB_PATH}`);
+  console.log(`[db] driver=better-sqlite3 DB_PATH=${DB_PATH}`);
   console.log(`[db] 磁盘状态: main=${mainSize}B wal=${walExists?walSize+'B':'absent'} shm=${shmExists?'present':'absent'} journal=${journalExists?'present':'absent'}`);
 } catch (e) {
   console.warn('[db] disk state inspect failed:', e.message);
 }
 
-// —— 打开数据库（含"主库损坏自动重建"兜底）——
-// 历史踩坑:Render 网络盘上,前几次失败部署(如 a9e6d76 用 copyFileSync)可能把
-// 主库写成 SQLite 无法识别/锁定的不一致状态。即使 -wal/-shm/-journal 都清了,
-// 打开后 PRAGMA 或 CREATE TABLE 仍会 "database is locked"。
-// 兜底策略:
-//   (1) 若主库文件太小(< 4KB,基本是空库或损坏残留),主动删掉重建;
-//   (2) 若 new Database() 抛 locked 类错误,删掉旧文件重试一次(代价:丢历史数据,
-//       但有本地 backups 兜底,比服务起不来强);
-//   (3) PRAGMA 加 busy_timeout 重试;
-//   (4) 仍失败则放弃兜底让进程崩掉,靠 Render 自动重启。
+// —— 打开数据库（原生驱动，绝不删库重建；出错让进程崩掉靠 Render 自动重启）——
 let db;
-const openFresh = () => {
-  try { if (fs.existsSync(DB_PATH)) fs.unlinkSync(DB_PATH); } catch (_) {}
-  return new Database(DB_PATH);
-};
 try {
-  const preSize = fs.existsSync(DB_PATH) ? fs.statSync(DB_PATH).size : 0;
-  if (preSize > 0 && preSize < 4096) {
-    console.warn(`[db] 主库文件异常小(${preSize}B),疑似损坏残留,删除重建: ${DB_PATH}`);
-    db = openFresh();
-  } else {
-    try {
-      db = new Database(DB_PATH);
-    } catch (openErr) {
-      const msg = (openErr && openErr.message) || String(openErr);
-      if (/locked|busy/i.test(msg)) {
-        console.warn(`[db] 首次打开抛locked,删文件重建: ${msg}`);
-        db = openFresh();
-      } else {
-        throw openErr;
-      }
-    }
-    // 关键:打开成功后做健康检查——用一个轻量 PRAGMA 探测 SQLite 是否真能读写。
-    // 历史踩坑:Render 网络盘上,new Database() 可能不抛错但后续 exec 仍"database
-    // is locked"(主库文件已被前几次部署损坏)。此处在 exec 大块建表前先探一下,
-    // 失败就删掉重建,代价是丢历史数据(有本地 backups 兜底)。
-    try {
-      db.exec('PRAGMA busy_timeout = 5000');
-      db.prepare('PRAGMA journal_mode').get();
-    } catch (probeErr) {
-      const msg = (probeErr && probeErr.message) || String(probeErr);
-      if (/locked|busy|corrupt|malformed/i.test(msg)) {
-        console.warn(`[db] 健康检查失败(主库不可用),删文件重建: ${msg}`);
-        try { db.close(); } catch (_) {}
-        db = openFresh();
-        console.warn('[db] 重建成功(本地 backups 仍可补历史数据)');
-      } else {
-        throw probeErr;
-      }
-    }
-  }
+  db = new Database(DB_PATH);
+  db.pragma('busy_timeout = 5000');
 } catch (e) {
-  console.error('[db] 数据库打开兜底均失败,无法继续:', e.message);
+  console.error('[db] 数据库打开失败,无法继续:', e.message);
   process.exit(2);
 }
 
-// —— PRAGMA:try/catch 兜底,失败降级为 warning 让启动继续 ——
-// 健康检查已在前面设置过 busy_timeout = 5000,后续 SQL 遇锁会等 5 秒重试。
-// 这里只设 journal_mode 和 foreign_keys,失败不阻塞启动。
+// —— PRAGMA:WAL 必须保持;失败降级为 warning 让启动继续 ——
 try {
-  const mode = db.prepare('PRAGMA journal_mode = WAL').get();
+  const mode = db.pragma('journal_mode = WAL');
   console.log('[db] journal_mode =', JSON.stringify(mode));
 } catch (e) {
   console.warn('[db] PRAGMA journal_mode=WAL failed (non-fatal, continuing):', e.message);
 }
 try {
-  db.exec('PRAGMA foreign_keys = ON');
+  db.pragma('foreign_keys = ON');
 } catch (e) {
   console.warn('[db] PRAGMA foreign_keys=ON failed (non-fatal, continuing):', e.message);
 }

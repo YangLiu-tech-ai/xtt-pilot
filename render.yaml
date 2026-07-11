@@ -12,6 +12,9 @@ services:
       cd backend && npm install --production && cd ..
     startCommand: node render-start.js
     envVars:
+      # Node 22：better-sqlite3 v12 有 linux-x64 (node ABI v127) 预编译包，免现场源码编译
+      - key: NODE_VERSION
+        value: "22"
       - key: NODE_ENV
         value: production
       - key: DB_PATH

@@ -547,8 +547,8 @@ app.post('/v1/internal/task-logs-import', internalOnly, (req, res) => {
   if (!Array.isArray(logs) || logs.length === 0) {
     return res.status(400).json({ ok: false, err: 'body.logs (array) required' });
   }
-  // 不做显式事务(node-sqlite3-wasm 在 BEGIN..COMMIT 之间对 statement 生命周期
-  // 处理怪异);149 条 auto-commit 性能可接受。
+  // 逐条 auto-commit（149 条量级性能可接受）。better-sqlite3 支持 db.transaction()，
+  // 但此处为容错优先（单条失败不回滚整批），保持逐条插入。
   let inserted = 0, skipped = 0;
   for (const r of logs) {
     if (!r || !r.task_id || !r.event) { skipped++; continue; }
@@ -741,19 +741,38 @@ const server = app.listen(PORT, '0.0.0.0', () => {
   }
 });
 
-// ============ 安全退出：只关 HTTP server，不动数据库 ============
-// 注意：绝不能在 Render 网络磁盘上做 wal_checkpoint(TRUNCATE) 或 db.close()，
-// node-sqlite3-wasm 在网络文件系统上执行这些操作会损坏主库（历史数据丢失根因）。
-// WAL 数据由 SQLite 自身保证一致性，Render 重启时 -wal/-shm 会随主库一起保留在
-// /var/data 持久盘上，下次启动自动恢复。
+// ============ WAL 落库：周期 + 退出时 PASSIVE checkpoint（better-sqlite3 原生驱动）============
+// better-sqlite3 是原生驱动，在 Render 网络盘上可安全 checkpoint（这是从 wasm 迁移的目的）。
+// 用 PASSIVE 模式：不截断、不阻塞 reader/writer，只把能落的 frame 合并进主库，
+// 把"WAL 未落库量"控制在一个 checkpoint 周期以内。启动时的 TRUNCATE 由 render-start.js 做。
+const WAL_CHECKPOINT_MS = Number(process.env.WAL_CHECKPOINT_MS) || 5 * 60 * 1000; // 默认 5 分钟
+const checkpointTimer = setInterval(() => {
+  if (shuttingDown) return;
+  try {
+    db.pragma('wal_checkpoint(PASSIVE)');
+  } catch (e) {
+    console.warn('[mvp-backend] periodic PASSIVE checkpoint failed (non-fatal):', e.message);
+  }
+}, WAL_CHECKPOINT_MS);
+checkpointTimer.unref();
+
+// ============ 安全退出：先 PASSIVE checkpoint 落库，再关 HTTP，最后关 db ============
+// 原生驱动可安全 close；退出前做一次 PASSIVE checkpoint 把 WAL 合并进主库，
+// 避免"退出时还有未落库写入 + 下次启动前进程被杀"导致的少量数据滞留在 -wal。
 let shuttingDown = false;
 function gracefulShutdown(signal) {
   if (shuttingDown) return;
   shuttingDown = true;
-  console.log(`[mvp-backend] received ${signal}, stopping HTTP server only...`);
-  // 只停 HTTP，不 checkpoint、不 close db
+  console.log(`[mvp-backend] received ${signal}, checkpoint + stopping...`);
+  try {
+    db.pragma('wal_checkpoint(PASSIVE)');
+    console.log('[mvp-backend] shutdown PASSIVE checkpoint done');
+  } catch (e) {
+    console.warn('[mvp-backend] shutdown checkpoint failed (non-fatal):', e.message);
+  }
   server.close(() => {
-    console.log('[mvp-backend] HTTP server closed, process exiting');
+    try { db.close(); } catch (_) {}
+    console.log('[mvp-backend] HTTP server + db closed, process exiting');
     process.exit(0);
   });
   setTimeout(() => {
