@@ -187,20 +187,28 @@ app.post('/v1/internal/worker/claim', internalOnly, (req, res) => {
   // 防止并发 worker claim 到同一批任务导致重复执行
   // 可选 credentialKey：只 claim 指定租户的任务（浏览器半自动 worker 按当前会话租户拉取，
   //   避免跨租户任务挤占 20 条名额）
+  //
+  // ⚠️ 时序修复（2026-07）：
+  //   1) updated_at 统一用 datetime('now','+8 hours')，与 act 接口一致。
+  //      历史 bug：这里曾用 new Date().toISOString()（UTC/带T），与 act 写的
+  //      "+8 空格格式" 混用，ORDER BY updated_at 字符串比较错乱 → claim 过但没执行成功的
+  //      任务（如 token 失效）updated_at 反而排到新点击任务前面，反复霸占前 20 名额，
+  //      导致课长刚点的任务迟迟 claim 不到。
+  //   2) 排序改为 COALESCE(acted_at, updated_at)：按"课长点击时间"优先，先点先处理，
+  //      避免被反复 claim 的老任务插队。
   const { credentialKey } = req.body || {};
-  const now = new Date().toISOString();
   const credFilter = credentialKey ? `AND credential_key = ?` : ``;
   const stmt = db.prepare(`
-    UPDATE tasks SET updated_at=?
+    UPDATE tasks SET updated_at=datetime('now','+8 hours')
     WHERE id IN (
       SELECT id FROM tasks
       WHERE status='EXECUTING' AND retry_count < 3 ${credFilter}
-      ORDER BY updated_at LIMIT 20
+      ORDER BY COALESCE(acted_at, updated_at) LIMIT 20
     )
     RETURNING id, store_id, sku, barcode, item_name, action, substitute_sku, actual_price, retry_count,
               whale_shop_id, credential_key, stock
   `);
-  const claimed = credentialKey ? stmt.all(now, credentialKey) : stmt.all(now);
+  const claimed = credentialKey ? stmt.all(credentialKey) : stmt.all();
   res.json({ ok: true, tasks: claimed });
 });
 
