@@ -741,56 +741,25 @@ const server = app.listen(PORT, '0.0.0.0', () => {
   }
 });
 
-// ============ 优雅退出：重启/部署前把 WAL 落库并关闭数据库 ============
-// Render 重启/部署时发送 SIGTERM。若不 checkpoint + close，WAL 中未合并的写入
-// 可能在下次启动时丢失（历史数据丢失根因之一）。这里确保退出前数据安全落盘。
+// ============ 安全退出：只关 HTTP server，不动数据库 ============
+// 注意：绝不能在 Render 网络磁盘上做 wal_checkpoint(TRUNCATE) 或 db.close()，
+// node-sqlite3-wasm 在网络文件系统上执行这些操作会损坏主库（历史数据丢失根因）。
+// WAL 数据由 SQLite 自身保证一致性，Render 重启时 -wal/-shm 会随主库一起保留在
+// /var/data 持久盘上，下次启动自动恢复。
 let shuttingDown = false;
 function gracefulShutdown(signal) {
   if (shuttingDown) return;
   shuttingDown = true;
-  console.log(`[mvp-backend] received ${signal}, shutting down gracefully...`);
-
-  const finalize = () => {
-    // WAL 模式下退出前必须 checkpoint，否则 WAL 中未合并写入会在下次启动时丢失。
-    try {
-      db.exec('PRAGMA wal_checkpoint(TRUNCATE)');
-      console.log('[mvp-backend] wal_checkpoint(TRUNCATE) done before exit');
-    } catch (e) {
-      console.warn('[mvp-backend] checkpoint on shutdown failed:', e.message);
-    }
-    try {
-      db.close();
-      console.log('[mvp-backend] database closed cleanly');
-    } catch (e) {
-      console.warn('[mvp-backend] db.close failed:', e.message);
-    }
+  console.log(`[mvp-backend] received ${signal}, stopping HTTP server only...`);
+  // 只停 HTTP，不 checkpoint、不 close db
+  server.close(() => {
+    console.log('[mvp-backend] HTTP server closed, process exiting');
     process.exit(0);
-  };
-
-  // 停止接收新连接后落库退出
-  server.close(finalize);
-  // 兜底：若 server.close 迟迟不回调（仍有挂起连接），8s 后强制落库退出
+  });
   setTimeout(() => {
-    console.warn('[mvp-backend] forced shutdown after timeout');
-    finalize();
-  }, 8000).unref();
+    console.warn('[mvp-backend] forced exit after timeout');
+    process.exit(0);
+  }, 5000).unref();
 }
 process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
 process.on('SIGINT', () => gracefulShutdown('SIGINT'));
-
-// ============ 定时 checkpoint：控制 WAL 未落库数据量，降低重启时丢数据风险 ============
-// WAL 模式写入先进 -wal 文件，需 checkpoint 才合并到主库。旧版从未主动 checkpoint，
-// 导致 SIGKILL 等异常重启时丢失整个 -wal 的未落库数据（这正是历史数据丢失的根因）。
-// 这里每 60 秒强制 TRUNCATE 模式 checkpoint：把 -wal 内容合并进主库并清空 -wal，
-// 即使被 SIGKILL（无法优雅退出）也只丢最近 1 分钟内的写入，配合优雅退出 + 本地
-// backups 兜底，周末数据稳定性有足够保障。
-const WAL_CHECKPOINT_MS = Number(process.env.WAL_CHECKPOINT_MS) || 60 * 1000;
-setInterval(() => {
-  if (shuttingDown) return;
-  try {
-    db.exec('PRAGMA wal_checkpoint(TRUNCATE)');
-    console.log('[mvp-backend] periodic wal_checkpoint(TRUNCATE) done');
-  } catch (e) {
-    console.warn('[mvp-backend] periodic checkpoint failed (non-fatal):', e.message);
-  }
-}, WAL_CHECKPOINT_MS).unref();
