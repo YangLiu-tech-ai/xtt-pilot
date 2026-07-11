@@ -536,6 +536,38 @@ app.get('/v1/internal/task-logs', internalOnly, (req, res) => {
   });
 });
 
+// ============ 任务审计流批量恢复（admin 用，灾后恢复场景）============
+// POST /v1/internal/task-logs-import
+// Body: { logs: [{ task_id, event, detail, created_at? }] }
+//   task_id 必须是当前 DB 中已存在的 tasks.id (调用方负责做 barcode->id 映射)
+//   detail 可以是对象或字符串;created_at 缺省则用 now
+// 返回: { ok, inserted, skipped }
+app.post('/v1/internal/task-logs-import', internalOnly, (req, res) => {
+  const logs = (req.body && req.body.logs) || [];
+  if (!Array.isArray(logs) || logs.length === 0) {
+    return res.status(400).json({ ok: false, err: 'body.logs (array) required' });
+  }
+  // 不做显式事务(node-sqlite3-wasm 在 BEGIN..COMMIT 之间对 statement 生命周期
+  // 处理怪异);149 条 auto-commit 性能可接受。
+  let inserted = 0, skipped = 0;
+  for (const r of logs) {
+    if (!r || !r.task_id || !r.event) { skipped++; continue; }
+    try {
+      const exists = db.prepare('SELECT 1 FROM tasks WHERE id=?').get([r.task_id]);
+      if (!exists) { skipped++; continue; }
+      const detail = typeof r.detail === 'string' ? r.detail : JSON.stringify(r.detail || {});
+      db.prepare(
+        `INSERT INTO task_logs (task_id, event, detail, created_at)
+         VALUES (?, ?, ?, COALESCE(?, datetime('now','+8 hours')))`
+      ).run([r.task_id, r.event, detail, r.created_at || null]);
+      inserted++;
+    } catch (e) {
+      skipped++;
+    }
+  }
+  res.json({ ok: true, inserted, skipped, requested: logs.length });
+});
+
 // 白名单单表 dump（开发排查用）
 // GET /v1/internal/db-dump?table=tasks&limit=200&where=status:PENDING
 app.get('/v1/internal/db-dump', internalOnly, (req, res) => {
