@@ -267,13 +267,17 @@ app.post('/v1/internal/force-status', internalOnly, (req, res) => {
   if (!taskId || !status) return res.status(400).json({ ok: false, err: 'taskId, status required' });
   const allowed = ['PENDING', 'EXECUTING', 'DONE', 'FAILED', 'SHORTAGE'];
   if (!allowed.includes(status)) return res.status(400).json({ ok: false, err: `status must be one of: ${allowed}` });
-  const task = db.prepare('SELECT id FROM tasks WHERE id=?').get([taskId]);
+  const task = db.prepare('SELECT * FROM tasks WHERE id=?').get([taskId]);
   if (!task) return res.status(404).json({ ok: false, err: 'NOT_FOUND' });
+  const prevStatus = task.status;
   const updates = [`status='${status}'`, `updated_at=datetime('now','+8 hours')`];
   if (status === 'EXECUTING') updates.push('retry_count=0');
   if (actualPrice) updates.push(`actual_price=${Number(actualPrice)}`);
   db.prepare(`UPDATE tasks SET ${updates.join(',')} WHERE id=?`).run([taskId]);
-  res.json({ ok: true, taskId, status });
+  // 审计留痕:手动改状态必须留记录,否则出现"DONE 但 operation_type=null"的无来源数据
+  logEvent(taskId, 'force-status', { prevStatus, newStatus: status, actualPrice });
+  logAudit(task, 'force-status', { prevStatus, newStatus: status, actualPrice });
+  res.json({ ok: true, taskId, prevStatus, status });
 });
 
 // ============ 归档脏 PENDING（category 为空，按 storeId） ============
@@ -602,6 +606,44 @@ const HQ_H5_DIST = path.join(__dirname, '..', 'hq-h5', 'dist');
 app.get('/', (req, res) => {
   const qs = req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '';
   res.redirect('/h5/preview.html' + qs);
+});
+
+// ============ 调试:读取挂载磁盘上的 JSONL 审计日志 ============
+// 用于肉眼验证 logAudit 是否真的在写 /var/data/task-audit/*.jsonl
+//   GET /v1/internal/audit-tail?date=YYYY-MM-DD&lines=N
+// 默认 date=今天(+08:00), lines=50。返回 JSON 数组 + 文件元信息。
+// 需要 x-internal-key 头。
+app.get('/v1/internal/audit-tail', internalOnly, (req, res) => {
+  const lines = Math.max(1, Math.min(5000, Number(req.query.lines) || 50));
+  let date = req.query.date;
+  if (!date) {
+    date = new Date(Date.now() + 8 * 3600 * 1000).toISOString().slice(0, 10);
+  } else if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    return res.status(400).json({ ok: false, err: 'date must be YYYY-MM-DD' });
+  }
+  const file = path.join(AUDIT_DIR, `${date}.jsonl`);
+  if (!fs.existsSync(file)) {
+    // 列出已有日期方便排查
+    let available = [];
+    try { available = fs.readdirSync(AUDIT_DIR).filter(f => f.endsWith('.jsonl')).sort(); } catch (_) {}
+    return res.json({ ok: true, date, file, exists: false, available, count: 0, lines: [] });
+  }
+  try {
+    const stat = fs.statSync(file);
+    const content = fs.readFileSync(file, 'utf8');
+    const all = content.split('\n').filter(Boolean);
+    const tail = all.slice(-lines).map(line => {
+      try { return JSON.parse(line); } catch { return { _raw: line }; }
+    });
+    res.json({
+      ok: true, date, file, exists: true,
+      sizeBytes: stat.size, mtime: stat.mtime,
+      total: all.length, returned: tail.length,
+      lines: tail,
+    });
+  } catch (e) {
+    res.status(500).json({ ok: false, err: e.message });
+  }
 });
 
 const server = app.listen(PORT, '0.0.0.0', () => {
