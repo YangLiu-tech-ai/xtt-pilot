@@ -568,6 +568,54 @@ app.post('/v1/internal/task-logs-import', internalOnly, (req, res) => {
   res.json({ ok: true, inserted, skipped, requested: logs.length });
 });
 
+// ============ 批量恢复 tasks 字段（从备份回刷） ============
+// POST /v1/internal/tasks-restore-fields
+// Body: { tasks: [{ id, action, operator, operation_type, shortage_reason,
+//         shortage_reason_detail, error_msg, created_at, pushed_at, acted_at }] }
+// 只更新 backup 中非 null 的字段，不覆盖 status（status 可能已被重新操作改变）
+// 如果线上 task 的 action 已有值（说明已被重新操作），默认跳过，除非 force=true
+app.post('/v1/internal/tasks-restore-fields', internalOnly, (req, res) => {
+  const tasks = (req.body && req.body.tasks) || [];
+  const force = req.body && req.body.force === true;
+  if (!Array.isArray(tasks) || tasks.length === 0) {
+    return res.status(400).json({ ok: false, err: 'body.tasks (array) required' });
+  }
+  const RESTORABLE = [
+    'action', 'operator', 'operation_type', 'shortage_reason',
+    'shortage_reason_detail', 'error_msg', 'created_at', 'pushed_at', 'acted_at'
+  ];
+  let updated = 0, skipped = 0, noChange = 0;
+  for (const t of tasks) {
+    if (!t || !t.id) { skipped++; continue; }
+    // 检查线上任务是否存在
+    const existing = db.prepare('SELECT id, action FROM tasks WHERE id=?').get([t.id]);
+    if (!existing) { skipped++; continue; }
+    // 如果线上 action 已有值且非 force 模式，跳过（已被重新操作）
+    if (!force && existing.action !== null && existing.action !== undefined) {
+      skipped++; continue;
+    }
+    // 构建 SET 子句，只更新 backup 中非 null 的字段
+    const sets = [];
+    const params = [];
+    for (const col of RESTORABLE) {
+      if (t[col] !== undefined && t[col] !== null) {
+        sets.push(`${col}=?`);
+        params.push(t[col]);
+      }
+    }
+    if (sets.length === 0) { noChange++; continue; }
+    sets.push("updated_at=datetime('now','+8 hours')");
+    params.push(t.id);
+    try {
+      db.prepare(`UPDATE tasks SET ${sets.join(',')} WHERE id=?`).run(params);
+      updated++;
+    } catch (e) {
+      skipped++;
+    }
+  }
+  res.json({ ok: true, updated, skipped, noChange, requested: tasks.length });
+});
+
 // 白名单单表 dump（开发排查用）
 // GET /v1/internal/db-dump?table=tasks&limit=200&where=status:PENDING
 app.get('/v1/internal/db-dump', internalOnly, (req, res) => {
