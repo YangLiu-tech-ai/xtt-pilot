@@ -21,7 +21,7 @@ const { issue, verify } = require('./token');
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '25mb' }));
 app.use(morgan('dev'));
 
 const PORT = process.env.PORT || 7788;
@@ -614,6 +614,89 @@ app.post('/v1/internal/tasks-restore-fields', internalOnly, (req, res) => {
     }
   }
   res.json({ ok: true, updated, skipped, noChange, requested: tasks.length });
+});
+
+// ============ 灾后全量恢复（从本地备份回灌，保留原始 id/状态/时间戳）============
+// POST /v1/internal/restore-full
+// Body: { stores?: [...], tasks?: [...], task_logs?: [...] }
+//   - 幂等：按主键存在即跳过（stores.store_id / tasks.id / task_logs.id），可安全重试
+//   - tasks 显式写入原始 id（保持与 task_logs.task_id 的关联）
+//   - 仅用于 Render 磁盘上主库被清零(0B)后的一次性重建
+// 返回各表 inserted/skipped 计数
+app.post('/v1/internal/restore-full', internalOnly, (req, res) => {
+  const body = req.body || {};
+  const stores = Array.isArray(body.stores) ? body.stores : [];
+  const tasks = Array.isArray(body.tasks) ? body.tasks : [];
+  const taskLogs = Array.isArray(body.task_logs) ? body.task_logs : [];
+
+  const result = { stores: { inserted: 0, skipped: 0 }, tasks: { inserted: 0, skipped: 0 }, task_logs: { inserted: 0, skipped: 0 } };
+
+  // tasks 全列（与 db.js schema 对齐，显式含 id）
+  const TASK_COLS = [
+    'id', 'batch_id', 'store_id', 'store_name', 'sku', 'barcode', 'item_name', 'category',
+    'priority', 'suggest_price', 'image_url', 'yesterday_sales', 'stock', 'status', 'action',
+    'operator', 'actual_price', 'substitute_sku', 'retry_count', 'error_msg', 'pushed_at',
+    'acted_at', 'created_at', 'updated_at', 'monthly_sales', 'current_price', 'activity_price',
+    'source', 'assigned_by', 'assigned_at', 'shortage_reason', 'shortage_reason_detail',
+    'whale_shop_id', 'credential_key', 'operation_type'
+  ];
+
+  try {
+    // 1) stores（先建，满足 tasks 外键）
+    const storeExists = db.prepare('SELECT 1 FROM stores WHERE store_id=?');
+    const insStore = db.prepare(`INSERT INTO stores
+      (store_id, store_name, brand, manager_name, manager_dingtalk_id, manager_phone, is_pilot, created_at)
+      VALUES (@store_id, @store_name, @brand, @manager_name, @manager_dingtalk_id, @manager_phone, @is_pilot, @created_at)`);
+    for (const s of stores) {
+      if (!s || !s.store_id) { result.stores.skipped++; continue; }
+      if (storeExists.get(s.store_id)) { result.stores.skipped++; continue; }
+      insStore.run({
+        store_id: s.store_id, store_name: s.store_name ?? s.store_id, brand: s.brand ?? '',
+        manager_name: s.manager_name ?? null, manager_dingtalk_id: s.manager_dingtalk_id ?? null,
+        manager_phone: s.manager_phone ?? null, is_pilot: s.is_pilot ?? 0,
+        created_at: s.created_at ?? null,
+      });
+      result.stores.inserted++;
+    }
+
+    // 2) tasks（显式 id）
+    const taskExists = db.prepare('SELECT 1 FROM tasks WHERE id=?');
+    const insTask = db.prepare(
+      `INSERT INTO tasks (${TASK_COLS.join(',')}) VALUES (${TASK_COLS.map(c => '@' + c).join(',')})`
+    );
+    for (const t of tasks) {
+      if (!t || t.id == null) { result.tasks.skipped++; continue; }
+      if (taskExists.get(t.id)) { result.tasks.skipped++; continue; }
+      const row = {};
+      for (const c of TASK_COLS) row[c] = t[c] === undefined ? null : t[c];
+      insTask.run(row);
+      result.tasks.inserted++;
+    }
+
+    // 3) task_logs（显式 id + task_id）
+    const logExists = db.prepare('SELECT 1 FROM task_logs WHERE id=?');
+    const taskPresent = db.prepare('SELECT 1 FROM tasks WHERE id=?');
+    const insLog = db.prepare(`INSERT INTO task_logs (id, task_id, event, detail, created_at)
+      VALUES (@id, @task_id, @event, @detail, @created_at)`);
+    for (const l of taskLogs) {
+      if (!l || l.id == null || l.task_id == null) { result.task_logs.skipped++; continue; }
+      if (logExists.get(l.id)) { result.task_logs.skipped++; continue; }
+      if (!taskPresent.get(l.task_id)) { result.task_logs.skipped++; continue; } // 外键保护
+      insLog.run({
+        id: l.id, task_id: l.task_id, event: l.event,
+        detail: typeof l.detail === 'string' ? l.detail : JSON.stringify(l.detail ?? null),
+        created_at: l.created_at ?? null,
+      });
+      result.task_logs.inserted++;
+    }
+
+    // 立即 checkpoint 落库，避免恢复后未落盘
+    try { db.pragma('wal_checkpoint(TRUNCATE)'); } catch (_) {}
+
+    res.json({ ok: true, result });
+  } catch (e) {
+    res.status(500).json({ ok: false, err: e.message, result });
+  }
 });
 
 // 白名单单表 dump（开发排查用）
