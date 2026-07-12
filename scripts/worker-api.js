@@ -29,6 +29,8 @@ const path = require('path');
 const RENDER_API = process.env.RENDER_API || 'https://xtt-pilot.onrender.com';
 const INTERNAL_KEY = process.env.INTERNAL_KEY || 'worker-key-2026-prod';
 const BASIC_AUTH = 'Basic d2hhbGU6d2hhbGU=';
+// DRY_RUN=1：只 claim + 刷 token + 查 SKU，绝不补库存/上架/report（安全冒烟用）
+const DRY_RUN = !!process.env.DRY_RUN;
 
 // === Fallback 环境变量（向后兼容） ===
 const FALLBACK_BASE_URL = process.env.WHALE_BASE_URL || 'https://whale.zwztf.net';
@@ -295,6 +297,12 @@ async function processTask(task) {
     return { ok: true, skipped: true, reason: 'already_on_sale' };
   }
 
+  // DRY_RUN：查到 SKU 但不做任何写操作（补库存/上架），只报告将要做什么
+  if (DRY_RUN) {
+    console.log(`[worker] task#${id} DRY_RUN: 已查到SKU storeSkuId=${sku.storeSkuId} status=${sku.currentStatus} avail=${sku.availableStock} isReceive=${sku.isReceiveStock}（不上架）`);
+    return { ok: true, dryRun: true, storeSkuId: sku.storeSkuId, wouldSeedStock: sku.availableStock <= 0 };
+  }
+
   // 补库存策略（鲸品云双轨制）：
   //   isReceiveStock=1 → 线上库存自动跟随线下，补线下即可
   //   isReceiveStock=0 → 线上库存独立管理，须直接补线上
@@ -342,10 +350,15 @@ async function main() {
   console.log(`[worker] task distribution:`, JSON.stringify(groups));
 
   // 3. Process each task（token 按 credentialKey 自动缓存复用）
-  let success = 0, failed = 0;
+  let success = 0, failed = 0, dry = 0;
   for (const task of tasks) {
     try {
       const result = await processTask(task);
+      if (result.dryRun) {
+        dry++;
+        console.log(`[worker] task#${task.id} → DRY(查到SKU未上架未report)`);
+        continue; // DRY_RUN 不 report，任务保持 EXECUTING
+      }
       if (result.ok) {
         const opType = result.skipped ? 'already_on_sale' : 'operated';
         await reportResult(task.id, true, undefined, opType);
@@ -357,13 +370,14 @@ async function main() {
         console.log(`[worker] task#${task.id} → FAILED: ${result.error}`);
       }
     } catch (e) {
+      if (DRY_RUN) { console.log(`[worker] task#${task.id} → DRY EXC(未report): ${e.message}`); continue; }
       await reportResult(task.id, false, e.message);
       failed++;
       console.error(`[worker] task#${task.id} → ERROR: ${e.message}`);
     }
   }
 
-  console.log(`[worker] done. success=${success} failed=${failed}`);
+  console.log(`[worker] done. success=${success} failed=${failed} dry=${dry}${DRY_RUN ? ' (DRY_RUN: 未做任何上架/report)' : ''}`);
 }
 
 main().catch(e => {
