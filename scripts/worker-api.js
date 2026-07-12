@@ -255,7 +255,11 @@ async function ensureOfflineStock(baseUrl, token, barcode, shopId) {
 // === Render API ===
 async function claimTasks() {
   const url = `${RENDER_API}/v1/internal/worker/claim`;
-  const r = await request(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-internal-key': INTERNAL_KEY } }, '{}');
+  // 若指定 ONLY_CREDENTIAL_KEY，claim 层就只拿该品牌任务（claim 接口 P0 后已修复 credentialKey 过滤），
+  // 从源头避免刷新/占用其他品牌任务；未指定则 claim 全部（向后兼容）。
+  const onlyCred = process.env.ONLY_CREDENTIAL_KEY || '';
+  const body = onlyCred ? JSON.stringify({ credentialKey: onlyCred }) : '{}';
+  const r = await request(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-internal-key': INTERNAL_KEY } }, body);
   if (!r.data?.ok) throw new Error(`claim failed: ${JSON.stringify(r.data)}`);
   return r.data.tasks || [];
 }
@@ -334,12 +338,24 @@ async function main() {
   console.log(`[worker] credentials pool: ${Object.keys(credentialsPool).length} key(s), fallback shop=${FALLBACK_SHOP_ID}`);
 
   // 1. Claim tasks
-  const tasks = await claimTasks();
+  let tasks = await claimTasks();
   if (tasks.length === 0) {
     console.log('[worker] no EXECUTING tasks, done.');
     return;
   }
   console.log(`[worker] claimed ${tasks.length} task(s)`);
+
+  // 1.5 品牌过滤（防止与昆仑 worker 并发时互抢/误处理）：
+  //   ONLY_CREDENTIAL_KEY=xq-whale → 只处理兴勤任务，其他品牌任务原样留 EXECUTING 不 touch。
+  //   claim 已把它们 updated_at 刷新了，但不 report，昆仑 worker 下轮仍会正常认领。
+  const ONLY_CRED = process.env.ONLY_CREDENTIAL_KEY || '';
+  if (ONLY_CRED) {
+    const before = tasks.length;
+    const skipped = tasks.filter(t => (t.credential_key || '') !== ONLY_CRED);
+    tasks = tasks.filter(t => (t.credential_key || '') === ONLY_CRED);
+    console.log(`[worker] ONLY_CREDENTIAL_KEY=${ONLY_CRED} 过滤：保留 ${tasks.length}/${before}，跳过其他品牌 ${skipped.length} 条(不report,留给对应worker)`);
+    if (tasks.length === 0) { console.log('[worker] 过滤后无本品牌任务，done.'); return; }
+  }
 
   // 2. 按 credential_key 分组打印概况
   const groups = {};
