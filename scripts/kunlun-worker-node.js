@@ -41,6 +41,9 @@ const CREDENTIAL_KEY = process.env.CREDENTIAL_KEY || null;
 // 故 worker 改为 claim 全部后按 ALLOWED_WIDS 只处理本登录态能操作的门店，
 // 其它门店任务保持 EXECUTING 留给对应登录态的 worker。
 const ALLOWED_WIDS = (process.env.ALLOWED_WIDS || '').split(',').map(s => s.trim()).filter(Boolean);
+// 硬隔离：以下 credential_key 的任务本 worker 绝不处理（兴勤只走鲸品云 worker-api.js）
+// 即使 ALLOWED_WIDS 配置失误或 claim 端点返回意外任务，此层兜底阻断
+const BLOCKED_CREDENTIAL_KEYS = new Set(['xq-whale']);
 const TOKEN_FILE = process.env.KUNLUN_TOKEN_FILE || path.join(__dirname, '..', 'kunlun-token.json');
 
 // wid(=task.store_id) → 昆仑 {storeId, sellerId, name}
@@ -214,7 +217,13 @@ async function main() {
   const claimed = await claim(CREDENTIAL_KEY);
   const all = claimed.tasks || [];
   // 客户端按 ALLOWED_WIDS 过滤（Render credentialKey 过滤有 bug 的兜底）
-  const mine = ALLOWED_WIDS.length ? all.filter(t => ALLOWED_WIDS.includes(String(t.store_id))) : all;
+  let mine = ALLOWED_WIDS.length ? all.filter(t => ALLOWED_WIDS.includes(String(t.store_id))) : all;
+  // 第二层硬隔离：credential_key 黑名单（兴勤只走鲸品云，绝不经过昆仑 worker）
+  const blockedByCred = mine.filter(t => BLOCKED_CREDENTIAL_KEYS.has(t.credential_key || ''));
+  if (blockedByCred.length) {
+    console.log(`[kunlun-worker] ⛔ BLOCKED ${blockedByCred.length} task(s) by credential_key=[${[...BLOCKED_CREDENTIAL_KEYS].join(',')}]（这些品牌有独立 worker，本 worker 不处理）`);
+    mine = mine.filter(t => !BLOCKED_CREDENTIAL_KEYS.has(t.credential_key || ''));
+  }
   const others = all.filter(t => !mine.includes(t));
   console.log(`[kunlun-worker] claimed=${all.length} mine=${mine.length} others(left)=${others.length}`);
   if (others.length) {
