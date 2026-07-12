@@ -30,3 +30,13 @@ whale-batches/
 # 诊断输出
 db_check.txt
 db_err.txt
+
+# 昆仑凭证（含 _m_h5_tk + SSOT，勿提交）
+kunlun-token.json
+# 所有凭证临时文件（含 refresh_token / h5tk 明文），通配防漏：token.tmp / token-xq.tmp / kunlun-token-*.json 等
+token*.tmp
+*token*.tmp
+kunlun-token*.json
+scripts/whale-credentials.json.bak-*
+cookie_fresh*.txt
+cookie_jar_temp*.txt
