@@ -30,9 +30,16 @@ function getArg(flag, def) {
 const brandKey = getArg('--brand', null);
 const dryRun = argv.includes('--dry-run');
 const skipSync = argv.includes('--no-sync-render');
+// 取数口径（P2）：默认"仅拉在架"（status[0,1]），数据量约减半、翻页失败率大降。
+//   下架品由 cron-push-v2 的"监控清单−在架集合"差集兜底为"商品不存在"缺货，
+//   已用三品牌9店真实数据 A/B 验证：在架 vs 全量缺货集合完全一致（零差异），
+//   且差集兜底保证"宁多推不漏推"。
+//   如需回退全量拉数：加 --full 显式关闭在架模式。
+const onShelfOnly = !argv.includes('--full');
 
 if (!brandKey) {
-  console.error('❌ 用法: node run-brand.js --brand <brandKey> [--dry-run] [--no-sync-render]');
+  console.error('❌ 用法: node run-brand.js --brand <brandKey> [--dry-run] [--no-sync-render] [--full]');
+  console.error('   默认仅拉在架(status[0,1])；加 --full 回退全量拉数');
   process.exit(1);
 }
 
@@ -62,7 +69,8 @@ console.log(`昆仑凭证: ${brand.kunlunCredKey}`);
 console.log(`鲸品云凭证: ${brand.credentialKey}`);
 console.log(`门店数: ${brand.stores.length}`);
 console.log(`Webhook 关键词: ${brand.dingtalkKeyword}`);
-console.log(`Monitor: ${brand.monitorFile}\n`);
+console.log(`Monitor: ${brand.monitorFile}`);
+console.log(`取数口径: ${onShelfOnly ? '仅拉在架(status[0,1],默认)' : '全量(--full)'}\n`);
 
 // ============ 校验昆仑 cookie 文件存在 ============
 const cookieFilePath = path.resolve(SCRIPTS_DIR, kunlunCred.cookieFile);
@@ -94,15 +102,18 @@ console.log(`  cookie: ${cookieFilePath}`);
 console.log(`  output: ${itemsFile}`);
 
 if (!dryRun) {
-  const fetchRes = spawnSync('python', [
+  const fetchArgs = [
     FETCH_SCRIPT,
     '--config', storesFile,
     '--cookie', cookieFilePath,
     '--kunlun-token', kunlunCred.eleKunlunToken,
     '--output', itemsFile,
-    '--page-workers', '3',
-    '--store-workers', String(Math.min(6, storesData.length)),
-  ], { stdio: 'inherit' });
+    '--page-workers', '1',
+    '--store-workers', '1',
+    '--verify-barcodes', path.join(SCRIPTS_DIR, brand.monitorFile),
+  ];
+  if (onShelfOnly) fetchArgs.push('--on-shelf-only');  // 仅拉在架，下架品由差集兜底
+  const fetchRes = spawnSync('python', fetchArgs, { stdio: 'inherit' });
 
   if (fetchRes.status !== 0) {
     console.error(`\n❌ fetch_store_items.py 执行失败，退出码 ${fetchRes.status}`);
