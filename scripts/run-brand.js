@@ -30,16 +30,15 @@ function getArg(flag, def) {
 const brandKey = getArg('--brand', null);
 const dryRun = argv.includes('--dry-run');
 const skipSync = argv.includes('--no-sync-render');
-// 取数口径（P2）：默认"仅拉在架"（status[0,1]），数据量约减半、翻页失败率大降。
-//   下架品由 cron-push-v2 的"监控清单−在架集合"差集兜底为"商品不存在"缺货，
-//   已用三品牌9店真实数据 A/B 验证：在架 vs 全量缺货集合完全一致（零差异），
-//   且差集兜底保证"宁多推不漏推"。
-//   如需回退全量拉数：加 --full 显式关闭在架模式。
-const onShelfOnly = !argv.includes('--full');
+// 取数口径（P2）：默认"全量拉数"。
+//   加 --on-shelf-only 可切换"仅拉在架"(status[0,1])，数据量约减半，但会放大
+//   cron-push-v2 差集兜底的误判(下架品被标"商品不存在")，需配合"不在在架集合则按条码反查确认"才能准确。
+//   7/12 曾默认改为在架，发现成山/淘小胖大量下架商品被误判"不存在"，已回滚为默认全量。
+const onShelfOnly = argv.includes('--on-shelf-only');
 
 if (!brandKey) {
-  console.error('❌ 用法: node run-brand.js --brand <brandKey> [--dry-run] [--no-sync-render] [--full]');
-  console.error('   默认仅拉在架(status[0,1])；加 --full 回退全量拉数');
+  console.error('❌ 用法: node run-brand.js --brand <brandKey> [--dry-run] [--no-sync-render] [--on-shelf-only]');
+  console.error('   默认全量拉数；加 --on-shelf-only 仅拉在架(status[0,1])');
   process.exit(1);
 }
 
@@ -70,7 +69,7 @@ console.log(`鲸品云凭证: ${brand.credentialKey}`);
 console.log(`门店数: ${brand.stores.length}`);
 console.log(`Webhook 关键词: ${brand.dingtalkKeyword}`);
 console.log(`Monitor: ${brand.monitorFile}`);
-console.log(`取数口径: ${onShelfOnly ? '仅拉在架(status[0,1],默认)' : '全量(--full)'}\n`);
+console.log(`取数口径: ${onShelfOnly ? '仅拉在架(status[0,1],加--on-shelf-only开启)' : '全量(默认)'}\n`);
 
 // ============ 校验昆仑 cookie 文件存在 ============
 const cookieFilePath = path.resolve(SCRIPTS_DIR, kunlunCred.cookieFile);
