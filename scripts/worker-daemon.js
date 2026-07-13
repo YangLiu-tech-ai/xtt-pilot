@@ -191,6 +191,11 @@ function runWorker(credentialKey, taskCount) {
       env.ONLY_CREDENTIAL_KEY = 'xq-whale';
     } else {
       env.ALLOWED_WIDS = '1262004557,1265426893,1332074728,541750676,542422914,541968633,1284510785';
+      // 跳过 run-kunlun 启动前的 token 粗筛预检（该预检检查两份 token 文件，
+      // 任一过期即整体退出码3，会让健康品牌被过期品牌连累熔断）。
+      // 改由 worker 内部 per-seller 探活精准判活：成山/淘小胖/兴勤昆仑各自独立，
+      // 某 seller token 失效只 defer 该 seller，不影响其他 seller 上架。
+      env.SKIP_HARVEST = '1';
     }
 
     log('spawning worker [' + credentialKey + '] for ' + taskCount + ' task(s)');

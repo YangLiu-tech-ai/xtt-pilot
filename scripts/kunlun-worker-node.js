@@ -288,10 +288,14 @@ async function main() {
   }
   console.log(`[kunlun-worker] done ok=${ok} skip=${skip} fail=${fail} deferred=${deferred}(token失效跳过)`);
   if (errs.length) console.log('[kunlun-worker] errors:\n' + errs.join('\n'));
-  // 有 token 失效的品牌 → 退出码 3，通知 run-kunlun 触发 harvest 后重跑
+  // 退出码语义（供 daemon 熔断判断）：
+  //  - 有 token 失效的 seller 且本轮完全没干成活(ok===0) → 退出码3，触发 daemon 熔断 + harvest
+  //  - 有 token 失效但本轮有成功上架(ok>0) → 退出码0，不熔断（健康 seller 不被失效 seller 连累），
+  //    被 defer 的任务保持 EXECUTING，下轮自然重试
   if (deadSellers.size) {
-    console.log(`[kunlun-worker] TOKEN_STALE sellers=${[...deadSellers].join(',')}`);
-    process.exit(3);
+    console.log(`[kunlun-worker] TOKEN_STALE sellers=${[...deadSellers].join(',')} (ok=${ok})`);
+    if (ok === 0) process.exit(3);
+    console.log('[kunlun-worker] 本轮有成功上架，不触发熔断，defer 任务下轮重试');
   }
 }
 main().catch(e => { console.error('[kunlun-worker] fatal:', e.message); process.exit(1); });
