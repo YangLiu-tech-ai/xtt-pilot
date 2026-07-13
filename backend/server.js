@@ -26,8 +26,6 @@ app.use(morgan('dev'));
 
 const PORT = process.env.PORT || 7788;
 const INTERNAL_KEY = process.env.MVP_INTERNAL_KEY || 'worker-key-2026';
-const WORKER_TRIGGER_URL = process.env.WORKER_TRIGGER_URL || '';  // e.g. https://xxx.cfargotunnel.com/trigger
-const WORKER_TRIGGER_KEY = process.env.WORKER_TRIGGER_KEY || 'local-trigger-secret';
 
 // ============ Helper ============
 function authMiddleware(req, res, next) {
@@ -79,43 +77,6 @@ function logAudit(task, event, extra) {
     fs.appendFileSync(path.join(AUDIT_DIR, `${date}.jsonl`), line, 'utf8');
   } catch (e) {
     console.warn('[audit] append failed (non-fatal):', e.message);
-  }
-}
-
-/**
- * 触发本地 worker-trigger 服务立即执行上架（fire-and-forget）。
- * act 端点在任务变为 EXECUTING 后调用，不阻塞 HTTP 响应。
- */
-function triggerWorker(task) {
-  if (!WORKER_TRIGGER_URL) return;
-  try {
-    const url = new URL(WORKER_TRIGGER_URL);
-    const isHttps = url.protocol === 'https:';
-    const lib = isHttps ? require('https') : require('http');
-    const body = JSON.stringify({
-      credentialKey: task.credential_key,
-      taskId: task.id,
-      storeName: task.store_name,
-    });
-    const opts = {
-      hostname: url.hostname,
-      port: url.port || (isHttps ? 443 : 80),
-      path: url.pathname,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(body),
-        'x-trigger-key': WORKER_TRIGGER_KEY,
-        'Bypass-Tunnel-Reminder': 'true',
-      },
-      timeout: 3000,
-    };
-    const req = lib.request(opts, () => {});  // 不关心响应
-    req.on('error', (e) => console.warn('[trigger] webhook failed (non-fatal):', e.message));
-    req.write(body);
-    req.end();
-  } catch (e) {
-    console.warn('[trigger] unexpected error (non-fatal):', e.message);
   }
 }
 
@@ -213,11 +174,6 @@ app.post('/v1/tasks/:id/act', authMiddleware, (req, res) => {
          task.id]);
 
   logEvent(task.id, 'clicked', { action, operator: req.user.dingId, substituteSku, actualPrice, shortageReason: reasonCode, shortageReasonDetail: reasonDetail });
-
-  // 任务变为 EXECUTING 时，fire-and-forget 触发本地 worker 立即上架
-  if (nextStatus === 'EXECUTING') {
-    triggerWorker(task);
-  }
 
   res.json({ ok: true, taskId: task.id, status: nextStatus });
 });
