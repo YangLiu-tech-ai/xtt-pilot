@@ -480,6 +480,49 @@
   .reason-detail-wrap textarea:focus {
     outline: none; border-color: var(--primary); background: #fff;
   }
+  /* Date chips (reason 3) */
+  .date-chips-wrap {
+    padding: 0 20px 4px; display: none;
+  }
+  .date-chips-wrap.show { display: block; }
+  .date-chips-label {
+    font-size: 12px; color: var(--text-muted); margin: 10px 0 6px;
+    display: flex; align-items: center; gap: 3px;
+  }
+  .date-chips-label .req { color: #E84D4D; font-weight: 700; }
+  .date-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .date-chip {
+    padding: 8px 14px; border-radius: 18px;
+    border: 1.5px solid var(--border); background: #fff;
+    font-size: 13px; color: var(--text-secondary);
+    cursor: pointer; transition: all 0.15s; white-space: nowrap;
+  }
+  .date-chip:active { background: var(--bg); }
+  .date-chip.selected {
+    border-color: var(--primary); background: #eff6ff;
+    color: var(--primary); font-weight: 600;
+  }
+  .date-chip .chip-date {
+    font-size: 11px; color: var(--text-muted); margin-left: 4px;
+  }
+  .date-chip.selected .chip-date { color: var(--primary); opacity: 0.7; }
+  .date-custom-wrap { margin-top: 8px; display: none; }
+  .date-custom-wrap.show { display: flex; align-items: center; gap: 8px; }
+  .date-custom-wrap input {
+    flex: 1; padding: 8px 10px; border-radius: 8px;
+    border: 1px solid var(--border); font-size: 13px;
+    font-family: inherit; background: var(--bg);
+  }
+  .date-custom-wrap input:focus {
+    outline: none; border-color: var(--primary); background: #fff;
+  }
+  .date-custom-wrap .hint {
+    font-size: 11px; color: var(--text-muted); flex-shrink: 0;
+  }
+  .reason-tag {
+    font-size: 10px; color: var(--warning); background: var(--warning-light);
+    border-radius: 4px; padding: 1px 6px; margin-left: auto; flex-shrink: 0;
+  }
   .drawer-footer {
     padding: 12px 20px;
     border-top: 1px solid var(--border);
@@ -614,7 +657,7 @@
   <div class="drawer-body">
     <div class="reason-option" data-reason="1">
       <div class="reason-radio"></div>
-      <div class="reason-label">品质不好</div>
+      <div class="reason-label">品质不好 / 品相不达标</div>
     </div>
     <div class="reason-option" data-reason="2">
       <div class="reason-radio"></div>
@@ -622,22 +665,32 @@
     </div>
     <div class="reason-option" data-reason="3">
       <div class="reason-radio"></div>
-      <div class="reason-label">暂未到货</div>
+      <div class="reason-label">已订货，还未到货</div>
+      <span class="reason-tag">选日期</span>
     </div>
     <div class="reason-option" data-reason="4">
       <div class="reason-radio"></div>
-      <div class="reason-label">已停售</div>
+      <div class="reason-label">线下已停售</div>
     </div>
     <div class="reason-option" data-reason="5">
       <div class="reason-radio"></div>
-      <div class="reason-label">线下售罄</div>
+      <div class="reason-label">线下今日已售完（售罄）</div>
     </div>
     <div class="reason-option" data-reason="6">
       <div class="reason-radio"></div>
       <div class="reason-label">其他</div>
+      <span class="reason-tag">填详情</span>
+    </div>
+    <div class="date-chips-wrap" id="dateChipsWrap">
+      <div class="date-chips-label"><span class="req">*</span> 预计到货日期</div>
+      <div class="date-chips" id="dateChips"></div>
+      <div class="date-custom-wrap" id="dateCustomWrap">
+        <input type="text" id="customDateInput" placeholder="如 7月20日" maxlength="20">
+        <span class="hint">手动输入</span>
+      </div>
     </div>
     <div class="reason-detail-wrap" id="reasonDetailWrap">
-      <textarea id="reasonDetailText" rows="2" maxlength="200" placeholder="补充说明（选填，最多200字）"></textarea>
+      <textarea id="reasonDetailText" rows="2" maxlength="200" placeholder="请说明具体原因（必填，最多200字）"></textarea>
     </div>
   </div>
   <div class="drawer-footer">
@@ -1316,18 +1369,87 @@ document.getElementById('refreshBtn').onclick = () => {
 };
 
 // ============ Reason Drawer ============
-const reasonState = { code: null, detail: '', onConfirm: null };
+const reasonState = { code: null, detail: '', selectedDate: null, onConfirm: null };
+
+function getDateStr(offset) {
+  var d = new Date();
+  d.setDate(d.getDate() + offset);
+  return (d.getMonth() + 1) + '月' + d.getDate() + '日';
+}
+function getWeekEndStr() {
+  var d = new Date();
+  var day = d.getDay();
+  var diff = day === 0 ? 0 : 7 - day;
+  d.setDate(d.getDate() + diff);
+  return (d.getMonth() + 1) + '/' + d.getDate();
+}
+function buildDateChips() {
+  var chips = [
+    { label: '明天', offset: 1 },
+    { label: '后天', offset: 2 },
+    { label: '3天后', offset: 3 },
+    { label: '本周内', offset: 'week' },
+    { label: '自定义', offset: 'custom' }
+  ];
+  var container = document.getElementById('dateChips');
+  container.innerHTML = '';
+  chips.forEach(function (c) {
+    var el = document.createElement('div');
+    el.className = 'date-chip';
+    var dateStr = '';
+    if (c.offset === 'week') dateStr = '至' + getWeekEndStr();
+    else if (c.offset !== 'custom') dateStr = getDateStr(c.offset);
+    el.innerHTML = c.label + (dateStr ? '<span class="chip-date">' + dateStr + '</span>' : '');
+    el.onclick = function () { selectDateChip(el, c); };
+    container.appendChild(el);
+  });
+}
+function selectDateChip(el, chip) {
+  document.querySelectorAll('.date-chip').forEach(function (c) { c.classList.remove('selected'); });
+  el.classList.add('selected');
+  var customWrap = document.getElementById('dateCustomWrap');
+  if (chip.offset === 'custom') {
+    customWrap.classList.add('show');
+    reasonState.selectedDate = null;
+    var input = document.getElementById('customDateInput');
+    input.focus();
+    input.oninput = function () {
+      reasonState.selectedDate = this.value.trim() || null;
+      validateReasonDrawer();
+    };
+  } else if (chip.offset === 'week') {
+    customWrap.classList.remove('show');
+    reasonState.selectedDate = '本周内(至' + getWeekEndStr() + ')';
+  } else {
+    customWrap.classList.remove('show');
+    reasonState.selectedDate = getDateStr(chip.offset);
+  }
+  validateReasonDrawer();
+}
+function validateReasonDrawer() {
+  if (!reasonState.code) { document.getElementById('reasonConfirmBtn').disabled = true; return; }
+  var valid = true;
+  if (reasonState.code === 3 && !reasonState.selectedDate) valid = false;
+  if (reasonState.code === 6 && !(document.getElementById('reasonDetailText').value || '').trim()) valid = false;
+  document.getElementById('reasonConfirmBtn').disabled = !valid;
+}
+
 function openReasonDrawer({ subtitle, onConfirm }) {
   reasonState.code = null;
   reasonState.detail = '';
+  reasonState.selectedDate = null;
   reasonState.onConfirm = onConfirm;
   document.getElementById('reasonSubtitle').textContent = subtitle || '';
   document.getElementById('reasonDetailText').value = '';
   document.getElementById('reasonDetailWrap').classList.remove('show');
+  document.getElementById('dateChipsWrap').classList.remove('show');
+  document.getElementById('dateCustomWrap').classList.remove('show');
+  document.getElementById('customDateInput').value = '';
   document.querySelectorAll('.reason-option').forEach(el => el.classList.remove('selected'));
   document.getElementById('reasonConfirmBtn').disabled = true;
   document.getElementById('reasonMask').classList.add('show');
   document.getElementById('reasonDrawer').classList.add('show');
+  buildDateChips();
 }
 function closeReasonDrawer() {
   document.getElementById('reasonMask').classList.remove('show');
@@ -1338,10 +1460,15 @@ document.querySelectorAll('.reason-option').forEach(el => {
   el.onclick = () => {
     const code = Number(el.dataset.reason);
     reasonState.code = code;
+    reasonState.selectedDate = null;
     document.querySelectorAll('.reason-option').forEach(x => x.classList.remove('selected'));
     el.classList.add('selected');
+    // reason 3: 显示日期 chips；reason 6: 显示补充说明；其他隐藏两者
+    document.getElementById('dateChipsWrap').classList.toggle('show', code === 3);
+    document.getElementById('dateCustomWrap').classList.remove('show');
     document.getElementById('reasonDetailWrap').classList.toggle('show', code === 6);
-    document.getElementById('reasonConfirmBtn').disabled = false;
+    if (code === 3) buildDateChips();
+    validateReasonDrawer();
   };
 });
 document.getElementById('reasonCloseBtn').onclick = closeReasonDrawer;
@@ -1349,11 +1476,19 @@ document.getElementById('reasonCancelBtn').onclick = closeReasonDrawer;
 document.getElementById('reasonMask').onclick = closeReasonDrawer;
 document.getElementById('reasonConfirmBtn').onclick = () => {
   if (!reasonState.code) return;
-  const detail = (document.getElementById('reasonDetailText').value || '').trim();
+  var detail = null;
+  if (reasonState.code === 3) {
+    if (!reasonState.selectedDate) return;
+    detail = '预计到货: ' + reasonState.selectedDate;
+  } else if (reasonState.code === 6) {
+    detail = (document.getElementById('reasonDetailText').value || '').trim();
+    if (!detail) return;
+  }
   const cb = reasonState.onConfirm;
   closeReasonDrawer();
-  if (cb) cb(reasonState.code, detail || null);
+  if (cb) cb(reasonState.code, detail);
 };
+document.getElementById('reasonDetailText').addEventListener('input', validateReasonDrawer);
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && document.getElementById('reasonDrawer').classList.contains('show')) {
     closeReasonDrawer();
