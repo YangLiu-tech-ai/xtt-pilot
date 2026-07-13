@@ -76,20 +76,11 @@ function apiRequest(method, urlPath, body) {
   });
 }
 
-// ── 钉钉告警（fire-and-forget，失败不阻塞）──
-function sendAlert(credentialKey, text) {
-  // 同一 credentialKey 1 小时内不重复告警，防刷屏
-  var last = alertedAt.get(credentialKey) || 0;
-  if (Date.now() - last < 3600 * 1000) return;
-  alertedAt.set(credentialKey, Date.now());
-  stats.alerts++;
-
+// ── 钉钉 webhook 通用发送（fire-and-forget，失败不阻塞）──
+function postWebhook(content) {
   try {
     var url = new URL(ALERT_WEBHOOK);
-    var body = JSON.stringify({
-      msgtype: 'text',
-      text: { content: '[' + ALERT_KEYWORD + '] xtt worker告警\n' + text }
-    });
+    var body = JSON.stringify({ msgtype: 'text', text: { content: content } });
     var req = https.request({
       hostname: url.hostname,
       path: url.pathname + url.search,
@@ -97,13 +88,52 @@ function sendAlert(credentialKey, text) {
       headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(body) },
       timeout: 8000
     }, function () {});
-    req.on('error', function (e) { log('alert webhook error (non-fatal): ' + e.message); });
+    req.on('error', function (e) { log('webhook error (non-fatal): ' + e.message); });
     req.write(body);
     req.end();
-    log('[' + credentialKey + '] 钉钉告警已发送: ' + text);
   } catch (e) {
-    log('sendAlert error (non-fatal): ' + e.message);
+    log('postWebhook error (non-fatal): ' + e.message);
   }
+}
+
+// ── 钉钉告警（fire-and-forget，失败不阻塞）──
+function sendAlert(credentialKey, text) {
+  // 同一 credentialKey 1 小时内不重复告警，防刷屏
+  var last = alertedAt.get(credentialKey) || 0;
+  if (Date.now() - last < 3600 * 1000) return;
+  alertedAt.set(credentialKey, Date.now());
+  stats.alerts++;
+  postWebhook('[' + ALERT_KEYWORD + '] xtt worker告警\n' + text);
+  log('[' + credentialKey + '] 钉钉告警已发送: ' + text);
+}
+
+// ── 上架成功通知（每批汇总一条，仅统计真实上架 operated，跳过 already_on_sale）──
+function notifyShelfSuccess(credentialKey, batchTasks) {
+  if (!batchTasks || !batchTasks.length) return;
+  var taskIds = batchTasks.map(function (t) { return t.id; });
+  // worker 退出后回查这批 task 的最终状态，区分 operated / already_on_sale
+  apiRequest('POST', '/v1/internal/tasks-status', { taskIds: taskIds })
+    .then(function (r) {
+      var rows = (r && r.rows) || [];
+      // 只统计本轮真实上架成功（DONE 且 operation_type=operated）的
+      var operated = rows.filter(function (t) { return t.status === 'DONE' && t.operation_type === 'operated'; });
+      if (operated.length === 0) return;  // 全是已在架/跳过，不打扰
+      // 按门店分组
+      var byStore = {};
+      operated.forEach(function (t) {
+        var s = t.store_name || '未知门店';
+        if (!byStore[s]) byStore[s] = [];
+        byStore[s].push(t.item_name || t.barcode);
+      });
+      var lines = ['[' + ALERT_KEYWORD + '] 缺货补品·上架成功'];
+      Object.keys(byStore).forEach(function (s) {
+        lines.push('\n' + s + ' · ' + byStore[s].length + ' 件已上架');
+        byStore[s].forEach(function (name) { lines.push('• ' + name); });
+      });
+      postWebhook(lines.join('\n'));
+      log('[' + credentialKey + '] 上架成功通知已发送: ' + operated.length + ' 件');
+    })
+    .catch(function (e) { log('notifyShelfSuccess 回查失败(non-fatal): ' + e.message); });
 }
 
 // ── 熔断判断 ──
@@ -160,7 +190,7 @@ async function pollCycle() {
         continue;
       }
       dispatched += groups[key].length;
-      await runWorker(key, groups[key].length);
+      await runWorker(key, groups[key]);
     }
 
     if (dispatched > 0) {
@@ -174,8 +204,9 @@ async function pollCycle() {
   }
 }
 
-function runWorker(credentialKey, taskCount) {
+function runWorker(credentialKey, batchTasks) {
   return new Promise(function (resolve) {
+    var taskCount = batchTasks.length;
     if (locks.get(credentialKey)) {
       log('[' + credentialKey + '] worker already running (pid ' + locks.get(credentialKey) + '), skip ' + taskCount + ' task(s)');
       resolve();
@@ -208,6 +239,10 @@ function runWorker(credentialKey, taskCount) {
       log('[' + credentialKey + '] worker exited with code ' + code);
       locks.delete(credentialKey);
       handleExitCode(credentialKey, code);
+      // 成功退出（含部分 seller 处理成功）→ 回查这批任务，对真实上架的推送通知
+      if (code === 0) {
+        notifyShelfSuccess(credentialKey, batchTasks);
+      }
       resolve();
     });
 

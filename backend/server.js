@@ -748,6 +748,24 @@ app.get('/v1/internal/db-dump', internalOnly, (req, res) => {
   }
 });
 
+// 按 taskId 列表查状态（daemon 上架后回查，区分 operated / already_on_sale）
+// Body: { taskIds: [123, 124, ...] }
+app.post('/v1/internal/tasks-status', internalOnly, (req, res) => {
+  const ids = Array.isArray(req.body && req.body.taskIds) ? req.body.taskIds : [];
+  const cleanIds = ids.map((x) => parseInt(x, 10)).filter((x) => Number.isInteger(x)).slice(0, 200);
+  if (cleanIds.length === 0) return res.json({ ok: true, rows: [] });
+  const placeholders = cleanIds.map(() => '?').join(',');
+  try {
+    const rows = db.prepare(
+      `SELECT id, status, operation_type, store_id, store_name, item_name, barcode
+       FROM tasks WHERE id IN (${placeholders})`
+    ).all(cleanIds);
+    res.json({ ok: true, rows });
+  } catch (e) {
+    res.status(500).json({ ok: false, err: e.message });
+  }
+});
+
 // ============ HQ 总部端路由 ============
 try {
   const hqRoutes = require('./hq-routes');
