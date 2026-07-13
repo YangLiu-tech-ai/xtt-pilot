@@ -106,6 +106,7 @@ function triggerWorker(task) {
         'Content-Type': 'application/json',
         'Content-Length': Buffer.byteLength(body),
         'x-trigger-key': WORKER_TRIGGER_KEY,
+        'Bypass-Tunnel-Reminder': 'true',
       },
       timeout: 3000,
     };
