@@ -67,6 +67,38 @@
           "storeId": "20015142365",
           "sellerId": "1919996480451",
           "whaleShopId": "189897189504213"
+        },
+        {
+          "name": "淘小胖超市(长葛店)",
+          "wid": "1284586131",
+          "storeId": "1284586131",
+          "sellerId": "1919996480451",
+          "whaleShopId": "189897138009189",
+          "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=705ecc1c25c9634a501a754e0cc1a41c5ec6a080bf83dc68a1c7b3acc2c3072f"
+        },
+        {
+          "name": "淘小胖超市(正弘汇店)",
+          "wid": "1284596171",
+          "storeId": "1284596171",
+          "sellerId": "1919996480451",
+          "whaleShopId": "189897138016357",
+          "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=f78537089c01e666da2f02a403a6ce47d972e45ff3fddc72916ed1f49e18e2f8"
+        },
+        {
+          "name": "淘小胖超市(荥阳店)",
+          "wid": "528662517",
+          "storeId": "20015148395",
+          "sellerId": "1919996480451",
+          "whaleShopId": "189897138032741",
+          "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=ba14b6a61eb9110156deadc2f9cf811f225bc26fbcf1cf4de9e0d0830adbd071"
+        },
+        {
+          "name": "淘小胖鲜品馆(宝龙城市广场店)",
+          "wid": "1316559920",
+          "storeId": "20027593071",
+          "sellerId": "1919996480451",
+          "whaleShopId": "189897138038885",
+          "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=a21b096bc2c0760632e393b1a3bf0ef3c27933a0378837824503f08c6d22a609"
         }
       ]
     },

@@ -35,8 +35,6 @@ const {
 const SKIP_PREV_SHORTAGE =
   (process.env.SKIP_PREV_SHORTAGE || 'on').toLowerCase() !== 'off';
 
-const WEBHOOK = process.env.DING_WEBHOOK
-  || 'https://oapi.dingtalk.com/robot/send?access_token=86ff44c61d0eb7877f9db3bef374ab387480e7193764dfc3a98c125711cc48b2';
 const API = process.env.MVP_API || 'https://xtt-pilot.onrender.com';
 const INTERNAL_KEY = process.env.MVP_INTERNAL_KEY || 'worker-key-2026-prod';
 
@@ -85,16 +83,57 @@ function getWhaleConfig(storeWid) {
   return { whaleShopId: null, credentialKey: null };
 }
 
+// 按 wid 查找门店级 webhook（优先门店配置，回退品牌级 webhook）
+function getStoreWebhook(storeWid) {
+  if (!brandsConfig || !brandsConfig.brands) return null;
+  for (const [brandKey, brand] of Object.entries(brandsConfig.brands)) {
+    for (const store of (brand.stores || [])) {
+      if (String(store.wid) === String(storeWid)) {
+        return store.dingtalkWebhook || brand.dingtalkWebhook || null;
+      }
+    }
+  }
+  return null;
+}
+
 // 解析命令行参数
 const argv = process.argv.slice(2);
 function getArg(flag, def) {
   const idx = argv.indexOf(flag);
   return idx >= 0 && argv[idx + 1] ? argv[idx + 1] : def;
 }
-const itemsPath = getArg('--items', path.join(__dirname, 'items_csnclt.json'));
-const monitorPath = getArg('--monitor', path.join(__dirname, 'monitor-barcodes-csnclt.json'));
 const dryRun = argv.includes('--dry-run');
 const syncRender = argv.includes('--sync-render');
+
+// ============ --brand 品牌感知（自动解析 webhook + monitor 文件） ============
+const brandKey = getArg('--brand', null);
+let brandWebhook = null;
+let brandMonitorFile = null;
+if (brandKey && brandsConfig && brandsConfig.brands && brandsConfig.brands[brandKey]) {
+  const brand = brandsConfig.brands[brandKey];
+  brandWebhook = brand.dingtalkWebhook || null;
+  brandMonitorFile = brand.monitorFile
+    ? path.join(__dirname, brand.monitorFile)
+    : null;
+} else if (brandKey) {
+  console.error(`[cron-push-v2] ❌ 未知品牌: ${brandKey}，请检查 brands-config.json`);
+  process.exit(1);
+}
+
+// webhook 优先级：--brand 品牌配置 > 环境变量 > 硬编码默认（csnc 向后兼容）
+const WEBHOOK = brandWebhook
+  || process.env.DING_WEBHOOK
+  || 'https://oapi.dingtalk.com/robot/send?access_token=86ff44c61d0eb7877f9db3bef374ab387480e7193764dfc3a98c125711cc48b2';
+
+const itemsPath = getArg('--items', path.join(__dirname, 'items_csnclt.json'));
+// monitor 优先级：--monitor 显式指定 > --brand 品牌配置 > 硬编码默认（csnclt 向后兼容）
+let monitorPath = getArg('--monitor', brandMonitorFile || path.join(__dirname, 'monitor-barcodes-csnclt.json'));
+
+if (brandKey) {
+  console.log(`[cron-push-v2] ✅ 品牌: ${brandKey} (${brandsConfig.brands[brandKey].brandName})`);
+  console.log(`[cron-push-v2]    webhook: ...${WEBHOOK.slice(-12)}`);
+  console.log(`[cron-push-v2]    monitor: ${path.basename(monitorPath)}`);
+}
 
 // ============ 条形码标准化 ============
 function normalizeBarcode(bc) {
@@ -561,7 +600,10 @@ async function main() {
       },
     };
 
-    const resp = await post(WEBHOOK, cardBody);
+    // 门店级 webhook 优先，回退品牌级 WEBHOOK
+    const storeWebhook = getStoreWebhook(storeId) || WEBHOOK;
+    console.log(`[cron-push-v2] 推送 webhook: ...${storeWebhook.slice(-12)} (store=${storeId})`);
+    const resp = await post(storeWebhook, cardBody);
     if (resp.errcode === 0) {
       console.log(`[cron-push-v2] ✅ 推送成功: ${unattended.length} 件`);
       // 10. 保存去重状态
