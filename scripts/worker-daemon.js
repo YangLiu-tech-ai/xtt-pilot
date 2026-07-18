@@ -18,6 +18,7 @@ const https = require('https');
 const http = require('http');
 const { spawn } = require('child_process');
 const path = require('path');
+const fs = require('fs');
 
 // ── 配置 ──
 var POLL_INTERVAL = parseInt(process.env.POLL_INTERVAL || '10', 10) * 1000;
@@ -32,8 +33,44 @@ var ALERT_THRESHOLD = parseInt(process.env.ALERT_THRESHOLD || '3', 10);
 var ALERT_WEBHOOK = process.env.ALERT_WEBHOOK || 'https://oapi.dingtalk.com/robot/send?access_token=b92c7d5f0c3a4447294f310afbaa99ce09ae3ce1b15a470e029dd8f38a60fa86';
 var ALERT_KEYWORD = process.env.ALERT_KEYWORD || '推送';
 
+// ── 多机隔离：DAEMON_CRED_KEY ──
+// 设了 DAEMON_CRED_KEY 的 daemon 只认领指定 credentialKey 的任务（用于新机跑新品牌时防误抢本机任务）。
+// 不设置 = 认领全部（本机老逻辑，向后兼容；本机跑 csnc/txp/xq 三品牌时不设）。
+// 多品牌用逗号分隔，如 DAEMON_CRED_KEY=new-A-whale,new-B-whale。
+var DAEMON_CRED_KEYS = (process.env.DAEMON_CRED_KEY || '')
+  .split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+
 var SCRIPTS_DIR = __dirname;
 var MVP_DIR = path.resolve(SCRIPTS_DIR, '..');
+
+// brands-config.json 路径：支持环境变量覆盖，默认在 scripts/ 目录
+var BRANDS_CONFIG_PATH = process.env.BRANDS_CONFIG_PATH
+  || path.join(SCRIPTS_DIR, 'brands-config.json');
+
+// ── 动态加载 ALLOWED_WIDS ──
+// 从 brands-config.json 收集所有非兴勤品牌的门店 WID。
+// 兴勤走 whale-cloud API（worker-api.js），不经过昆仑 worker 的 ALLOWED_WIDS 过滤。
+// 每次调用都重新读文件，支持热更新：改 brands-config.json 后无需重启 daemon。
+function loadAllowedWids() {
+  try {
+    var raw = fs.readFileSync(BRANDS_CONFIG_PATH, 'utf8');
+    var config = JSON.parse(raw);
+    var wids = [];
+    var brands = config.brands || {};
+    Object.keys(brands).forEach(function (key) {
+      var brand = brands[key];
+      // 兴勤（xq-whale）走独立 worker-api.js 路径，不经过 ALLOWED_WIDS
+      if (brand.credentialKey === 'xq-whale') return;
+      (brand.stores || []).forEach(function (store) {
+        if (store.wid) wids.push(store.wid);
+      });
+    });
+    return wids.join(',');
+  } catch (e) {
+    log('brands-config 读取失败: ' + e.message + '，ALLOWED_WIDS 将为空（worker 处理全部任务）');
+    return '';
+  }
+}
 
 // ── 状态 ──
 var locks = new Map();          // credentialKey → pid（正在运行的 worker）
@@ -162,19 +199,33 @@ async function pollCycle() {
   lastPollAt = new Date().toISOString();
 
   try {
-    var result = await apiRequest('POST', '/v1/internal/worker/claim', {});
-    if (!result.ok) {
-      log('claim API error: ' + (result.err || 'unknown'));
-      stats.errors++;
-      return;
+    // 多机隔离：DAEMON_CRED_KEYS 非空时，依次 claim 每个 credentialKey 的任务（后端 claim 端点支持单 credentialKey 过滤）。
+    // DAEMON_CRED_KEYS 为空 → claim body 为 {} → 认领全部（本机老逻辑，向后兼容）。
+    var targets = DAEMON_CRED_KEYS.length ? DAEMON_CRED_KEYS : [''];
+    var allTasks = [];
+    for (var i = 0; i < targets.length; i++) {
+      var claimBody = targets[i] ? { credentialKey: targets[i] } : {};
+      var result;
+      try {
+        result = await apiRequest('POST', '/v1/internal/worker/claim', claimBody);
+      } catch (e) {
+        log('claim request error (cred=' + (targets[i] || 'ALL') + '): ' + e.message);
+        stats.errors++;
+        continue;
+      }
+      if (!result.ok) {
+        log('claim API error (cred=' + (targets[i] || 'ALL') + '): ' + (result.err || 'unknown'));
+        stats.errors++;
+        continue;
+      }
+      var tasks = result.tasks || [];
+      for (var j = 0; j < tasks.length; j++) allTasks.push(tasks[j]);
     }
-
-    var tasks = result.tasks || [];
-    if (tasks.length === 0) return;
+    if (allTasks.length === 0) return;
 
     // 按 credential_key 分组
     var groups = {};
-    tasks.forEach(function (t) {
+    allTasks.forEach(function (t) {
       var key = t.credential_key || 'unknown';
       if (!groups[key]) groups[key] = [];
       groups[key].push(t);
@@ -221,7 +272,8 @@ function runWorker(credentialKey, batchTasks) {
     if (isXqWhale) {
       env.ONLY_CREDENTIAL_KEY = 'xq-whale';
     } else {
-      env.ALLOWED_WIDS = '1262004557,1265426893,1332074728,541750676,542422914,541968633,1284510785';
+      env.ALLOWED_WIDS = loadAllowedWids();
+      log('ALLOWED_WIDS loaded from brands-config: ' + env.ALLOWED_WIDS);
       // 跳过 run-kunlun 启动前的 token 粗筛预检（该预检检查两份 token 文件，
       // 任一过期即整体退出码3，会让健康品牌被过期品牌连累熔断）。
       // 改由 worker 内部 per-seller 探活精准判活：成山/淘小胖/兴勤昆仑各自独立，
@@ -335,6 +387,7 @@ log('worker-daemon starting...');
 log('  RENDER_API=' + RENDER_API);
 log('  POLL_INTERVAL=' + (POLL_INTERVAL / 1000) + 's');
 log('  SCRIPTS_DIR=' + SCRIPTS_DIR);
+log('  DAEMON_CRED_KEY=' + (DAEMON_CRED_KEYS.length ? '[' + DAEMON_CRED_KEYS.join(',') + ']（多机隔离：只认领这些 credentialKey 的任务）' : 'ALL（认领全部，本机老模式）'));
 startPolling();
 
 // ── 优雅退出 ──
@@ -349,6 +402,7 @@ process.on('SIGTERM', function () { shutdown('SIGTERM'); });
 
 // ── 日志 ──
 function log(msg) {
-  var ts = new Date().toISOString().slice(11, 19);
+  var now = new Date();
+  var ts = [now.getHours(), now.getMinutes(), now.getSeconds()].map(function (n) { return String(n).padStart(2, '0'); }).join(':');
   console.log('[' + ts + '] [daemon] ' + msg);
 }
