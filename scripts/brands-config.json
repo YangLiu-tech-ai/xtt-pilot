@@ -7,7 +7,7 @@
       "credentialKey": "csnc-whale",
       "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=86ff44c61d0eb7877f9db3bef374ab387480e7193764dfc3a98c125711cc48b2",
       "dingtalkKeyword": "推送",
-      "monitorFile": "monitor-barcodes-csnc-all.json",
+      "monitorFile": "monitor-barcodes-csnc.json",
       "stores": [
         {
           "name": "成山农场(龙湖天街店)",
@@ -71,7 +71,7 @@
         {
           "name": "淘小胖超市(长葛店)",
           "wid": "1284586131",
-          "storeId": "1284586131",
+          "storeId": "20015158130",
           "sellerId": "1919996480451",
           "whaleShopId": "189897138009189",
           "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=705ecc1c25c9634a501a754e0cc1a41c5ec6a080bf83dc68a1c7b3acc2c3072f"
@@ -79,7 +79,7 @@
         {
           "name": "淘小胖超市(正弘汇店)",
           "wid": "1284596171",
-          "storeId": "1284596171",
+          "storeId": "20015171032",
           "sellerId": "1919996480451",
           "whaleShopId": "189897138016357",
           "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=f78537089c01e666da2f02a403a6ce47d972e45ff3fddc72916ed1f49e18e2f8"
@@ -123,6 +123,54 @@
           "storeId": "20035008325",
           "sellerId": "2215344798382",
           "whaleShopId": "190507638909397"
+        },
+        {
+          "name": "兴勤超市(里悦里店)",
+          "wid": "1284574206",
+          "storeId": "20015861004",
+          "sellerId": "2215344798382",
+          "whaleShopId": "1590058906928965",
+          "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=8a0f3d176ecb2ae5a56e9d20f28fa865f43c24ef50bfd78aad737edf158c2458"
+        },
+        {
+          "name": "兴勤超市(万福店)",
+          "wid": "1186468885",
+          "storeId": "1108513326",
+          "sellerId": "2215344798382",
+          "whaleShopId": "1590060448491333",
+          "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=b4735bee6f75185dfdec9a2d6e4da4b3cd4602f5012d0c13eb12cd583cab6ce6"
+        },
+        {
+          "name": "兴勤超市(万联店)",
+          "wid": "510355798",
+          "storeId": "1090690426",
+          "sellerId": "2215344798382",
+          "whaleShopId": "1590060912486213",
+          "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=6de4b91389c340a2a8edfad8ccb4efe313de1cd976c90cb785cbfbd6d5a1b22c"
+        },
+        {
+          "name": "兴勤超市(丽日西湖店)",
+          "wid": "1341433040",
+          "storeId": "20042029166",
+          "sellerId": "2215344798382",
+          "whaleShopId": "1597175998857349",
+          "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=97829de7aa8e9e2ead8eab96d44ef8fd8d80b905900f9e66b16b72bb0c91ddd9"
+        },
+        {
+          "name": "兴勤超市(方直店)",
+          "wid": "1344254051",
+          "storeId": "20043515460",
+          "sellerId": "2215344798382",
+          "whaleShopId": "1613402846529029",
+          "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=ee8c1ef7dde8e459b6a6f5f25f83ee48f68e309e5208476c28045ab82ccaf1ec"
+        },
+        {
+          "name": "兴勤超市(丽日下角店)",
+          "wid": "1349423941",
+          "storeId": "20045306006",
+          "sellerId": "2215344798382",
+          "whaleShopId": "1631080102045381",
+          "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=750fa261130b47dad57d7f2c12ec4f745a69eefdc39b65c48fa7981564e1e8f4"
         }
       ]
     }
