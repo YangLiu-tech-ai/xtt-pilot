@@ -181,6 +181,28 @@
           "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=c076b579bc891be78895c283075a887468266c47bae3b04a9ea900296d260014"
         }
       ]
+    },
+    "lianjia": {
+      "brandName": "联家超柿",
+      "kunlunCredKey": "lianjia-kunlun",
+      "credentialKey": "lianjia-whale",
+      "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=b92c7d5f0c3a4447294f310afbaa99ce09ae3ce1b15a470e029dd8f38a60fa86",
+      "dingtalkKeyword": "推送",
+      "monitorFile": "monitor-barcodes-lianjia.json",
+      "stores": [
+        {
+          "name": "联家超柿(双凤店)",
+          "wid": "22267101349",
+          "storeId": "273301188",
+          "sellerId": "1921348776900"
+        },
+        {
+          "name": "联家超柿(左岸店)",
+          "wid": "1330850391",
+          "storeId": "20036261038",
+          "sellerId": "1921348776900"
+        }
+      ]
     }
   }
 }
