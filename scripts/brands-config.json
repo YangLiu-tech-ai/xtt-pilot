@@ -171,6 +171,14 @@
           "sellerId": "2215344798382",
           "whaleShopId": "1631080102045381",
           "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=750fa261130b47dad57d7f2c12ec4f745a69eefdc39b65c48fa7981564e1e8f4"
+        },
+        {
+          "name": "兴勤超市(丽日江北店)",
+          "wid": "1352472572",
+          "storeId": "20046114249",
+          "sellerId": "2215344798382",
+          "whaleShopId": "1620352765362821",
+          "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=c076b579bc891be78895c283075a887468266c47bae3b04a9ea900296d260014"
         }
       ]
     }
