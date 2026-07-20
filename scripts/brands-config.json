@@ -186,7 +186,7 @@
       "brandName": "联家超柿",
       "kunlunCredKey": "lianjia-kunlun",
       "credentialKey": "lianjia-whale",
-      "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=b92c7d5f0c3a4447294f310afbaa99ce09ae3ce1b15a470e029dd8f38a60fa86",
+      "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=4ec4934339967f88dc83ad745d5e0bff0370992118996d34d250a6b2c2554d0e",
       "dingtalkKeyword": "推送",
       "monitorFile": "monitor-barcodes-lianjia.json",
       "stores": [
