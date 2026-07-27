@@ -123,6 +123,22 @@
           "sellerId": "1919996480451",
           "whaleShopId": "189897138057317",
           "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=7a048f5c78760874a4e318511ce56660893c895d2b660e1decf397688bc7172b"
+        },
+        {
+          "name": "淘小胖超市(吾悦广场店)",
+          "wid": "533620385",
+          "storeId": "20022411251",
+          "sellerId": "1919996480451",
+          "whaleShopId": "189897138063461",
+          "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=136f42179a1651d51b19125e92c37b5fe87b4c5e57a8a4405f8916666d959cde"
+        },
+        {
+          "name": "淘小胖超市(大渡口店)",
+          "wid": "1342936309",
+          "storeId": "20044951046",
+          "sellerId": "1919996480451",
+          "whaleShopId": "1631186170906309",
+          "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=8814010602af95e1abc4b8bb0176ff0073fa4e010456dee4b7d58b2c1f1c93bf"
         }
       ]
     },
