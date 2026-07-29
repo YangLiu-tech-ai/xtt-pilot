@@ -29,6 +29,10 @@ const fs = require('fs');
 const path = require('path');
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
+// Windows schannel TLS 补丁：默认 https.Agent 会做证书吊销检查（CRYPT_E_REVOCATION_OFFLINE），
+// 导致连接 xtt-pilot.onrender.com 超时。用自定义 Agent 绕过。
+const _insecureAgent = new https.Agent({ rejectUnauthorized: false, keepAlive: false });
+
 const RENDER = process.env.RENDER_API || 'https://xtt-pilot.onrender.com';
 const INTERNAL_KEY = process.env.INTERNAL_KEY || 'worker-key-2026-prod';
 const APP_KEY = '12574478';
@@ -55,8 +59,17 @@ const STORE_MAP = {
   '542422914':  { storeId: '20043013476', sellerId: '1919957953830', name: '成山农场(凤城十路店)' },
   '541968633':  { storeId: '20043438259', sellerId: '1919957953830', name: '成山农场(凤城九路店)' },
   '1284510785': { storeId: '20015142365', sellerId: '1919996480451', name: '淘小胖超市(龙湖店)' },
+  '528662517':  { storeId: '20015148395', sellerId: '1919996480451', name: '淘小胖荥阳店' },
+  '1284596171': { storeId: '20015171032', sellerId: '1919996480451', name: '淘小胖超市(正弘汇店)' },
+  '1284586131': { storeId: '20015158130', sellerId: '1919996480451', name: '淘小胖长葛店' },
   '1137486501': { storeId: '1069036428',  sellerId: '2215344798382', name: '兴勤超市(陈江店)' },
   '1328460101': { storeId: '20035008325', sellerId: '2215344798382', name: '兴勤超市(港惠店)' },
+  '1316559920': { storeId: '20027593071', sellerId: '1919996480451', name: '淘小胖鲜品馆(宝龙城市广场店)' },
+  '1284516165': { storeId: '20015137450', sellerId: '1919996480451', name: '淘小胖超市(安阳吾悦店)' },
+  '1317615761': { storeId: '20028421084', sellerId: '1919996480451', name: '淘小胖超市(龙安万达店)' },
+  '1284311190': { storeId: '20015155173', sellerId: '1919996480451', name: '淘小胖超市(商丘正弘汇店)' },
+  '533620385':  { storeId: '20022411251', sellerId: '1919996480451', name: '淘小胖超市(吾悦广场店)' },
+  '1342936309': { storeId: '20044951046', sellerId: '1919996480451', name: '淘小胖超市(大渡口店)' },
 };
 
 // sellerId → token 文件（兴勤用独立 BUC，token 单独 harvest；其他品牌共享主 token）
@@ -89,11 +102,32 @@ function getCreds(sellerId) {
 }
 
 // ---- HTTP ----
-function httpJson(urlStr, { method = 'GET', headers = {}, body } = {}) {
+// curl 子进程 transport（专治 Windows schannel 对 Render 的 TCP 抽风）
+const { execFileSync } = require('child_process');
+function httpJsonCurl(urlStr, { method = 'GET', headers = {}, body } = {}) {
+  const args = [
+    '-s', '--ssl-no-revoke', '--max-time', '25',
+    '-X', method,
+  ];
+  for (const [k, v] of Object.entries(headers)) {
+    args.push('-H', `${k}: ${v}`);
+  }
+  if (body) args.push('-d', body);
+  args.push(urlStr);
+  try {
+    const raw = execFileSync('curl', args, { encoding: 'utf8', maxBuffer: 10 * 1024 * 1024, timeout: 30000 });
+    try { return JSON.parse(raw.replace(/^\uFEFF/, '')); } catch (pe) { return { raw, _parseErr: pe.message }; }
+  } catch (e) {
+    throw new Error('curl ' + method + ' ' + urlStr + ' failed: ' + (e.stderr || e.message));
+  }
+}
+// 原生 https transport（昆仑 API 走这条，稳定）
+function httpJsonNative(urlStr, { method = 'GET', headers = {}, body } = {}) {
   return new Promise((resolve, reject) => {
     const u = new URL(urlStr);
     const req = https.request({
       hostname: u.hostname, port: u.port || 443, path: u.pathname + u.search, method, headers,
+      family: 4, agent: _insecureAgent,
     }, (res) => {
       let d = ''; res.on('data', c => d += c);
       res.on('end', () => { try { resolve(JSON.parse(d.replace(/^\uFEFF/, ''))); } catch (pe) { resolve({ raw: d, _parseErr: pe.message }); } });
@@ -103,6 +137,15 @@ function httpJson(urlStr, { method = 'GET', headers = {}, body } = {}) {
     if (body) req.write(body);
     req.end();
   });
+}
+// 按目标域名自动选 transport：Render → curl，其它 → 原生 https
+// 注意：httpJsonCurl 是同步的，统一包成 Promise 以便调用方 .catch/.then
+function httpJson(urlStr, opts) {
+  const u = new URL(urlStr);
+  if (u.hostname.includes('onrender.com')) {
+    return Promise.resolve(httpJsonCurl(urlStr, opts));
+  }
+  return httpJsonNative(urlStr, opts);
 }
 
 // ---- mtop（本地签名，按 sellerId 切凭证）----
