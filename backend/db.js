@@ -166,6 +166,10 @@ const migrations = [
   // operated: worker 实际调了 onSale API 做了上架操作
   // already_on_sale: worker 查到 saleStatus=1，商品已在架，跳过操作
   "ALTER TABLE tasks ADD COLUMN operation_type TEXT",
+  // === 补货上架数量（v2026.07-restock） ===
+  // fill_stock: 库存为 0 的商品上架时，课长指定的补货数量（默认 10，范围 1-99）。
+  // NULL 表示未指定，worker 回落默认值 10。
+  "ALTER TABLE tasks ADD COLUMN fill_stock INTEGER",
 ];
 for (const sql of migrations) {
   try { db.exec(sql); } catch (e) {

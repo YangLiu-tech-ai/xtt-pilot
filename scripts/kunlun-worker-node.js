@@ -36,7 +36,9 @@ const _insecureAgent = new https.Agent({ rejectUnauthorized: false, keepAlive: f
 const RENDER = process.env.RENDER_API || 'https://xtt-pilot.onrender.com';
 const INTERNAL_KEY = process.env.INTERNAL_KEY || 'worker-key-2026-prod';
 const APP_KEY = '12574478';
-const TARGET_STOCK = 20;
+// 补货默认值：库存为 0 的商品上架时补到该值（原 20，改为 10 以降低超售风险）；
+// 若任务带了课长手填的 fill_stock（1-99），优先用任务值。
+const DEFAULT_FILL_STOCK = 10;
 const STATUS_ON = 0, STATUS_OFF = -2;
 const DRY_RUN = !!process.env.DRY_RUN;
 const CREDENTIAL_KEY = process.env.CREDENTIAL_KEY || null;
@@ -219,8 +221,15 @@ async function processTask(task) {
 
   if (action === 'shelf') {
     if (item.status === STATUS_ON && item.quantity > 0) return { ok: true, skipped: true, reason: 'already_on_sale', itemId: item.itemId };
-    if (DRY_RUN) return { ok: true, dryRun: true, itemId: item.itemId, wouldSetStock: item.quantity < TARGET_STOCK, curStatus: item.status, curQty: item.quantity };
-    if (item.quantity < TARGET_STOCK) await setInventory(item.itemId, storeId, sellerId, TARGET_STOCK);
+    // 补货口径：仅当库存为 0 时才补货，补到 fillTarget（课长手填 fill_stock 优先，否则默认10）；
+    // 库存 >=1 的商品直接上架、不补货。
+    let fillTarget = DEFAULT_FILL_STOCK;
+    if (task.fill_stock != null) {
+      const n = Math.round(Number(task.fill_stock));
+      if (Number.isFinite(n)) fillTarget = Math.min(99, Math.max(1, n));
+    }
+    if (DRY_RUN) return { ok: true, dryRun: true, itemId: item.itemId, wouldSetStock: item.quantity === 0 ? fillTarget : 0, curStatus: item.status, curQty: item.quantity };
+    if (item.quantity === 0) await setInventory(item.itemId, storeId, sellerId, fillTarget);
     await setShelf(item.itemId, storeId, sellerId, STATUS_ON);
     return { ok: true, operated: true, itemId: item.itemId, prevStatus: item.status, prevQty: item.quantity };
   }

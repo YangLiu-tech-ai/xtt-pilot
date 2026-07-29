@@ -21,7 +21,7 @@
   const RENDER = 'https://xtt-pilot.onrender.com';
   const KEY = 'worker-key-2026-prod';
   const BASE = ''; // 同源，whale.zwztf.net
-  const ONLINE_STOCK = 20, OFFLINE_STOCK = 20;
+  const ONLINE_STOCK = 10, OFFLINE_STOCK = 10;  // 补货默认值（原20，降为10防超售）；任务带 fill_stock 时优先用任务值
   // credential_key → tenantId
   const CRED_TENANT = {
     'xq-whale':   '188035768554677',
@@ -53,8 +53,8 @@
     }
     return null;
   }
-  async function ensureOnline(storeSkuId){ const r=await jfetch(`${BASE}/api/web/gms/b2c/store-goods/skus/stocks`,{method:'POST',body:{storeSkuId,currentStock:ONLINE_STOCK}}); if(r?.code!==0)throw new Error('补线上库存失败:'+JSON.stringify(r)); return {to:ONLINE_STOCK}; }
-  async function ensureOffline(barcode,shopId){ const q=await jfetch(`${BASE}/api/web/gms/b2c/store-goods/stocks/page?size=20&current=1&isSkuCodeFuzzy=0&isBarcodeFuzzy=0&barcode=${encodeURIComponent(barcode)}&organizationIds=${encodeURIComponent(shopId)}`); if(!q||q.code!==0)throw new Error('查库存失败'); const rec=(q.data?.records||[])[0]; if(!rec)return{skipped:'no-record'}; const st=(rec.storeSkuStockList||[])[0]; if(!st)return{skipped:'no-stock'}; const cur=+st.offlineStock||0; if(cur>=OFFLINE_STOCK)return{skipped:'sufficient',cur}; const p=await jfetch(`${BASE}/api/web/gms/b2c/store-goods/stocks/store-sku/stocks`,{method:'PUT',body:{id:st.id,offlineStock:String(OFFLINE_STOCK)}}); if(p?.code!==0)throw new Error('补线下库存失败:'+JSON.stringify(p)); return {from:cur,to:OFFLINE_STOCK}; }
+  async function ensureOnline(storeSkuId,qty=ONLINE_STOCK){ const r=await jfetch(`${BASE}/api/web/gms/b2c/store-goods/skus/stocks`,{method:'POST',body:{storeSkuId,currentStock:qty}}); if(r?.code!==0)throw new Error('补线上库存失败:'+JSON.stringify(r)); return {to:qty}; }
+  async function ensureOffline(barcode,shopId,qty=OFFLINE_STOCK){ const q=await jfetch(`${BASE}/api/web/gms/b2c/store-goods/stocks/page?size=20&current=1&isSkuCodeFuzzy=0&isBarcodeFuzzy=0&barcode=${encodeURIComponent(barcode)}&organizationIds=${encodeURIComponent(shopId)}`); if(!q||q.code!==0)throw new Error('查库存失败'); const rec=(q.data?.records||[])[0]; if(!rec)return{skipped:'no-record'}; const st=(rec.storeSkuStockList||[])[0]; if(!st)return{skipped:'no-stock'}; const cur=+st.offlineStock||0; if(cur>=qty)return{skipped:'sufficient',cur}; const p=await jfetch(`${BASE}/api/web/gms/b2c/store-goods/stocks/store-sku/stocks`,{method:'PUT',body:{id:st.id,offlineStock:String(qty)}}); if(p?.code!==0)throw new Error('补线下库存失败:'+JSON.stringify(p)); return {from:cur,to:qty}; }
   async function onSale(storeSkuId,shopId){ const r=await jfetch(`${BASE}/api/web/gms/b2c/store-goods/skus/sale-status/on-sale/batch?organizationIds=${encodeURIComponent(shopId)}`,{method:'PUT',body:{storeSkuIds:[storeSkuId],saleStatus:1}}); if(r?.code!==0)throw new Error('上架失败:'+JSON.stringify(r)); return r; }
 
   async function processTask(t){
@@ -63,14 +63,30 @@
     const sku=await findSku(t.barcode,shopId);
     if(!sku) return {ok:false,error:`SKU not found barcode=${t.barcode} shop=${shopId}`};
     if(sku.currentStatus===1) return {ok:true,skipped:true,reason:'already_on_sale'};
+    let fillTarget=ONLINE_STOCK;
+    if(t.fill_stock!=null){ const n=Math.round(Number(t.fill_stock)); if(Number.isFinite(n)) fillTarget=Math.min(99,Math.max(1,n)); }
     if(sku.availableStock<=0){
-      if(sku.isReceiveStock===0){ await ensureOnline(sku.storeSkuId); }
-      else { await ensureOffline(t.barcode,shopId); }
+      if(sku.isReceiveStock===0){ await ensureOnline(sku.storeSkuId,fillTarget); }
+      else { await ensureOffline(t.barcode,shopId,fillTarget); }
     }
     await onSale(sku.storeSkuId,shopId);
     return {ok:true,operated:true};
   }
-  const report=(taskId,success,errorMsg,opType)=>rfetch('/v1/internal/worker/report',{method:'POST',body:JSON.stringify({taskId,success,errorMsg:errorMsg||undefined,operationType:opType||undefined})}).catch(()=>{});
+  const report = async (taskId, success, errorMsg, opType) => {
+    for (let i = 0; i < 3; i++) {
+      try {
+        await rfetch('/v1/internal/worker/report', {
+          method: 'POST',
+          body: JSON.stringify({ taskId, success, errorMsg: errorMsg || undefined, operationType: opType || undefined })
+        });
+        return;
+      } catch (e) {
+        W.log.push(`report-retry-${i+1} #${taskId}: ${e.message}`);
+        if (i < 2) await new Promise(r => setTimeout(r, 1000));
+      }
+    }
+    W.log.push(`report-FAILED #${taskId} after 3 retries`);
+  };
 
   async function run(){
     try{

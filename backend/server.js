@@ -133,9 +133,16 @@ app.get('/v1/tasks/:id', authMiddleware, (req, res) => {
 
 // 一键操作
 app.post('/v1/tasks/:id/act', authMiddleware, (req, res) => {
-  const { action, substituteSku, actualPrice, shortageReason, shortageReasonDetail } = req.body || {};
+  const { action, substituteSku, actualPrice, shortageReason, shortageReasonDetail, fillStock } = req.body || {};
   if (!['shelf', 'shortage', 'substitute'].includes(action)) {
     return res.status(400).json({ ok: false, err: 'bad action' });
+  }
+  // 补货数量（仅 shelf 有意义）：库存为 0 的商品上架时课长可指定，整数区间 1-99；
+  // 非法/缺省保持 null，worker 侧回落默认值 10。
+  let fillStockVal = null;
+  if (action === 'shelf' && fillStock != null && fillStock !== '') {
+    const n = Math.round(Number(fillStock));
+    if (Number.isFinite(n)) fillStockVal = Math.min(99, Math.max(1, n));
   }
   // shortage 必须带 reason (1-6)
   let reasonCode = null, reasonDetail = null;
@@ -158,22 +165,28 @@ app.post('/v1/tasks/:id/act', authMiddleware, (req, res) => {
   if (task.status !== 'PENDING') {
     return res.status(409).json({ ok: false, err: 'STATE_CONFLICT', current: task.status });
   }
+  // fill_stock 语义闭环：只有 task.stock 为 0（库存不足触发了补货弹层）的 shelf 才落库；
+  // 库存>0 的品即使前端误传 fillStock（如批量弹层统一值应用到本批），也一律存 NULL，
+  // 便于后续拉日志做周复盘时准确区分「真实补过货」vs「顺带上架」。
+  if (action === 'shelf' && Number(task.stock) !== 0) {
+    fillStockVal = null;
+  }
 
   // 状态机：PENDING -> EXECUTING（shelf/substitute） or SHORTAGE
   const nextStatus = action === 'shortage' ? 'SHORTAGE' : 'EXECUTING';
   db.prepare(`
     UPDATE tasks
     SET action=?, status=?, operator=?, actual_price=?, substitute_sku=?,
-        shortage_reason=?, shortage_reason_detail=?,
+        shortage_reason=?, shortage_reason_detail=?, fill_stock=?,
         acted_at=datetime('now','+8 hours'), updated_at=datetime('now','+8 hours')
     WHERE id=?
   `).run([action, nextStatus, req.user.dingId || 'unknown',
          actualPrice || task.suggest_price,
          substituteSku || null,
-         reasonCode, reasonDetail,
+         reasonCode, reasonDetail, fillStockVal,
          task.id]);
 
-  logEvent(task.id, 'clicked', { action, operator: req.user.dingId, substituteSku, actualPrice, shortageReason: reasonCode, shortageReasonDetail: reasonDetail });
+  logEvent(task.id, 'clicked', { action, operator: req.user.dingId, substituteSku, actualPrice, shortageReason: reasonCode, shortageReasonDetail: reasonDetail, fillStock: fillStockVal });
 
   res.json({ ok: true, taskId: task.id, status: nextStatus });
 });
@@ -211,7 +224,7 @@ app.post('/v1/internal/worker/claim', internalOnly, (req, res) => {
       ORDER BY COALESCE(acted_at, updated_at) LIMIT 20
     )
     RETURNING id, store_id, sku, barcode, item_name, action, substitute_sku, actual_price, retry_count,
-              whale_shop_id, credential_key, stock
+              whale_shop_id, credential_key, stock, fill_stock
   `);
   const claimed = credentialKey ? stmt.all(credentialKey) : stmt.all();
   res.json({ ok: true, tasks: claimed });

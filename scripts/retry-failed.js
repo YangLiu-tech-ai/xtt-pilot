@@ -132,7 +132,7 @@ async function findStoreSkuId(baseUrl, token, barcode, shopId) {
   return null;
 }
 
-async function ensureOnlineStock(baseUrl, token, storeSkuId, targetStock = 20) {
+async function ensureOnlineStock(baseUrl, token, storeSkuId, targetStock = 10) {
   const url = `${baseUrl}/api/web/gms/b2c/store-goods/skus/stocks`;
   const r = await request(url, { method: 'POST', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' } },
     JSON.stringify({ storeSkuId, currentStock: targetStock }));
@@ -140,7 +140,7 @@ async function ensureOnlineStock(baseUrl, token, storeSkuId, targetStock = 20) {
   return { ok: true, to: targetStock };
 }
 
-async function ensureOfflineStock(baseUrl, token, barcode, shopId) {
+async function ensureOfflineStock(baseUrl, token, barcode, shopId, targetStock = 10) {
   const qUrl = `${baseUrl}/api/web/gms/b2c/store-goods/stocks/page?size=20&current=1&isSkuCodeFuzzy=0&isBarcodeFuzzy=0&barcode=${encodeURIComponent(barcode)}&organizationIds=${encodeURIComponent(shopId)}`;
   const q = await request(qUrl, { method: 'GET', headers: { 'Authorization': `Bearer ${token}` } });
   if (!q.data || q.data.code !== 0) throw new Error(`查询库存失败: ${JSON.stringify(q.data)}`);
@@ -149,11 +149,11 @@ async function ensureOfflineStock(baseUrl, token, barcode, shopId) {
   const stock = (rec.storeSkuStockList || [])[0];
   if (!stock) return { skipped: true, reason: 'no stock' };
   const current = Number(stock.offlineStock) || 0;
-  if (current >= 20) return { skipped: true, reason: 'sufficient', current };
+  if (current >= targetStock) return { skipped: true, reason: 'sufficient', current };
   const pUrl = `${baseUrl}/api/web/gms/b2c/store-goods/stocks/store-sku/stocks`;
   await request(pUrl, { method: 'PUT', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' } },
-    JSON.stringify({ id: stock.id, offlineStock: '20' }));
-  return { ok: true, from: current, to: 20 };
+    JSON.stringify({ id: stock.id, offlineStock: String(targetStock) }));
+  return { ok: true, from: current, to: targetStock };
 }
 
 async function onSale(baseUrl, token, storeSkuId, shopId) {
@@ -213,13 +213,18 @@ async function main() {
         continue;
       }
 
-      // 双轨补货：isReceiveStock=0 补线上，=1 补线下
+      // 双轨补货：isReceiveStock=0 补线上，=1 补线下；补货目标 fill_stock 优先，否则默认10
+      let fillTarget = 10;
+      if (task.fill_stock != null) {
+        const n = Math.round(Number(task.fill_stock));
+        if (Number.isFinite(n)) fillTarget = Math.min(99, Math.max(1, n));
+      }
       if (sku.availableStock <= 0) {
         if (sku.isReceiveStock === 0) {
-          const r = await ensureOnlineStock(baseUrl, token, sku.storeSkuId);
+          const r = await ensureOnlineStock(baseUrl, token, sku.storeSkuId, fillTarget);
           console.log(`    online-stock: ${sku.currentStock}->${r.to} (safe=${sku.safeStock})`);
         } else {
-          const r = await ensureOfflineStock(baseUrl, token, task.barcode, shopId);
+          const r = await ensureOfflineStock(baseUrl, token, task.barcode, shopId, fillTarget);
           if (r.ok) console.log(`    offline-stock: ${r.from}->${r.to}`);
         }
       }

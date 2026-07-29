@@ -545,6 +545,43 @@
   }
   .hidden { display: none !important; }
 
+  /* === 补货数量抽屉（库存为0上架时） === */
+  .restock-hd { display: flex; gap: 12px; align-items: center; padding: 16px 20px 4px; }
+  .restock-thumb {
+    width: 44px; height: 44px; border-radius: var(--radius-sm); flex-shrink: 0;
+    background: linear-gradient(135deg, #F3F4F6 0%, #E5E7EB 100%);
+    display: flex; align-items: center; justify-content: center; font-size: 22px; overflow: hidden;
+  }
+  .restock-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .restock-name { font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.3; }
+  .restock-sub { font-size: 12px; color: var(--text-secondary); margin-top: 3px; }
+  .restock-sub b { color: var(--danger); }
+  .restock-body { padding: 12px 20px 4px; }
+  .restock-qbox { background: var(--bg); border-radius: 12px; padding: 14px; }
+  .restock-qlab {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 12px;
+  }
+  .restock-qlab small { font-weight: 400; color: var(--text-muted); }
+  .restock-stepper { display: flex; justify-content: center; }
+  .restock-stepper button {
+    width: 46px; height: 44px; border: 1px solid var(--border); background: #fff;
+    font-size: 22px; color: #2DB87B; cursor: pointer;
+  }
+  .restock-stepper button:first-child { border-radius: 10px 0 0 10px; }
+  .restock-stepper button:last-child { border-radius: 0 10px 10px 0; }
+  .restock-stepper input {
+    width: 84px; height: 44px; text-align: center; border: 1px solid var(--border);
+    border-left: 0; border-right: 0; font-size: 18px; font-weight: 700; color: var(--text);
+    font-family: inherit; -moz-appearance: textfield;
+  }
+  .restock-stepper input::-webkit-outer-spin-button,
+  .restock-stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .restock-err { text-align: center; font-size: 12px; color: var(--danger); margin-top: 8px; min-height: 16px; }
+  .drawer-footer .btn-shelf-confirm {
+    background: linear-gradient(135deg, #2DB87B 0%, #34D399 100%); color: #fff;
+  }
+
   /* === Loading shimmer === */
   @keyframes shimmer { 0%{background-position:-200px 0} 100%{background-position:200px 0} }
   .loading-card {
@@ -696,6 +733,33 @@
   <div class="drawer-footer">
     <button class="btn-cancel" id="reasonCancelBtn">取消</button>
     <button class="btn-confirm" id="reasonConfirmBtn" disabled>确认</button>
+  </div>
+</div>
+
+<!-- 补货数量抽屉（库存为0上架时） -->
+<div class="drawer-mask" id="restockMask"></div>
+<div class="drawer" id="restockDrawer">
+  <div class="restock-hd">
+    <div class="restock-thumb" id="restockThumb">📦</div>
+    <div>
+      <div class="restock-name" id="restockName"></div>
+      <div class="restock-sub" id="restockSub"></div>
+    </div>
+  </div>
+  <div class="restock-body">
+    <div class="restock-qbox">
+      <div class="restock-qlab"><span>补货数量（件）</span><small>范围 1–99</small></div>
+      <div class="restock-stepper">
+        <button type="button" id="restockMinus">−</button>
+        <input type="number" id="restockQty" value="10" min="1" max="99" inputmode="numeric">
+        <button type="button" id="restockPlus">+</button>
+      </div>
+      <div class="restock-err" id="restockErr"></div>
+    </div>
+  </div>
+  <div class="drawer-footer">
+    <button class="btn-cancel" id="restockCancelBtn">取消</button>
+    <button class="btn-shelf-confirm" id="restockConfirmBtn">确认上架</button>
   </div>
 </div>
 
@@ -1033,11 +1097,16 @@ async function batchAct(action) {
       const t = allTasksCache.find(x => String(x.id) === String(id));
       return t && (!t.stock || Number(t.stock) === 0);
     }).length;
-    let msg = '确认批量上架 ' + ids.length + ' 件商品？';
+    // 有库存为0的商品：弹补货抽屉填统一数量（默认10）；否则直接批量上架
     if (zeroCount > 0) {
-      msg += '\n\n其中 ' + zeroCount + ' 件库存为 0，系统将自动补 5 件库存后再上架。';
+      openRestockDrawer({
+        name: '批量上架 ' + ids.length + ' 件',
+        subtitle: '其中 <b>' + zeroCount + ' 件</b>库存为 0，将统一补货至下方数量；其余直接上架',
+        defaultQty: 10,
+        onConfirm: (qty) => { batchSubmit(ids, { action: 'shelf', fillStock: qty }); },
+      });
+      return;
     }
-    if (!confirm(msg)) return;
     await batchSubmit(ids, { action: 'shelf' });
     return;
   }
@@ -1076,10 +1145,22 @@ async function batchSubmit(ids, body) {
   renderCatTabs(); renderList();
 
   // 并发提交所有请求
+  //   fillStock 仅对 stock=0 的品有意义（批量弹层里的统一补货值只应用到本批库存=0 的品）。
+  //   库存>0 的品剥掉 fillStock 字段，避免 tasks.fill_stock 落到无关任务上、污染周复盘统计。
   const results = await Promise.allSettled(
-    ids.map(id => api('/tasks/' + id + '/act', {
-      method: 'POST', body: JSON.stringify(body),
-    }).catch(e => ({ ok: false, err: e.message })))
+    ids.map(id => {
+      let perBody = body;
+      if (body && body.action === 'shelf' && body.fillStock != null) {
+        const t = allTasksCache.find(x => String(x.id) === String(id));
+        if (!t || Number(t.stock) !== 0) {
+          perBody = Object.assign({}, body);
+          delete perBody.fillStock;
+        }
+      }
+      return api('/tasks/' + id + '/act', {
+        method: 'POST', body: JSON.stringify(perBody),
+      }).catch(e => ({ ok: false, err: e.message }));
+    })
   );
 
   let ok = 0, conflict = 0, fail = 0;
@@ -1121,11 +1202,16 @@ async function cardAct(btn) {
   const task = allTasksCache.find(t => String(t.id) === String(taskId));
 
   if (action === 'shelf') {
-    // 库存=0 时弹确认 toast/window.confirm
+    // 库存=0 时弹补货数量抽屉（默认10，可改，范围1-99）；库存>0 直接上架不补货
     if (task && (!task.stock || Number(task.stock) === 0)) {
-      if (!confirm('该商品当前线下库存为 0，系统将自动补 5 件库存后再上架。确认继续？')) {
-        return;
-      }
+      openRestockDrawer({
+        name: task.item_name || '',
+        subtitle: '当前线下库存 <b>0 件</b>，上架前需补货',
+        imageUrl: task.image_url || null,
+        defaultQty: 10,
+        onConfirm: (qty) => { postShelfAct(card, btn, taskId, qty); },
+      });
+      return;
     }
     await postShelfAct(card, btn, taskId);
     return;
@@ -1140,7 +1226,7 @@ async function cardAct(btn) {
   });
 }
 
-async function postShelfAct(card, btn, taskId) {
+async function postShelfAct(card, btn, taskId, fillStock) {
   if (demoMode) {
     afterActSuccess(card, taskId, 'shelf');
     toast('已提交上架 (演示)');
@@ -1149,8 +1235,10 @@ async function postShelfAct(card, btn, taskId) {
   card.querySelectorAll('.card-actions button').forEach(b => b.disabled = true);
   if (btn) btn.textContent = '处理中…';
   try {
+    const body = { action: 'shelf' };
+    if (fillStock != null) body.fillStock = fillStock;
     const r = await api('/tasks/' + taskId + '/act', {
-      method: 'POST', body: JSON.stringify({ action: 'shelf' })
+      method: 'POST', body: JSON.stringify(body)
     });
     if (!r.ok) {
       if (r.err === 'STATE_CONFLICT') toast('已被处理（' + labelOf(r.current) + '）');
@@ -1334,7 +1422,14 @@ function actSubstitute(sku, price) { act('substitute', { substituteSku: sku }); 
 document.getElementById('btnShelf').onclick = () => {
   if (!currentTask) return;
   if (!currentTask.stock || Number(currentTask.stock) === 0) {
-    if (!confirm('该商品当前线下库存为 0，系统将自动补 5 件库存后再上架。确认继续？')) return;
+    openRestockDrawer({
+      name: currentTask.item_name || '',
+      subtitle: '当前线下库存 <b>0 件</b>，上架前需补货',
+      imageUrl: currentTask.image_url || null,
+      defaultQty: 10,
+      onConfirm: (qty) => { act('shelf', { fillStock: qty }); },
+    });
+    return;
   }
   act('shelf');
 };
@@ -1492,6 +1587,60 @@ document.getElementById('reasonDetailText').addEventListener('input', validateRe
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && document.getElementById('reasonDrawer').classList.contains('show')) {
     closeReasonDrawer();
+  }
+});
+
+// ============ 补货数量抽屉 ============
+const restockState = { onConfirm: null };
+function clampRestockQty() {
+  const inp = document.getElementById('restockQty');
+  const err = document.getElementById('restockErr');
+  let v = parseInt(inp.value, 10);
+  if (isNaN(v) || v < 1) { v = 1; err.textContent = '最少补货 1 件'; }
+  else if (v > 99) { v = 99; err.textContent = '最多补货 99 件'; }
+  else { err.textContent = ''; }
+  inp.value = v;
+  return v;
+}
+function openRestockDrawer({ name, subtitle, imageUrl, defaultQty, onConfirm }) {
+  restockState.onConfirm = onConfirm;
+  document.getElementById('restockName').textContent = name || '';
+  document.getElementById('restockSub').innerHTML = subtitle || '';
+  const thumb = document.getElementById('restockThumb');
+  if (imageUrl) thumb.innerHTML = '<img src="' + imageUrl + '" alt="">';
+  else thumb.textContent = '📦';
+  document.getElementById('restockQty').value = defaultQty || 10;
+  document.getElementById('restockErr').textContent = '';
+  document.getElementById('restockMask').classList.add('show');
+  document.getElementById('restockDrawer').classList.add('show');
+}
+function closeRestockDrawer() {
+  document.getElementById('restockMask').classList.remove('show');
+  document.getElementById('restockDrawer').classList.remove('show');
+  restockState.onConfirm = null;
+}
+document.getElementById('restockMinus').onclick = () => {
+  const i = document.getElementById('restockQty');
+  i.value = Math.max(1, (parseInt(i.value, 10) || 1) - 1);
+  clampRestockQty();
+};
+document.getElementById('restockPlus').onclick = () => {
+  const i = document.getElementById('restockQty');
+  i.value = Math.min(99, (parseInt(i.value, 10) || 1) + 1);
+  clampRestockQty();
+};
+document.getElementById('restockQty').addEventListener('input', clampRestockQty);
+document.getElementById('restockCancelBtn').onclick = closeRestockDrawer;
+document.getElementById('restockMask').onclick = closeRestockDrawer;
+document.getElementById('restockConfirmBtn').onclick = () => {
+  const v = clampRestockQty();
+  const cb = restockState.onConfirm;
+  closeRestockDrawer();
+  if (cb) cb(v);
+};
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && document.getElementById('restockDrawer').classList.contains('show')) {
+    closeRestockDrawer();
   }
 });
 

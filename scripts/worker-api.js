@@ -216,8 +216,8 @@ async function onSale(baseUrl, token, storeSkuId, shopId) {
   return r.data;
 }
 
-const DEFAULT_ONLINE_STOCK = 20;   // 线上库存目标值（保证 - safeStock > 0）
-const DEFAULT_OFFLINE_STOCK = 20;  // 线下库存目标值（原5太小，安全库存扣完可用库存=0会导致渠道不上架）
+const DEFAULT_ONLINE_STOCK = 10;   // 线上库存目标值（默认10，防超售；任务带 fill_stock 时优先用任务值）
+const DEFAULT_OFFLINE_STOCK = 10;  // 线下库存目标值（默认10，防超售；任务带 fill_stock 时优先用任务值）
 
 /**
  * 直接补线上库存（当 isReceiveStock=0 时使用）
@@ -231,7 +231,7 @@ async function ensureOnlineStock(baseUrl, token, storeSkuId, targetStock = DEFAU
   return { ok: true, to: targetStock };
 }
 
-async function ensureOfflineStock(baseUrl, token, barcode, shopId) {
+async function ensureOfflineStock(baseUrl, token, barcode, shopId, targetStock = DEFAULT_OFFLINE_STOCK) {
   const qUrl = `${baseUrl}/api/web/gms/b2c/store-goods/stocks/page?size=20&current=1&isSkuCodeFuzzy=0&isBarcodeFuzzy=0&barcode=${encodeURIComponent(barcode)}&organizationIds=${encodeURIComponent(shopId)}`;
   const q = await request(qUrl, { method: 'GET', headers: { 'Authorization': `Bearer ${token}` } });
   if (!q.data || q.data.code !== 0) throw new Error(`查询库存失败: ${JSON.stringify(q.data)}`);
@@ -241,15 +241,15 @@ async function ensureOfflineStock(baseUrl, token, barcode, shopId) {
   if (!stock) return { skipped: true, reason: 'sku stock not found' };
 
   const current = Number(stock.offlineStock) || 0;
-  if (current >= DEFAULT_OFFLINE_STOCK) {
+  if (current >= targetStock) {
     return { skipped: true, reason: 'sufficient', current };
   }
 
   const pUrl = `${baseUrl}/api/web/gms/b2c/store-goods/stocks/store-sku/stocks`;
   const p = await request(pUrl, { method: 'PUT', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' } },
-    JSON.stringify({ id: stock.id, offlineStock: String(DEFAULT_OFFLINE_STOCK) }));
+    JSON.stringify({ id: stock.id, offlineStock: String(targetStock) }));
   if (p.data?.code !== 0) throw new Error(`补库存失败: ${JSON.stringify(p.data)}`);
-  return { ok: true, from: current, to: DEFAULT_OFFLINE_STOCK, stockId: stock.id };
+  return { ok: true, from: current, to: targetStock, stockId: stock.id };
 }
 
 // === Render API ===
@@ -311,14 +311,20 @@ async function processTask(task) {
   //   isReceiveStock=1 → 线上库存自动跟随线下，补线下即可
   //   isReceiveStock=0 → 线上库存独立管理，须直接补线上
   // 关键约束：availableStock = currentStock - safeStock，只有 > 0 时渠道才能真正上架
+  // 补货目标值：课长手填 fill_stock（1-99）优先，否则默认 10。
+  let fillTarget = DEFAULT_ONLINE_STOCK;
+  if (task.fill_stock != null) {
+    const n = Math.round(Number(task.fill_stock));
+    if (Number.isFinite(n)) fillTarget = Math.min(99, Math.max(1, n));
+  }
   if (sku.availableStock <= 0) {
     if (sku.isReceiveStock === 0) {
       // 独立管理线上库存：直接 POST /skus/stocks
-      const r = await ensureOnlineStock(baseUrl, token, sku.storeSkuId);
+      const r = await ensureOnlineStock(baseUrl, token, sku.storeSkuId, fillTarget);
       console.log(`[worker] task#${id} online-stock seeded: ${sku.currentStock} → ${r.to} (safe=${sku.safeStock})`);
     } else {
       // 接收线下库存：补线下，线上自动跟随
-      const r = await ensureOfflineStock(baseUrl, token, barcode, shopId);
+      const r = await ensureOfflineStock(baseUrl, token, barcode, shopId, fillTarget);
       if (r.ok) console.log(`[worker] task#${id} offline-stock seeded: ${r.from} → ${r.to}`);
       else if (r.skipped) console.log(`[worker] task#${id} offline-stock skipped: ${r.reason}${r.current!=null?' ('+r.current+')':''}`);
     }
