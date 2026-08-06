@@ -48,8 +48,9 @@ var BRANDS_CONFIG_PATH = process.env.BRANDS_CONFIG_PATH
   || path.join(SCRIPTS_DIR, 'brands-config.json');
 
 // ── 动态加载 ALLOWED_WIDS ──
-// 从 brands-config.json 收集所有非兴勤品牌的门店 WID。
-// 兴勤走 whale-cloud API（worker-api.js），不经过昆仑 worker 的 ALLOWED_WIDS 过滤。
+// 从 brands-config.json 收集所有昆仑链路品牌的门店 WID。
+// 鲸品云链路品牌（xq-whale 硬编码 + 任意配置了 shelfChannel="whale-api" 的品牌）
+// 走 worker-api.js，不经过昆仑 worker 的 ALLOWED_WIDS 过滤。
 // 每次调用都重新读文件，支持热更新：改 brands-config.json 后无需重启 daemon。
 function loadAllowedWids() {
   try {
@@ -59,8 +60,8 @@ function loadAllowedWids() {
     var brands = config.brands || {};
     Object.keys(brands).forEach(function (key) {
       var brand = brands[key];
-      // 兴勤（xq-whale）走独立 worker-api.js 路径，不经过 ALLOWED_WIDS
-      if (brand.credentialKey === 'xq-whale') return;
+      // 鲸品云链路品牌走独立 worker-api.js 路径，不经过 ALLOWED_WIDS
+      if (isWhaleApiBrand(brand)) return;
       (brand.stores || []).forEach(function (store) {
         if (store.wid) wids.push(store.wid);
       });
@@ -70,6 +71,29 @@ function loadAllowedWids() {
     log('brands-config 读取失败: ' + e.message + '，ALLOWED_WIDS 将为空（worker 处理全部任务）');
     return '';
   }
+}
+
+// ── 上架链道路由（昆仑 mtop vs 鲸品云 REST API）──
+// 默认：只有 xq-whale 走 worker-api.js（历史行为不变）；其余品牌走 run-kunlun.js（昆仑 mtop）。
+// 扩展：brands-config.json 品牌段加 "shelfChannel": "whale-api"，该品牌即改走鲸品云 worker-api.js
+// （用于成山/淘小胖迁移新机后从昆仑链路切换到鲸品云链路；热更新，改完配置下个轮询周期生效）。
+function isWhaleApiBrand(brand) {
+  if (!brand) return false;
+  if (brand.credentialKey === 'xq-whale') return true;
+  return brand.shelfChannel === 'whale-api';
+}
+
+function isWhaleApiRoute(credentialKey) {
+  if (credentialKey === 'xq-whale') return true;
+  try {
+    var config = JSON.parse(fs.readFileSync(BRANDS_CONFIG_PATH, 'utf8'));
+    var brands = config.brands || {};
+    var keys = Object.keys(brands);
+    for (var i = 0; i < keys.length; i++) {
+      if (brands[keys[i]].credentialKey === credentialKey) return isWhaleApiBrand(brands[keys[i]]);
+    }
+  } catch (e) { /* 读失败按昆仑链路兜底 */ }
+  return false;
 }
 
 // ── 状态 ──
@@ -173,6 +197,34 @@ function notifyShelfSuccess(credentialKey, batchTasks) {
     .catch(function (e) { log('notifyShelfSuccess 回查失败(non-fatal): ' + e.message); });
 }
 
+// ── 上架失败通知（每批汇总一条，回查 FAILED 任务并推送明细）──
+function notifyShelfFailure(credentialKey, batchTasks) {
+  if (!batchTasks || !batchTasks.length) return;
+  var taskIds = batchTasks.map(function (t) { return t.id; });
+  apiRequest('POST', '/v1/internal/tasks-status', { taskIds: taskIds })
+    .then(function (r) {
+      var rows = (r && r.rows) || [];
+      var failed = rows.filter(function (t) { return t.status === 'FAILED'; });
+      if (failed.length === 0) return;  // 无失败，不推送
+      // 按门店分组
+      var byStore = {};
+      failed.forEach(function (t) {
+        var s = t.store_name || '未知门店';
+        if (!byStore[s]) byStore[s] = [];
+        byStore[s].push(t.item_name || t.barcode);
+      });
+      var lines = ['[' + ALERT_KEYWORD + '] 缺货补品·上架失败（需人工关注）'];
+      Object.keys(byStore).forEach(function (s) {
+        lines.push('\n' + s + ' · ' + byStore[s].length + ' 件上架失败');
+        byStore[s].forEach(function (name) { lines.push('• ' + name); });
+      });
+      lines.push('\n请登录鲸品云后台检查对应渠道商品是否存在');
+      postWebhook(lines.join('\n'));
+      log('[' + credentialKey + '] 上架失败通知已发送: ' + failed.length + ' 件');
+    })
+    .catch(function (e) { log('notifyShelfFailure 回查失败(non-fatal): ' + e.message); });
+}
+
 // ── 熔断判断 ──
 function isCircuitOpen(credentialKey) {
   var resumeAt = circuits.get(credentialKey);
@@ -264,13 +316,13 @@ function runWorker(credentialKey, batchTasks) {
       return;
     }
 
-    var isXqWhale = credentialKey === 'xq-whale';
-    var script = isXqWhale ? 'worker-api.js' : path.join('scripts', 'run-kunlun.js');
-    var cwd = isXqWhale ? SCRIPTS_DIR : MVP_DIR;
+    var whaleApi = isWhaleApiRoute(credentialKey);
+    var script = whaleApi ? 'worker-api.js' : path.join('scripts', 'run-kunlun.js');
+    var cwd = whaleApi ? SCRIPTS_DIR : MVP_DIR;
 
     var env = Object.assign({}, process.env, { RENDER_API: RENDER_API, INTERNAL_KEY: INTERNAL_KEY });
-    if (isXqWhale) {
-      env.ONLY_CREDENTIAL_KEY = 'xq-whale';
+    if (whaleApi) {
+      env.ONLY_CREDENTIAL_KEY = credentialKey;
     } else {
       env.ALLOWED_WIDS = loadAllowedWids();
       log('ALLOWED_WIDS loaded from brands-config: ' + env.ALLOWED_WIDS);
@@ -281,7 +333,7 @@ function runWorker(credentialKey, batchTasks) {
       env.SKIP_HARVEST = '1';
     }
 
-    log('spawning worker [' + credentialKey + '] for ' + taskCount + ' task(s)');
+    log('spawning worker [' + credentialKey + '] via ' + (whaleApi ? '鲸品云(worker-api.js)' : '昆仑(run-kunlun.js)') + ' for ' + taskCount + ' task(s)');
 
     var child = spawn('node', [script], { cwd: cwd, env: env, stdio: 'inherit' });
     locks.set(credentialKey, child.pid);
@@ -291,10 +343,9 @@ function runWorker(credentialKey, batchTasks) {
       log('[' + credentialKey + '] worker exited with code ' + code);
       locks.delete(credentialKey);
       handleExitCode(credentialKey, code);
-      // 成功退出（含部分 seller 处理成功）→ 回查这批任务，对真实上架的推送通知
-      if (code === 0) {
-        notifyShelfSuccess(credentialKey, batchTasks);
-      }
+      // 回查这批任务的最终状态：成功→推送上架成功通知，失败→推送上架失败通知
+      notifyShelfSuccess(credentialKey, batchTasks);
+      notifyShelfFailure(credentialKey, batchTasks);
       resolve();
     });
 
@@ -330,6 +381,8 @@ function handleExitCode(credentialKey, code) {
   if (n >= ALERT_THRESHOLD) {
     if (credentialKey === 'xq-whale') {
       sendAlert(credentialKey, '兴勤鲸品云 worker 连续失败 ' + n + ' 次，可能 refresh_token 失效（账号18201062873），需重登 harvest。');
+    } else if (isWhaleApiRoute(credentialKey)) {
+      sendAlert(credentialKey, '鲸品云 worker（' + credentialKey + '）连续失败 ' + n + ' 次，可能 refresh_token 失效，需重登鲸品云重新提取凭证。');
     } else {
       sendAlert(credentialKey, '昆仑 worker（' + credentialKey + '）连续失败 ' + n + ' 次，请检查。');
     }

@@ -39,9 +39,25 @@ BRAND_NAME_TO_KEY = {
     '兴勤超市': 'xq',
 }
 
+# 需要按监控时段拆分的品牌（清单字段为"9点"/"16点"/"19点"/"全时段"）
+TIME_SLOT_BRANDS = {'xq'}
 
 # 暂不监控的门店（维表中有但不生成到JSON）
 SKIP_STORES = set()
+
+
+def normalize_time_slot(val):
+    """把 Excel 监控时段值归一化为 9/16/19/全时段"""
+    if not val:
+        return '全时段'
+    s = str(val).strip().replace('点', '').replace('：', ':').replace(':', '')
+    if s in ('9', '09'):
+        return '9'
+    if s in ('16',):
+        return '16'
+    if s in ('19',):
+        return '19'
+    return '全时段'
 
 
 def read_excel():
@@ -64,6 +80,7 @@ def read_excel():
 
         brand_name = str(row[6]).strip() if row[6] else ''
         brand_key = BRAND_NAME_TO_KEY.get(brand_name)
+        time_slot = normalize_time_slot(row[7] if len(row) > 7 else None)
 
         store_cnt[sid] += 1
         rec = {
@@ -75,6 +92,7 @@ def read_excel():
             'brand': brand_name,
             'xiaoer': str(row[5]).strip() if row[5] else '',
             'priority': 'P1',
+            'monitor_time': time_slot,
         }
 
         if brand_key:
@@ -91,10 +109,32 @@ def read_excel():
 
 
 def generate_json_files(brand_records, dry_run=False):
-    """生成各品牌的 monitor-barcodes-{brand}.json"""
-    for brand_key, recs in sorted(brand_records.items()):
-        out_path = SCRIPT_DIR / f'monitor-barcodes-{brand_key}.json'
+    """生成各品牌的 monitor-barcodes-{brand}.json
 
+    兴勤按监控时段拆分：额外生成 -9 / -16 / -19 三个时段清单，
+    同时保留主文件（全量，向后兼容）。
+    """
+    files_to_write = []  # [(path, recs, label), ...]
+
+    for brand_key, recs in sorted(brand_records.items()):
+        # 主文件：全量清单
+        files_to_write.append((SCRIPT_DIR / f'monitor-barcodes-{brand_key}.json', recs, brand_key))
+
+        # 分时段拆分（仅对指定品牌）
+        if brand_key in TIME_SLOT_BRANDS:
+            slot_counts = Counter(r['monitor_time'] for r in recs)
+            for slot in ('9', '16', '19'):
+                slot_recs = [r for r in recs if r['monitor_time'] == slot]
+                if slot_recs:
+                    files_to_write.append((
+                        SCRIPT_DIR / f'monitor-barcodes-{brand_key}-{slot}.json',
+                        slot_recs,
+                        f'{brand_key}-{slot}点',
+                    ))
+                else:
+                    print(f'  [WARN] {brand_key} 没有 {slot}点 监控商品')
+
+    for out_path, recs, label in files_to_write:
         old_count = 0
         if out_path.exists():
             with open(out_path, 'r', encoding='utf-8') as f:
@@ -107,7 +147,7 @@ def generate_json_files(brand_records, dry_run=False):
         diff = len(recs) - old_count
         diff_str = f'+{diff}' if diff > 0 else f'{diff}' if diff < 0 else 'no change'
         prefix = '[DRY-RUN] ' if dry_run else ''
-        print(f'  {prefix}{brand_key}: {old_count} -> {len(recs)} ({diff_str})')
+        print(f'  {prefix}{label}: {old_count} -> {len(recs)} ({diff_str})')
 
 
 def check_brands_config(store_info):

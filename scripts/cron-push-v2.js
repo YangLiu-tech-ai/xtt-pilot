@@ -5,12 +5,13 @@
  * 完全本地运行，不依赖 Render 后端。
  * 数据源：fetch_store_items.py 输出的 JSON + 监控清单
  * 
- * 两种模式：
- *   A) 独立推送（自包含，从本地 JSON 筛选推送）：
- *      node cron-push-v2.js --items <items.json> --monitor <monitor.json>
- *   
- *   B) 完整闭环（kunlun fetch → 筛选 → sync Render → 推送）：
- *      node cron-push-v2.js --items <items.json> --monitor <monitor.json> --sync-render
+ * 流程（必须）：
+ *   kunlun fetch → 筛选 → sync Render（创建任务） → 钉钉推送
+ *   ⚠️ --sync-render 为必传参数：Render 任务创建成功后才推送钉钉卡片。
+ *   如果 sync-render 失败，推送将被中止（exit 1），防止课长点击 H5 链接时 404。
+ *
+ * 用法:
+ *   node cron-push-v2.js --sync-render --items <items.json> --monitor <monitor.json>
  *
  * 默认文件：
  *   --items   scripts/items_csnclt.json
@@ -104,6 +105,18 @@ function getArg(flag, def) {
 }
 const dryRun = argv.includes('--dry-run');
 const syncRender = argv.includes('--sync-render');
+
+// ⛔ P0 防护：--sync-render 必传，否则钉钉推送后课长点击 H5 链接会 404
+//   根因（2026-07-17 P0 事故）：应急推送路径漏传 --sync-render，
+//   导致 180 条缺货监控推到钉钉群但 Render DB 从未创建任务，
+//   5 家门店课长的所有 H5 反馈操作全部丢失（POST /v1/tasks/:id/act → 404）。
+if (!syncRender && !dryRun) {
+  console.error('[cron-push-v2] ⛔ 必须传 --sync-render 参数');
+  console.error('[cron-push-v2]    缺少此参数时，钉钉推送不会同步到 Render 后端，');
+  console.error('[cron-push-v2]    课长点击 H5 链接将收到 404 NOT_FOUND，反馈数据永久丢失。');
+  console.error('[cron-push-v2]    用法: node cron-push-v2.js --sync-render --items <items.json> ...');
+  process.exit(1);
+}
 
 // ============ --brand 品牌感知（自动解析 webhook + monitor 文件） ============
 const brandKey = getArg('--brand', null);
@@ -485,32 +498,52 @@ async function main() {
       continue;
     }
 
-    // 7. 可选：同步到 Render
+    // 7. 同步到 Render（⚠️ 必须成功才允许推送，否则课长 H5 操作会 404）
+    //    dry-run 模式下跳过实际同步，但允许继续构建卡片预览
+    let syncOk = dryRun;
     if (syncRender) {
       console.log(`[cron-push-v2] → sync-render (batch=${batchId})`);
       try {
-        // 5.1 归档该门店所有 PENDING 任务（含旧 batch），保留数据供日报统计
+        // 7.1 归档该门店所有 PENDING 任务（含旧 batch），保留数据供日报统计
         //     sync-tasks 也会归档，这里是双保险；改为 ARCHIVE 而非 DELETE 防止数据丢失
         const cleanupRes = await post(`${API}/v1/internal/cleanup-pending`, {
           storeId, where: 'all',
         }, { 'X-Internal-Key': INTERNAL_KEY });
         console.log(`[cron-push-v2] cleanup-pending: archived=${cleanupRes.archived || cleanupRes.deleted || 0}`);
       } catch (e) {
+        // cleanup-pending 是双保险，失败不阻断（sync-tasks 也会做归档）
         console.warn(`[cron-push-v2] cleanup-pending 失败 (非致命): ${e.message}`);
       }
       try {
-        // 从 brands-config 获取门店对应的鲸品云隔离字段
+        // 7.2 核心：创建 Render DB 任务（课长 H5 操作依赖这些 task_id）
         const whaleConf = getWhaleConfig(storeId);
         const syncRes = await post(`${API}/v1/internal/sync-tasks`, {
           batchId, storeId, storeName, items: unattended,
           whaleShopId: whaleConf.whaleShopId,
           credentialKey: whaleConf.credentialKey,
         }, { 'X-Internal-Key': INTERNAL_KEY });
-        console.log(`[cron-push-v2] sync result:`, syncRes.ok ? 'OK' : syncRes,
-          `(whale=${whaleConf.whaleShopId}, cred=${whaleConf.credentialKey})`);
+        if (syncRes.ok) {
+          console.log(`[cron-push-v2] ✅ sync-render 成功: created=${syncRes.created || '?'}, archived=${syncRes.archived || 0}`,
+            `(whale=${whaleConf.whaleShopId}, cred=${whaleConf.credentialKey})`);
+          syncOk = true;
+        } else {
+          // sync-tasks 返回 ok=false：服务端拒绝，推送会导致 404，必须中止
+          console.error(`[cron-push-v2] ⛔ sync-render 返回失败:`, JSON.stringify(syncRes));
+          console.error(`[cron-push-v2] ⛔ 中止 ${storeName}(${storeId}) 推送：任务未创建到 Render DB，课长 H5 操作会 404`);
+        }
       } catch (e) {
-        console.warn(`[cron-push-v2] sync-render 失败 (非致命): ${e.message}`);
+        // sync-tasks 网络/超时异常：推送会导致 404，必须中止
+        console.error(`[cron-push-v2] ⛔ sync-render 异常: ${e.message}`);
+        console.error(`[cron-push-v2] ⛔ 中止 ${storeName}(${storeId}) 推送：任务未创建到 Render DB，课长 H5 操作会 404`);
       }
+    }
+
+    // ⛔ P0 防护门：sync-render 失败时严禁推送钉钉卡片
+    //   推送出去的卡片包含 H5 链接，链接里的 task_id 必须在 Render DB 中存在，
+    //   否则课长点击后 server.js POST /v1/tasks/:id/act 返回 404 NOT_FOUND。
+    if (!syncOk) {
+      console.error(`[cron-push-v2] ⛔ 跳过 ${storeName}(${storeId}) 钉钉推送：sync-render 未成功`);
+      continue;
     }
 
     // 8. 构建钉钉卡片

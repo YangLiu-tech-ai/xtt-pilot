@@ -46,7 +46,7 @@ function runWorker(credentialKey, meta) {
   if (isXqWhale) {
     env.ONLY_CREDENTIAL_KEY = 'xq-whale';
   } else {
-    env.ALLOWED_WIDS = '1262004557,1265426893,1332074728,541750676,542422914,541968633,1284510785';
+    env.ALLOWED_WIDS = '1262004557,1265426893,1332074728,541750676,542422914,1284510785';
   }
 
   log('spawning worker [' + credentialKey + '] task#' + (meta.taskId || '?') + ' store=' + (meta.storeName || '?'));

@@ -25,6 +25,7 @@ const https = require('https');
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const { execFile } = require('child_process');
 
 const RENDER_API = process.env.RENDER_API || 'https://xtt-pilot.onrender.com';
 const INTERNAL_KEY = process.env.INTERNAL_KEY || 'worker-key-2026-prod';
