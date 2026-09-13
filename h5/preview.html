@@ -857,6 +857,20 @@ async function loadList() {
     const tasks = data.tasks || [];
     if (tasks.length > 0 && tasks[0].store_name) {
       document.getElementById('storeName').textContent = tasks[0].store_name;
+      applyReasonEnumByBrand(tasks[0].store_name);
+    }
+    // 兴勤缺货原因新6枚举（仅兴勤；其他品牌保持原枚举+明细/日期输入不变）
+    function applyReasonEnumByBrand(storeName){
+      const XQ_LABELS = {1:'虚库存',2:'有货未上架/补货不及时',3:'配送/物流未到货',4:'停售/下架/折卖',5:'临期/报损/品质问题',6:'未出品/岗位问题'};
+      if(!storeName || storeName.indexOf('兴勤')<0) return;
+      document.querySelectorAll('.reason-option').forEach(function(opt){
+        const code = opt.getAttribute('data-reason');
+        const lbl = opt.querySelector('.reason-label');
+        if(lbl && XQ_LABELS[code]) lbl.textContent = XQ_LABELS[code];
+        const tag = opt.querySelector('.reason-tag'); if(tag) tag.remove();
+      });
+      var dw=document.getElementById('dateChipsWrap'); if(dw) dw.style.display='none';
+      var rw=document.getElementById('reasonDetailWrap'); if(rw) rw.style.display='none';
     }
     updateBadgeFromTasks(tasks);
 

@@ -26,6 +26,10 @@ app.use(morgan('dev'));
 
 const PORT = process.env.PORT || 7788;
 const INTERNAL_KEY = process.env.MVP_INTERNAL_KEY || 'worker-key-2026';
+// 兴勤9店 wid 白名单：仅兴勤走"缺货原因新6枚举+不强制明细"；其他品牌保持原链路不动。
+// 回滚：清空该集合即整体回退旧口径。
+const XQ_WIDS = new Set(['1137486501','1328460101','1284574206','1186468885','510355798','1341433040','1344254051','1349423941','1352472572']);
+function isXqStore(id){ return XQ_WIDS.has(String(id)); }
 
 // ============ Helper ============
 function authMiddleware(req, res, next) {
@@ -154,8 +158,8 @@ app.post('/v1/tasks/:id/act', authMiddleware, (req, res) => {
     if (shortageReasonDetail) {
       reasonDetail = String(shortageReasonDetail).slice(0, 200);
     }
-    // reason 3（已订货还未到货）和 6（其他）必须带详情
-    if ((reasonCode === 3 || reasonCode === 6) && !reasonDetail) {
+    // reason 3（已订货还未到货）和 6（其他）必须带详情；兴勤新枚举不设明细项，不强制
+    if (!isXqStore(req.user.storeId) && (reasonCode === 3 || reasonCode === 6) && !reasonDetail) {
       return res.status(400).json({ ok: false, err: 'SHORTAGE_DETAIL_REQUIRED' });
     }
   }
