@@ -862,6 +862,7 @@ async function loadList() {
     // 兴勤缺货原因新6枚举（仅兴勤；其他品牌保持原枚举+明细/日期输入不变）
     function applyReasonEnumByBrand(storeName){
       const XQ_LABELS = {1:'虚库存',2:'有货未上架/补货不及时',3:'配送/物流未到货',4:'停售/下架/折卖',5:'临期/报损/品质问题',6:'未出品/岗位问题'};
+      window.__XQ_STORE__ = !!(storeName && storeName.indexOf('兴勤')>=0);
       if(!storeName || storeName.indexOf('兴勤')<0) return;
       document.querySelectorAll('.reason-option').forEach(function(opt){
         const code = opt.getAttribute('data-reason');
@@ -1537,6 +1538,8 @@ function selectDateChip(el, chip) {
 }
 function validateReasonDrawer() {
   if (!reasonState.code) { document.getElementById('reasonConfirmBtn').disabled = true; return; }
+  // 兴勤新枚举不设日期/明细项：选中原因即可确认
+  if (window.__XQ_STORE__) { document.getElementById('reasonConfirmBtn').disabled = false; return; }
   var valid = true;
   if (reasonState.code === 3 && !reasonState.selectedDate) valid = false;
   if (reasonState.code === 6 && !(document.getElementById('reasonDetailText').value || '').trim()) valid = false;
@@ -1586,7 +1589,9 @@ document.getElementById('reasonMask').onclick = closeReasonDrawer;
 document.getElementById('reasonConfirmBtn').onclick = () => {
   if (!reasonState.code) return;
   var detail = null;
-  if (reasonState.code === 3) {
+  if (window.__XQ_STORE__) {
+    // 兴勤新枚举无明细/日期项，直接提交
+  } else if (reasonState.code === 3) {
     if (!reasonState.selectedDate) return;
     detail = '预计到货: ' + reasonState.selectedDate;
   } else if (reasonState.code === 6) {
