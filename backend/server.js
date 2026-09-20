@@ -137,8 +137,8 @@ app.get('/v1/tasks/:id', authMiddleware, (req, res) => {
 
 // 一键操作
 app.post('/v1/tasks/:id/act', authMiddleware, (req, res) => {
-  const { action, substituteSku, actualPrice, shortageReason, shortageReasonDetail, fillStock } = req.body || {};
-  if (!['shelf', 'shortage', 'substitute'].includes(action)) {
+  const { action, substituteSku, actualPrice, shortageReason, shortageReasonDetail, fillStock, countResult } = req.body || {};
+  if (!['shelf', 'shortage', 'substitute', 'count'].includes(action)) {
     return res.status(400).json({ ok: false, err: 'bad action' });
   }
   // 补货数量（仅 shelf 有意义）：库存为 0 的商品上架时课长可指定，整数区间 1-99；
@@ -148,6 +148,8 @@ app.post('/v1/tasks/:id/act', authMiddleware, (req, res) => {
     const n = Math.round(Number(fillStock));
     if (Number.isFinite(n)) fillStockVal = Math.min(99, Math.max(1, n));
   }
+  // 兴勤禁虚拟库存：shelf 一律不写 fill_stock（双保险，即使前端误传）
+  if (isXqStore(req.user.storeId)) fillStockVal = null;
   // shortage 必须带 reason (1-6)
   let reasonCode = null, reasonDetail = null;
   if (action === 'shortage') {
@@ -163,6 +165,17 @@ app.post('/v1/tasks/:id/act', authMiddleware, (req, res) => {
       return res.status(400).json({ ok: false, err: 'SHORTAGE_DETAIL_REQUIRED' });
     }
   }
+  // count（兴勤库存=0「ERP加库存」盘点反馈）：仅兴勤允许，countResult 必须为 added/not_added
+  let countResultVal = null;
+  if (action === 'count') {
+    if (!isXqStore(req.user.storeId)) {
+      return res.status(400).json({ ok: false, err: 'COUNT_NOT_ALLOWED' });
+    }
+    if (countResult !== 'added' && countResult !== 'not_added') {
+      return res.status(400).json({ ok: false, err: 'COUNT_RESULT_REQUIRED' });
+    }
+    countResultVal = countResult;
+  }
   const task = db.prepare(`SELECT * FROM tasks WHERE id=? AND store_id=?`)
     .get([req.params.id, req.user.storeId]);
   if (!task) return res.status(404).json({ ok: false, err: 'NOT_FOUND' });
@@ -176,21 +189,24 @@ app.post('/v1/tasks/:id/act', authMiddleware, (req, res) => {
     fillStockVal = null;
   }
 
-  // 状态机：PENDING -> EXECUTING（shelf/substitute） or SHORTAGE
-  const nextStatus = action === 'shortage' ? 'SHORTAGE' : 'EXECUTING';
+  // 状态机：shortage→SHORTAGE；count.added→EXECUTING(仅走 on-sale 上架)、count.not_added→MANUAL(未完成不下发)；其余→EXECUTING
+  let nextStatus;
+  if (action === 'shortage') nextStatus = 'SHORTAGE';
+  else if (action === 'count') nextStatus = (countResultVal === 'added') ? 'EXECUTING' : 'MANUAL';
+  else nextStatus = 'EXECUTING';
   db.prepare(`
     UPDATE tasks
     SET action=?, status=?, operator=?, actual_price=?, substitute_sku=?,
-        shortage_reason=?, shortage_reason_detail=?, fill_stock=?,
+        shortage_reason=?, shortage_reason_detail=?, fill_stock=?, count_result=?,
         acted_at=datetime('now','+8 hours'), updated_at=datetime('now','+8 hours')
     WHERE id=?
   `).run([action, nextStatus, req.user.dingId || 'unknown',
          actualPrice || task.suggest_price,
          substituteSku || null,
-         reasonCode, reasonDetail, fillStockVal,
+         reasonCode, reasonDetail, fillStockVal, countResultVal,
          task.id]);
 
-  logEvent(task.id, 'clicked', { action, operator: req.user.dingId, substituteSku, actualPrice, shortageReason: reasonCode, shortageReasonDetail: reasonDetail, fillStock: fillStockVal });
+  logEvent(task.id, 'clicked', { action, operator: req.user.dingId, substituteSku, actualPrice, shortageReason: reasonCode, shortageReasonDetail: reasonDetail, fillStock: fillStockVal, countResult: countResultVal });
 
   res.json({ ok: true, taskId: task.id, status: nextStatus });
 });
@@ -409,6 +425,7 @@ app.get('/v1/internal/report/tasks-by-store', internalOnly, (req, res) => {
            priority, suggest_price, actual_price, substitute_sku,
            status, action, operator, retry_count, error_msg,
            shortage_reason, shortage_reason_detail, operation_type,
+           stock, count_result,
            whale_shop_id, credential_key,
            created_at, pushed_at, acted_at, updated_at
     FROM tasks
@@ -612,7 +629,8 @@ app.post('/v1/internal/tasks-restore-fields', internalOnly, (req, res) => {
   }
   const RESTORABLE = [
     'action', 'operator', 'operation_type', 'shortage_reason',
-    'shortage_reason_detail', 'error_msg', 'created_at', 'pushed_at', 'acted_at'
+    'shortage_reason_detail', 'error_msg', 'created_at', 'pushed_at', 'acted_at',
+    'count_result'
   ];
   let updated = 0, skipped = 0, noChange = 0;
   for (const t of tasks) {
@@ -668,7 +686,7 @@ app.post('/v1/internal/restore-full', internalOnly, (req, res) => {
     'operator', 'actual_price', 'substitute_sku', 'retry_count', 'error_msg', 'pushed_at',
     'acted_at', 'created_at', 'updated_at', 'monthly_sales', 'current_price', 'activity_price',
     'source', 'assigned_by', 'assigned_at', 'shortage_reason', 'shortage_reason_detail',
-    'whale_shop_id', 'credential_key', 'operation_type'
+    'whale_shop_id', 'credential_key', 'operation_type', 'fill_stock', 'count_result'
   ];
 
   try {

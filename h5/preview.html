@@ -643,6 +643,7 @@
 <div class="batch-bar" id="batchBar">
   <div class="selected-count">已选 <em id="batchCount">0</em> 件</div>
   <button class="btn-batch-out" id="batchOutBtn">线下缺货</button>
+  <button class="btn-batch-shelf" id="batchErpBtn" style="display:none;background:linear-gradient(135deg,#4F6EF7 0%,#7B93FA 100%);">ERP加库存</button>
   <button class="btn-batch-shelf" id="batchShelfBtn">一键上架</button>
 </div>
 
@@ -763,6 +764,26 @@
   </div>
 </div>
 
+<!-- 盘点确认抽屉（兴勤库存为0点「ERP加库存」时） -->
+<div class="drawer-mask" id="countMask"></div>
+<div class="drawer" id="countDrawer">
+  <div class="restock-hd">
+    <div class="restock-thumb">📦</div>
+    <div>
+      <div class="restock-name" id="countName"></div>
+      <div class="restock-sub" id="countSub">库存为 0，请实物盘点后确认</div>
+    </div>
+  </div>
+  <div class="restock-body">
+    <div style="color:#E84D4D;font-size:12.5px;font-weight:600;background:#FDECEC;border:1px solid #F7C6C6;border-radius:9px;padding:10px 12px;line-height:1.55;">⚠ 库存为0的商品，无法直接增加库存数，请至 ERP 增加库存。</div>
+    <div id="countOptAdded" style="border:1.5px solid #F0F0F5;border-radius:12px;padding:14px;margin-top:12px;font-size:14.5px;font-weight:700;cursor:pointer;">✅ 已在 ERP 加库存<span style="float:right;color:#2DB87B;font-weight:600;">计入上架 ›</span></div>
+    <div id="countOptNotAdded" style="border:1.5px solid #F0F0F5;border-radius:12px;padding:14px;margin-top:10px;font-size:14.5px;font-weight:700;cursor:pointer;">⛔ 未加库存<span style="float:right;color:#E84D4D;font-weight:600;">计入未完成 ›</span></div>
+  </div>
+  <div class="drawer-footer">
+    <button class="btn-cancel" id="countCancelBtn" style="flex:1;">取消</button>
+  </div>
+</div>
+
 <script>
 // ============ Config ============
 const _params = new URLSearchParams(location.search);
@@ -872,6 +893,7 @@ async function loadList() {
       });
       var dw=document.getElementById('dateChipsWrap'); if(dw) dw.style.display='none';
       var rw=document.getElementById('reasonDetailWrap'); if(rw) rw.style.display='none';
+      var be=document.getElementById('batchErpBtn'); if(be) be.style.display='inline-block';
     }
     updateBadgeFromTasks(tasks);
 
@@ -969,8 +991,9 @@ function renderList() {
     // Action buttons only for PENDING
     let actionsHtml = '';
     if (t.status === 'PENDING') {
+      const xqZero = window.__XQ_STORE__ && (!t.stock || Number(t.stock) === 0);
       actionsHtml = '<div class="card-actions">'
-        + '<button class="btn-act-shelf" data-act="shelf" data-id="' + t.id + '">一键上架</button>'
+        + '<button class="btn-act-shelf" data-act="' + (xqZero ? 'count' : 'shelf') + '" data-id="' + t.id + '">' + (xqZero ? 'ERP加库存' : '一键上架') + '</button>'
         + '<button class="btn-act-out" data-act="shortage" data-id="' + t.id + '">线下缺货</button>'
         + '</div>';
     }
@@ -1107,7 +1130,31 @@ async function batchAct(action) {
   if (selectedIds.size === 0) return;
   const ids = Array.from(selectedIds);
 
+  if (action === 'count') {
+    // 兴勤批量「ERP加库存」：仅对选中的库存=0 商品弹盘点确认
+    const zeroIds = ids.filter(id => {
+      const t = allTasksCache.find(x => String(x.id) === String(id));
+      return t && (!t.stock || Number(t.stock) === 0);
+    });
+    if (!zeroIds.length) { toast('所选商品均非库存0'); return; }
+    openCountDrawer({
+      name: '批量盘点 ' + zeroIds.length + ' 件（库存为0）',
+      onConfirm: (countResult) => { batchSubmit(zeroIds, { action: 'count', countResult }); },
+    });
+    return;
+  }
+
   if (action === 'shelf') {
+    // 兴勤禁虚拟库存：批量一键上架只处理库存>0 的品，库存=0 请走「ERP加库存」，绝不补货
+    if (window.__XQ_STORE__) {
+      const posIds = ids.filter(id => {
+        const t = allTasksCache.find(x => String(x.id) === String(id));
+        return t && Number(t.stock) > 0;
+      });
+      if (!posIds.length) { toast('所选均为库存0，请用「ERP加库存」'); return; }
+      await batchSubmit(posIds, { action: 'shelf' });
+      return;
+    }
     const zeroCount = ids.filter(id => {
       const t = allTasksCache.find(x => String(x.id) === String(id));
       return t && (!t.stock || Number(t.stock) === 0);
@@ -1141,7 +1188,7 @@ async function batchSubmit(ids, body) {
   if (demoMode) {
     for (const id of ids) {
       const idx = allTasksCache.findIndex(t => String(t.id) === String(id));
-      if (idx !== -1) allTasksCache[idx].status = (body.action === 'shortage') ? 'SHORTAGE' : 'EXECUTING';
+      if (idx !== -1) allTasksCache[idx].status = (body.action === 'shortage') ? 'SHORTAGE' : (body.action === 'count' && body.countResult === 'not_added') ? 'MANUAL' : 'EXECUTING';
       selectedIds.delete(id);
     }
     toast('✓ 成功 ' + ids.length + ' 件 (演示)');
@@ -1150,7 +1197,7 @@ async function batchSubmit(ids, body) {
   }
 
   // 乐观更新：立即更新UI，不等网络
-  const targetStatus = (body.action === 'shortage') ? 'SHORTAGE' : 'EXECUTING';
+  const targetStatus = (body.action === 'shortage') ? 'SHORTAGE' : (body.action === 'count' && body.countResult === 'not_added') ? 'MANUAL' : 'EXECUTING';
   for (const id of ids) {
     const idx = allTasksCache.findIndex(t => String(t.id) === String(id));
     if (idx !== -1) allTasksCache[idx].status = targetStatus;
@@ -1208,6 +1255,7 @@ document.getElementById('multiToggleBtn').onclick = () => toggleMultiMode();
 document.getElementById('selectAllBtn').onclick = (e) => { e.stopPropagation(); selectAllVisible(); };
 document.getElementById('batchShelfBtn').onclick = () => batchAct('shelf');
 document.getElementById('batchOutBtn').onclick = () => batchAct('shortage');
+document.getElementById('batchErpBtn').onclick = () => batchAct('count');
 
 // ============ Card Inline Action ============
 async function cardAct(btn) {
@@ -1229,6 +1277,15 @@ async function cardAct(btn) {
       return;
     }
     await postShelfAct(card, btn, taskId);
+    return;
+  }
+
+  // count: 兴勤库存=0「ERP加库存」盘点确认
+  if (action === 'count') {
+    openCountDrawer({
+      name: task ? task.item_name : '',
+      onConfirm: (countResult) => { postCountAct(card, btn, taskId, countResult); },
+    });
     return;
   }
 
@@ -1298,6 +1355,47 @@ async function postShortageAct(card, btn, taskId, reasonCode, reasonDetail) {
     toast('网络异常');
     card.querySelectorAll('.card-actions button').forEach(b => b.disabled = false);
     if (btn) btn.textContent = '线下缺货';
+  }
+}
+
+// ============ 兴勤盘点确认（库存=0 ERP加库存） ============
+const countState = { onConfirm: null };
+function openCountDrawer({ name, onConfirm }) {
+  countState.onConfirm = onConfirm;
+  document.getElementById('countName').textContent = name || '';
+  document.getElementById('countDrawer').classList.add('show');
+  document.getElementById('countMask').classList.add('show');
+}
+function closeCountDrawer() {
+  document.getElementById('countDrawer').classList.remove('show');
+  document.getElementById('countMask').classList.remove('show');
+  countState.onConfirm = null;
+}
+async function postCountAct(card, btn, taskId, countResult) {
+  if (demoMode) {
+    afterActSuccess(card, taskId, countResult === 'added' ? 'shelf' : 'shortage');
+    toast(countResult === 'added' ? '已计入上架 (演示)' : '已计入未完成 (演示)');
+    return;
+  }
+  card.querySelectorAll('.card-actions button').forEach(b => b.disabled = true);
+  if (btn) btn.textContent = '处理中…';
+  try {
+    const r = await api('/tasks/' + taskId + '/act', {
+      method: 'POST', body: JSON.stringify({ action: 'count', countResult }),
+    });
+    if (!r.ok) {
+      if (r.err === 'STATE_CONFLICT') toast('已被处理（' + labelOf(r.current) + '）');
+      else toast('操作失败: ' + r.err);
+      card.querySelectorAll('.card-actions button').forEach(b => b.disabled = false);
+      if (btn) btn.textContent = 'ERP加库存';
+      return;
+    }
+    afterActSuccess(card, taskId, countResult === 'added' ? 'shelf' : 'shortage');
+    toast(countResult === 'added' ? '已计入上架' : '已计入未完成');
+  } catch (e) {
+    toast('网络异常');
+    card.querySelectorAll('.card-actions button').forEach(b => b.disabled = false);
+    if (btn) btn.textContent = 'ERP加库存';
   }
 }
 
@@ -1382,6 +1480,8 @@ async function showDetail(id) {
   // 操作按钮状态
   const actionBar = document.querySelector('.action-bar');
   actionBar.style.display = (t.status === 'PENDING') ? 'flex' : 'none';
+  const _shelfBtn = document.getElementById('btnShelf');
+  if (_shelfBtn) _shelfBtn.textContent = (window.__XQ_STORE__ && (!t.stock || Number(t.stock) === 0)) ? 'ERP加库存' : '一键上架';
 
   const subs = data.substitutes || [];
   document.getElementById('subList').innerHTML = subs.length === 0
@@ -1436,6 +1536,14 @@ function actSubstitute(sku, price) { act('substitute', { substituteSku: sku }); 
 
 document.getElementById('btnShelf').onclick = () => {
   if (!currentTask) return;
+  const xqZero = window.__XQ_STORE__ && (!currentTask.stock || Number(currentTask.stock) === 0);
+  if (xqZero) {
+    openCountDrawer({
+      name: currentTask.item_name || '',
+      onConfirm: (countResult) => { act('count', { countResult }); },
+    });
+    return;
+  }
   if (!currentTask.stock || Number(currentTask.stock) === 0) {
     openRestockDrawer({
       name: currentTask.item_name || '',
@@ -1660,6 +1768,21 @@ document.getElementById('restockConfirmBtn').onclick = () => {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && document.getElementById('restockDrawer').classList.contains('show')) {
     closeRestockDrawer();
+  }
+});
+
+// 盘点确认抽屉事件绑定
+document.getElementById('countOptAdded').onclick = () => {
+  const cb = countState.onConfirm; closeCountDrawer(); if (cb) cb('added');
+};
+document.getElementById('countOptNotAdded').onclick = () => {
+  const cb = countState.onConfirm; closeCountDrawer(); if (cb) cb('not_added');
+};
+document.getElementById('countCancelBtn').onclick = closeCountDrawer;
+document.getElementById('countMask').onclick = closeCountDrawer;
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && document.getElementById('countDrawer').classList.contains('show')) {
+    closeCountDrawer();
   }
 });
 
