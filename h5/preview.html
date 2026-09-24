@@ -878,22 +878,35 @@ async function loadList() {
     const tasks = data.tasks || [];
     if (tasks.length > 0 && tasks[0].store_name) {
       document.getElementById('storeName').textContent = tasks[0].store_name;
-      applyReasonEnumByBrand(tasks[0].store_name);
+      applyBrandCapabilities(tasks[0].store_name);
     }
-    // 兴勤缺货原因新6枚举（仅兴勤；其他品牌保持原枚举+明细/日期输入不变）
-    function applyReasonEnumByBrand(storeName){
+    // 品牌能力表（解耦两件事）：
+    //  NO_STOCK_WRITE = 库存0走「ERP加库存」盘点反馈、不写虚拟库存（兴勤/成山）
+    //  NEW_ENUM       = 缺货原因用新6枚举、且不要求日期/明细（兴勤）
+    // 成山接入：把'成山'加入 NO_STOCK_WRITE_BRANDS；若成山沿用默认枚举则不加进 NEW_ENUM_BRANDS。
+    function applyBrandCapabilities(storeName){
+      const NO_STOCK_WRITE_BRANDS = ['兴勤'];
+      const NEW_ENUM_BRANDS = ['兴勤'];
       const XQ_LABELS = {1:'虚库存',2:'有货未上架/补货不及时',3:'配送/物流未到货',4:'停售/下架/折卖',5:'临期/报损/品质问题',6:'未出品/岗位问题'};
-      window.__XQ_STORE__ = !!(storeName && storeName.indexOf('兴勤')>=0);
-      if(!storeName || storeName.indexOf('兴勤')<0) return;
-      document.querySelectorAll('.reason-option').forEach(function(opt){
-        const code = opt.getAttribute('data-reason');
-        const lbl = opt.querySelector('.reason-label');
-        if(lbl && XQ_LABELS[code]) lbl.textContent = XQ_LABELS[code];
-        const tag = opt.querySelector('.reason-tag'); if(tag) tag.remove();
-      });
-      var dw=document.getElementById('dateChipsWrap'); if(dw) dw.style.display='none';
-      var rw=document.getElementById('reasonDetailWrap'); if(rw) rw.style.display='none';
-      var be=document.getElementById('batchErpBtn'); if(be) be.style.display='inline-block';
+      const name = storeName || '';
+      const noStockWrite = NO_STOCK_WRITE_BRANDS.some(b => name.indexOf(b) >= 0);
+      const newEnum = NEW_ENUM_BRANDS.some(b => name.indexOf(b) >= 0);
+      window.__NO_STOCK_WRITE__ = noStockWrite;
+      window.__NEW_ENUM__ = newEnum;
+      window.__XQ_STORE__ = noStockWrite; // 兼容旧引用（=不加库存标志）
+      if (newEnum) {
+        document.querySelectorAll('.reason-option').forEach(function(opt){
+          const code = opt.getAttribute('data-reason');
+          const lbl = opt.querySelector('.reason-label');
+          if(lbl && XQ_LABELS[code]) lbl.textContent = XQ_LABELS[code];
+          const tag = opt.querySelector('.reason-tag'); if(tag) tag.remove();
+        });
+        var dw=document.getElementById('dateChipsWrap'); if(dw) dw.style.display='none';
+        var rw=document.getElementById('reasonDetailWrap'); if(rw) rw.style.display='none';
+      }
+      if (noStockWrite) {
+        var be=document.getElementById('batchErpBtn'); if(be) be.style.display='inline-block';
+      }
     }
     updateBadgeFromTasks(tasks);
 
@@ -991,7 +1004,7 @@ function renderList() {
     // Action buttons only for PENDING
     let actionsHtml = '';
     if (t.status === 'PENDING') {
-      const xqZero = window.__XQ_STORE__ && (!t.stock || Number(t.stock) === 0);
+      const xqZero = window.__NO_STOCK_WRITE__ && (!t.stock || Number(t.stock) === 0);
       actionsHtml = '<div class="card-actions">'
         + '<button class="btn-act-shelf" data-act="' + (xqZero ? 'count' : 'shelf') + '" data-id="' + t.id + '">' + (xqZero ? 'ERP加库存' : '一键上架') + '</button>'
         + '<button class="btn-act-out" data-act="shortage" data-id="' + t.id + '">线下缺货</button>'
@@ -1146,7 +1159,7 @@ async function batchAct(action) {
 
   if (action === 'shelf') {
     // 兴勤禁虚拟库存：批量一键上架只处理库存>0 的品，库存=0 请走「ERP加库存」，绝不补货
-    if (window.__XQ_STORE__) {
+    if (window.__NO_STOCK_WRITE__) {
       const posIds = ids.filter(id => {
         const t = allTasksCache.find(x => String(x.id) === String(id));
         return t && Number(t.stock) > 0;
@@ -1481,7 +1494,7 @@ async function showDetail(id) {
   const actionBar = document.querySelector('.action-bar');
   actionBar.style.display = (t.status === 'PENDING') ? 'flex' : 'none';
   const _shelfBtn = document.getElementById('btnShelf');
-  if (_shelfBtn) _shelfBtn.textContent = (window.__XQ_STORE__ && (!t.stock || Number(t.stock) === 0)) ? 'ERP加库存' : '一键上架';
+  if (_shelfBtn) _shelfBtn.textContent = (window.__NO_STOCK_WRITE__ && (!t.stock || Number(t.stock) === 0)) ? 'ERP加库存' : '一键上架';
 
   const subs = data.substitutes || [];
   document.getElementById('subList').innerHTML = subs.length === 0
@@ -1536,7 +1549,7 @@ function actSubstitute(sku, price) { act('substitute', { substituteSku: sku }); 
 
 document.getElementById('btnShelf').onclick = () => {
   if (!currentTask) return;
-  const xqZero = window.__XQ_STORE__ && (!currentTask.stock || Number(currentTask.stock) === 0);
+  const xqZero = window.__NO_STOCK_WRITE__ && (!currentTask.stock || Number(currentTask.stock) === 0);
   if (xqZero) {
     openCountDrawer({
       name: currentTask.item_name || '',
@@ -1647,7 +1660,7 @@ function selectDateChip(el, chip) {
 function validateReasonDrawer() {
   if (!reasonState.code) { document.getElementById('reasonConfirmBtn').disabled = true; return; }
   // 兴勤新枚举不设日期/明细项：选中原因即可确认
-  if (window.__XQ_STORE__) { document.getElementById('reasonConfirmBtn').disabled = false; return; }
+  if (window.__NEW_ENUM__) { document.getElementById('reasonConfirmBtn').disabled = false; return; }
   var valid = true;
   if (reasonState.code === 3 && !reasonState.selectedDate) valid = false;
   if (reasonState.code === 6 && !(document.getElementById('reasonDetailText').value || '').trim()) valid = false;
@@ -1697,7 +1710,7 @@ document.getElementById('reasonMask').onclick = closeReasonDrawer;
 document.getElementById('reasonConfirmBtn').onclick = () => {
   if (!reasonState.code) return;
   var detail = null;
-  if (window.__XQ_STORE__) {
+  if (window.__NEW_ENUM__) {
     // 兴勤新枚举无明细/日期项，直接提交
   } else if (reasonState.code === 3) {
     if (!reasonState.selectedDate) return;

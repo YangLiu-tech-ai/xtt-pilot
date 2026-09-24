@@ -26,10 +26,10 @@ app.use(morgan('dev'));
 
 const PORT = process.env.PORT || 7788;
 const INTERNAL_KEY = process.env.MVP_INTERNAL_KEY || 'worker-key-2026';
-// 兴勤9店 wid 白名单：仅兴勤走"缺货原因新6枚举+不强制明细"；其他品牌保持原链路不动。
-// 回滚：清空该集合即整体回退旧口径。
-const XQ_WIDS = new Set(['1137486501','1328460101','1284574206','1186468885','510355798','1341433040','1344254051','1349423941','1352472572']);
-function isXqStore(id){ return XQ_WIDS.has(String(id)); }
+// 「不加库存」能力白名单：命中门店走 库存0不写虚拟库存(fill_stock=null) + action=count 盘点反馈。
+// 当前含兴勤9店；成山农场等新品牌接入时并入各自 wid 即复用同一套逻辑。回滚：清空该集合。
+const NO_STOCK_WRITE_WIDS = new Set(['1137486501','1328460101','1284574206','1186468885','510355798','1341433040','1344254051','1349423941','1352472572']);
+function isNoStockWriteStore(id){ return NO_STOCK_WRITE_WIDS.has(String(id)); }
 
 // ============ Helper ============
 function authMiddleware(req, res, next) {
@@ -149,7 +149,7 @@ app.post('/v1/tasks/:id/act', authMiddleware, (req, res) => {
     if (Number.isFinite(n)) fillStockVal = Math.min(99, Math.max(1, n));
   }
   // 兴勤禁虚拟库存：shelf 一律不写 fill_stock（双保险，即使前端误传）
-  if (isXqStore(req.user.storeId)) fillStockVal = null;
+  if (isNoStockWriteStore(req.user.storeId)) fillStockVal = null;
   // shortage 必须带 reason (1-6)
   let reasonCode = null, reasonDetail = null;
   if (action === 'shortage') {
@@ -161,14 +161,14 @@ app.post('/v1/tasks/:id/act', authMiddleware, (req, res) => {
       reasonDetail = String(shortageReasonDetail).slice(0, 200);
     }
     // reason 3（已订货还未到货）和 6（其他）必须带详情；兴勤新枚举不设明细项，不强制
-    if (!isXqStore(req.user.storeId) && (reasonCode === 3 || reasonCode === 6) && !reasonDetail) {
+    if (!isNoStockWriteStore(req.user.storeId) && (reasonCode === 3 || reasonCode === 6) && !reasonDetail) {
       return res.status(400).json({ ok: false, err: 'SHORTAGE_DETAIL_REQUIRED' });
     }
   }
   // count（兴勤库存=0「ERP加库存」盘点反馈）：仅兴勤允许，countResult 必须为 added/not_added
   let countResultVal = null;
   if (action === 'count') {
-    if (!isXqStore(req.user.storeId)) {
+    if (!isNoStockWriteStore(req.user.storeId)) {
       return res.status(400).json({ ok: false, err: 'COUNT_NOT_ALLOWED' });
     }
     if (countResult !== 'added' && countResult !== 'not_added') {
