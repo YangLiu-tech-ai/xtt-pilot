@@ -189,10 +189,10 @@ app.post('/v1/tasks/:id/act', authMiddleware, (req, res) => {
     fillStockVal = null;
   }
 
-  // 状态机：shortage→SHORTAGE；count.added→EXECUTING(仅走 on-sale 上架)、count.not_added→MANUAL(未完成不下发)；其余→EXECUTING
+  // 状态机：shortage→SHORTAGE；count.added→DONE(仅统计课长反馈，不触发执行器上架)、count.not_added→MANUAL(未完成)；其余→EXECUTING
   let nextStatus;
   if (action === 'shortage') nextStatus = 'SHORTAGE';
-  else if (action === 'count') nextStatus = (countResultVal === 'added') ? 'EXECUTING' : 'MANUAL';
+  else if (action === 'count') nextStatus = (countResultVal === 'added') ? 'DONE' : 'MANUAL';
   else nextStatus = 'EXECUTING';
   db.prepare(`
     UPDATE tasks
