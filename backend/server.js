@@ -28,7 +28,7 @@ const PORT = process.env.PORT || 7788;
 const INTERNAL_KEY = process.env.MVP_INTERNAL_KEY || 'worker-key-2026';
 // 「不加库存」能力白名单：命中门店走 库存0不写虚拟库存(fill_stock=null) + action=count 盘点反馈。
 // 当前含兴勤9店；成山农场等新品牌接入时并入各自 wid 即复用同一套逻辑。回滚：清空该集合。
-const NO_STOCK_WRITE_WIDS = new Set(['1137486501','1328460101','1284574206','1186468885','510355798','1341433040','1344254051','1349423941','1352472572']);
+const NO_STOCK_WRITE_WIDS = new Set(['1137486501','1328460101','1284574206','1186468885','510355798','1341433040','1344254051','1349423941','1352472572','524022642','508181892','1135401463','1137317637','1310699718','1364331832','1144596303','508176601']);
 function isNoStockWriteStore(id){ return NO_STOCK_WRITE_WIDS.has(String(id)); }
 
 // ============ Helper ============
