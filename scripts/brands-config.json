@@ -226,7 +226,7 @@
           "wid": "508181892",
           "storeId": "1069088439",
           "sellerId": "2215344798382",
-          "whaleShopId": "1590061811115840",
+          "whaleShopId": "1590061811115845",
           "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=d0d11b41b654716b6183450876659f273c8c16ab8e92d0a278b08c288e3b48c9"
         },
         {
@@ -234,7 +234,7 @@
           "wid": "1135401463",
           "storeId": "1068911371",
           "sellerId": "2215344798382",
-          "whaleShopId": "1590059518779460",
+          "whaleShopId": "1590059518779461",
           "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=8da9a4292f324227b7204da050b922ec5403efc9a795e1781a94822d3aa9b1ab"
         },
         {
@@ -242,7 +242,7 @@
           "wid": "1137317637",
           "storeId": "1069116386",
           "sellerId": "2215344798382",
-          "whaleShopId": "1590062502707260",
+          "whaleShopId": "1590062502707269",
           "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=c52202db34b0943e53cb7c47f6210ea04aeebc16f57ee552d643e94d8f7c3336"
         },
         {
@@ -250,7 +250,7 @@
           "wid": "1310699718",
           "storeId": "20024419020",
           "sellerId": "2215344798382",
-          "whaleShopId": "1590058067134270",
+          "whaleShopId": "1590058067134277",
           "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=2f2d862af45eb20793a91f4aa81de7034decff040af39e2eaa0dbd35dc3648e0"
         },
         {
@@ -258,7 +258,7 @@
           "wid": "1364331832",
           "storeId": "20050445302",
           "sellerId": "2215344798382",
-          "whaleShopId": "1684952262174530",
+          "whaleShopId": "1684952262174533",
           "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=c95e980ebd43e9122e1cde21a20dbb5d0ed5ff9425ebdb84e8b78bcbe2424cf9"
         },
         {
@@ -266,7 +266,7 @@
           "wid": "1144596303",
           "storeId": "1075938159",
           "sellerId": "2215344798382",
-          "whaleShopId": "1590056968495170",
+          "whaleShopId": "1590056968495173",
           "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=153361ff80ad5e727a7a15d6e4a4ce1715e319e3494aaf6158708010da2c9bb8"
         },
         {
@@ -274,7 +274,7 @@
           "wid": "508176601",
           "storeId": "1068840420",
           "sellerId": "2215344798382",
-          "whaleShopId": "1590060056117310",
+          "whaleShopId": "1590060056117317",
           "dingtalkWebhook": "https://oapi.dingtalk.com/robot/send?access_token=8caf74d44287cf4747d8fc96a4c016bd550df891f06c1b07c4b3e6c6f1031b17"
         }
       ]
